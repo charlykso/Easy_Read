@@ -1,2 +1,1 @@
-# Easy_Read
-A book library that users can come and buy books
+'A mobile and web version of a book libry app' 
