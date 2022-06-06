@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Models
 {
@@ -30,7 +31,8 @@ namespace API.Models
         public String? Cover_Img_url {get; set;}
 
         [Required]
-        public byte[]? Body {get; set;}
+        [Column(TypeName = "nvarchar(MAX)")]
+        public String? Body {get; set;}
 
         [Required]
         public double Price {get; set;}
