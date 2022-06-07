@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace API.Models
+namespace API.DataAccess
 {
-    public class Book
+    public class BookModel
     {
-        public int Id {get; set;}
+        public int? Id {get; set;}
 
         [Required]
         [MaxLength(50)]
@@ -26,7 +26,6 @@ namespace API.Models
         [MaxLength(50)]
         public String? Publisher {get; set;}
 
-        [NotMapped]
         public IFormFile? Cover_Img {get; set;}
 
         public String? Cover_Img_url {get; set;}
@@ -40,13 +39,9 @@ namespace API.Models
 
         public DateTime Created_at {get; set;}
 
-        public DateTime Updated_at { get; set; }
+        public DateTime Updated_at { get; set; } 
 
         public int? AuthorId { get; set; }
-        public Author? Author { get; set; }
-
-        public List<Book_User>? Book_User { get; set; }
-
 
     }
 }
