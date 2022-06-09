@@ -1,4 +1,4 @@
-package com.example.mobile
+package com.miralo.easyread
 
 import io.flutter.embedding.android.FlutterActivity
 
