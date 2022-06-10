@@ -1,8 +1,8 @@
-using System;
 using API.Models;
+using API.Repo;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Repo
+namespace API.Services
 {
     public class UserServices : IUser
     {
@@ -48,11 +48,11 @@ namespace API.Repo
         {
             try
             {
-                var user = _easyReaderDBContext!.Users
+                var users = _easyReaderDBContext!.Users
                                                 .Include(bu => bu.Book_User);
-                if (user is null)
+                if (users is null)
                 {
-                    if (user!.Count() == 0)
+                    if (users!.Count() == 0)
                     {
                         Console.WriteLine("No user registered in the database");
                         return null!;
@@ -60,12 +60,11 @@ namespace API.Repo
                     Console.WriteLine("Please fill in valid information");
                     return null!;
                 }
-                var myUser = user!.ThenInclude(b => b.Book);
+                var myUser = users!.ThenInclude(b => b.Book);
                 return myUser!;
             }
             catch (System.Exception ex)
             {
-                
                 Console.WriteLine(ex.Message);
                 return null!;
             }
@@ -88,7 +87,6 @@ namespace API.Repo
             }
             catch (System.Exception ex)
             {
-                
                 Console.WriteLine(ex.Message);
                 return null!;
             }
@@ -98,14 +96,14 @@ namespace API.Repo
         {
             try
             {
-                var user = _easyReaderDBContext!.Users.Find();
+                var user = _easyReaderDBContext!.Users.Find(Id);
                 if (user is null)
                 {
                     Console.WriteLine($"No user found with the id {Id}");
                 }
                 _easyReaderDBContext.Users.Attach(user!);
                 _easyReaderDBContext.SaveChanges();
-                Console.WriteLine("Updated successfuly");
+                Console.WriteLine("User Updated successfuly");
             }
             catch (System.Exception ex)
             {
