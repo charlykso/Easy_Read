@@ -19,13 +19,15 @@ class Feature extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
+    Size size = MediaQuery.of(context).size;
+
     return Column(
       children: [
         const Spacer(flex: 3),
         Text(
           text,
           style: themeData.textTheme.headline1!.copyWith(
-            color: miPrimaryColor,
+            color: miDarkColor,
             fontSize: miDefaultSize * 2,
           ),
           textAlign: TextAlign.center,
@@ -36,7 +38,7 @@ class Feature extends StatelessWidget {
           child: Text(
             description,
             style: themeData.textTheme.headline3!.copyWith(
-              color: miLightColor,
+              color: miPrimaryColor,
               fontSize: miDefaultSize * 1.3,
             ),
             textAlign: TextAlign.center,
@@ -45,7 +47,7 @@ class Feature extends StatelessWidget {
         const Spacer(flex: 3),
         Image.asset(
           image,
-          height: miDefaultSize * 17,
+          height: size.width * 0.52,
         ),
       ],
     );

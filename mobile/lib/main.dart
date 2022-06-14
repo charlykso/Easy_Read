@@ -1,6 +1,4 @@
 import 'package:easy_read/screens/onboarding/onboarding_screen.dart';
-import 'package:easy_read/shared/constants.dart';
-import 'package:easy_read/shared/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -20,8 +18,6 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.robotoTextTheme(),
       ),
       home: const OnboardingScreen(),
-      initialRoute: OnboardingScreen.routeName,
-      routes: routes,
     );
   }
 }

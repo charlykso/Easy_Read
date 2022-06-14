@@ -1,8 +1,9 @@
-import 'package:easy_read/screens/home/home_screen.dart';
+import 'package:easy_read/screens/welcome_screen.dart';
 import 'package:easy_read/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/feature_info.dart';
+import '../../../shared/util/mi_primary_button.dart';
 import 'feature.dart';
 
 class Body extends StatefulWidget {
@@ -67,29 +68,16 @@ class _BodyState extends State<Body> {
                   ),
                 ),
                 const Spacer(),
-                SizedBox(
-                  height: miDefaultSize * 4,
-                  width: miDefaultSize * 16,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, HomeScreen.routeName);
-                    },
-                    style: TextButton.styleFrom(
-                      backgroundColor: miLightColor,
-                      primary: Colors.white,
-                      textStyle: const TextStyle(
-                        fontSize: miDefaultSize * 1.1,
-                        fontWeight: FontWeight.w500,
+                MiPrimaryButton(
+                  text: 'Skip',
+                  press: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WelcomeScreen(),
                       ),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(miDefaultSize * 1.4),
-                        ),
-                      ),
-                    ),
-                    child: const Text('Skip'),
-                  ),
+                    );
+                  },
                 ),
                 const Spacer(),
               ],
@@ -106,9 +94,8 @@ class _BodyState extends State<Body> {
       height: miDefaultSize * 1.1,
       width: miDefaultSize * 1.1,
       decoration: BoxDecoration(
-        color: currentPage == index
-            ? miPrimaryColor
-            : miPrimaryColor.withOpacity(0.3),
+        color:
+            currentPage == index ? miDarkColor : miDarkColor.withOpacity(0.3),
         borderRadius: BorderRadius.circular(miDefaultSize * 0.8),
       ),
       margin: const EdgeInsets.only(right: miDefaultSize),
