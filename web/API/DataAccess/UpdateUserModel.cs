@@ -1,12 +1,10 @@
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.DataAccess
 {
-    public class AuthorModel
+    public class UpdateUserModel
     {
-        public int? Id { get; set; }
-
         [Required]
         [MaxLength(50)]
         public string? Lastname { get; set; }
@@ -24,20 +22,12 @@ namespace API.DataAccess
         public string? Phone_no { get; set; }
         
         [MaxLength(20)]
-        public string? Gender { get; set; }
+        public string? Role { get; set; }
 
         [Required]
         [MaxLength(100)]
         public string? Password { get; set; }
 
-        public DateTime Date_of_birth { get; set; }
-
-        [NotMapped]
-        public IFormFile? Image { get; set; }
-
-        public string? ImageURL { get; set; }
-
-        public DateTime Created_at { get; set; }
-
+        public DateTime Updated_at { get; set; }
     }
 }

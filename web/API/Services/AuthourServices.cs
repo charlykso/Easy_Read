@@ -65,7 +65,6 @@ namespace API.Services
             }
             catch (System.Exception ex)
             {
-                
                 Console.WriteLine(ex.Message);
                 return null!;
             }

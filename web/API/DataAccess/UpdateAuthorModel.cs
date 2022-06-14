@@ -1,12 +1,11 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.DataAccess
 {
-    public class AuthorModel
+    public class UpdateAuthorModel
     {
-        public int? Id { get; set; }
-
         [Required]
         [MaxLength(50)]
         public string? Lastname { get; set; }
@@ -37,7 +36,6 @@ namespace API.DataAccess
 
         public string? ImageURL { get; set; }
 
-        public DateTime Created_at { get; set; }
-
+        public DateTime Updated_at { get; set; }
     }
 }
