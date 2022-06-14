@@ -9,11 +9,15 @@ class MiTextInputField extends StatelessWidget {
     required this.hintText,
     required this.textInputType,
     this.obscureText = false,
+    required this.onChanged,
+    required this.validator,
   }) : super(key: key);
 
   final String hintText;
   final TextInputType textInputType;
   final bool obscureText;
+  final Function(String)? onChanged;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +27,8 @@ class MiTextInputField extends StatelessWidget {
         decoration: decorateTextInput(hintText: hintText),
         keyboardType: TextInputType.name,
         obscureText: obscureText,
+        onChanged: onChanged,
+        validator: validator,
       ),
     );
   }

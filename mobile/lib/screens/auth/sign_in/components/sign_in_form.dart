@@ -45,11 +45,16 @@ class _SignInFormState extends State<SignInForm> {
             MiTextInputField(
               hintText: 'Email Address',
               textInputType: TextInputType.emailAddress,
+              onChanged: (String value) => setState(() => email = value),
+              validator: (String? val) =>
+                  val!.isEmpty ? 'Enter an email' : null,
             ),
             MiTextInputField(
               hintText: 'Password',
               textInputType: TextInputType.text,
               obscureText: true,
+              onChanged: (String value) => setState(() => password = value),
+              validator: validatePassword,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: miDefaultSize),
@@ -104,12 +109,40 @@ class _SignInFormState extends State<SignInForm> {
               child: MiPrimaryButton(
                 text: 'Sign In',
                 bgColor: Colors.transparent,
-                press: () {},
+                press: () {
+                  if (_formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Valid',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: miPrimaryColor,
+                      ),
+                    );
+                  }
+                },
                 height: miDefaultSize * 5,
                 width: size.width,
               ),
             ),
           ],
         ));
+  }
+
+  String? validatePassword(String? val) {
+    if (val!.isEmpty) {
+      return 'Must be more than 6 characters\nMust contain at least one uppercase letter\nMust have at least one number';
+    } else if (val.length < 6) {
+      return 'Must be more than 6 characters';
+    } else if (!val.contains(RegExp(r'[A-Z]'))) {
+      return 'Must contain at least one uppercase letter';
+    } else if (!val.contains(RegExp(r'[0-9]'))) {
+      return 'Must have at least one number';
+    }
+
+    return '';
   }
 }
