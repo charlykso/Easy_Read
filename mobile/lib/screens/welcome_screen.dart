@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../shared/constants.dart';
 import '../shared/util/mi_primary_button.dart';
+import 'auth/sign_in/sign_in_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   /// This widget takes a user to
@@ -42,7 +43,12 @@ class WelcomeScreen extends StatelessWidget {
               MiPrimaryButton(
                 text: 'Sign In',
                 bgColor: Colors.transparent,
-                press: () {},
+                press: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SignInScreen(),
+                  ),
+                ),
               ),
               Spacer(flex: 2),
             ],
