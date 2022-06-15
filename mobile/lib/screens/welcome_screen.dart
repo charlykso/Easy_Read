@@ -1,3 +1,4 @@
+import 'package:easy_read/screens/auth/sign_up/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../shared/constants.dart';
@@ -37,7 +38,11 @@ class WelcomeScreen extends StatelessWidget {
               Spacer(flex: 2),
               MiPrimaryButton(
                 text: 'Create account',
-                press: () {},
+                press: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => SignUpScreen()),
+                ),
               ),
               SizedBox(height: miDefaultSize),
               MiPrimaryButton(
@@ -46,7 +51,7 @@ class WelcomeScreen extends StatelessWidget {
                 press: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SignInScreen(),
+                    builder: (BuildContext context) => SignInScreen(),
                   ),
                 ),
               ),

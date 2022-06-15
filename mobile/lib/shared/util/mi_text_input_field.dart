@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../constants.dart';
 
@@ -11,6 +12,7 @@ class MiTextInputField extends StatelessWidget {
     this.obscureText = false,
     required this.onChanged,
     required this.validator,
+    this.inputFormatters,
   }) : super(key: key);
 
   final String hintText;
@@ -18,6 +20,7 @@ class MiTextInputField extends StatelessWidget {
   final bool obscureText;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +28,7 @@ class MiTextInputField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: miDefaultSize),
       child: TextFormField(
         decoration: decorateTextInput(hintText: hintText),
+        inputFormatters: inputFormatters,
         keyboardType: TextInputType.name,
         obscureText: obscureText,
         onChanged: onChanged,

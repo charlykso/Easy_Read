@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../shared/constants.dart';
 import '../../../../shared/util/mi_primary_button.dart';
@@ -19,18 +20,21 @@ Color? getColor(Set<MaterialState> states) {
   return Colors.grey.withOpacity(.4);
 }
 
-class SignInForm extends StatefulWidget {
-  const SignInForm({
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<SignInForm> createState() => _SignInFormState();
+  State<SignUpForm> createState() => _SignUpFormState();
 }
 
-class _SignInFormState extends State<SignInForm> {
+class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
+  String first_name = '';
+  String last_name = '';
   String email = '';
+  String phone_number = '';
   String password = '';
   bool stayLoggedIn = false;
 
@@ -43,11 +47,35 @@ class _SignInFormState extends State<SignInForm> {
         child: Column(
           children: [
             MiTextInputField(
-              hintText: 'Email Address or Phone Number',
-              onChanged: (String value) => setState(() => email = value),
-              textInputType: TextInputType.text,
+              hintText: 'First Name',
+              textInputType: TextInputType.name,
+              onChanged: (String value) => setState(() => first_name = value),
               validator: (String? val) =>
-                  val!.isEmpty ? 'Enter email or phone number' : null,
+                  val!.isEmpty ? 'Enter your first name' : null,
+            ),
+            MiTextInputField(
+              hintText: 'Last Name',
+              textInputType: TextInputType.name,
+              onChanged: (String value) => setState(() => last_name = value),
+              validator: (String? val) =>
+                  val!.isEmpty ? 'Enter your last name' : null,
+            ),
+            MiTextInputField(
+              hintText: 'Email Address',
+              textInputType: TextInputType.emailAddress,
+              onChanged: (String value) => setState(() => email = value),
+              validator: (String? val) =>
+                  val!.isEmpty ? 'Enter an email' : null,
+            ),
+            MiTextInputField(
+              hintText: 'Phone number',
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp('[0-9+]')),
+              ],
+              textInputType: TextInputType.number,
+              onChanged: (String value) => setState(() => phone_number = value),
+              validator: (String? val) =>
+                  val!.isEmpty ? 'Enter phone number' : null,
             ),
             MiTextInputField(
               hintText: 'Password',
@@ -57,57 +85,9 @@ class _SignInFormState extends State<SignInForm> {
               validator: validatePassword,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: miDefaultSize),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Transform.scale(
-                        scale: 2.3,
-                        child: Checkbox(
-                          value: stayLoggedIn,
-                          onChanged: (bool? value) =>
-                              setState(() => stayLoggedIn = value!),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(miDefaultSize * 0.5),
-                          ),
-                          fillColor:
-                              MaterialStateProperty.resolveWith(getColor),
-                        ),
-                      ),
-                      SizedBox(width: miDefaultSize * 0.5),
-                      Text(
-                        'Stay Logged In',
-                        style: TextStyle(
-                          fontSize: size.width > 360
-                              ? miDefaultSize
-                              : miDefaultSize * 0.8,
-                          color: Colors.black.withOpacity(.6),
-                        ),
-                      ),
-                    ],
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Forgot Your Password?',
-                      style: TextStyle(
-                        fontSize: size.width > 360
-                            ? miDefaultSize
-                            : miDefaultSize * 0.8,
-                        color: Colors.black.withOpacity(.6),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: miDefaultSize * 1.5),
+              padding: const EdgeInsets.only(top: miDefaultSize * 2.2),
               child: MiPrimaryButton(
-                text: 'Sign In',
+                text: 'Sign Up',
                 bgColor: Colors.transparent,
                 press: () {
                   if (_formKey.currentState!.validate()) {
