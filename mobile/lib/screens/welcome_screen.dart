@@ -1,9 +1,8 @@
 import 'package:easy_read/screens/auth/sign_up/sign_up_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../shared/helpers.dart';
-import '../shared/util/my_primary_button.dart';
-import 'auth/sign_in/sign_in_screen.dart';
+import 'package:easy_read/shared/helpers.dart';
+import 'package:easy_read/shared/util/my_primary_button.dart';
+import 'package:easy_read/screens/auth/sign_in/sign_in_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   /// This widget takes a user to

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../helpers.dart';
+import 'package:easy_read/shared/helpers.dart';
 
 class MyPrimaryButton extends StatelessWidget {
   /// The primary button for this app

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../helpers.dart';
+import 'package:easy_read/shared/helpers.dart';
 
 class MyTextInputField extends StatelessWidget {
   /// A custom text input widget

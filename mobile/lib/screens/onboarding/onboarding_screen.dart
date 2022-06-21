@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'components/body.dart';
+import 'package:easy_read/screens/onboarding/components/body.dart';
 
 class OnboardingScreen extends StatelessWidget {
   /// Introduces the app features

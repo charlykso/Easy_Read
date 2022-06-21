@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../../shared/helpers.dart';
-import 'components/body.dart';
+import 'package:easy_read/shared/helpers.dart';
+import 'package:easy_read/screens/auth/sign_up/components/body.dart';
 
 class SignUpScreen extends StatelessWidget {
   /// For users to create an account

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../../../model/book.dart';
-import '../../../shared/helpers.dart';
-import 'book_card.dart';
+import 'package:easy_read/model/book.dart';
+import 'package:easy_read/shared/helpers.dart';
+import 'package:easy_read/screens/home/components/book_card.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);

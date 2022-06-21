@@ -24,7 +24,9 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              //! Navigate to dashboard
+            },
             icon: const Icon(
               Icons.dashboard_rounded,
               color: myPrimaryColor,

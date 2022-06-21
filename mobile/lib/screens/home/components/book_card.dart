@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../shared/helpers.dart';
+import 'package:easy_read/shared/helpers.dart';
 
 class BookCard extends StatelessWidget {
   /// displays a book

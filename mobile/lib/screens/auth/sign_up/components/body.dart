@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../../../shared/helpers.dart';
-import 'sign_up_form.dart';
+import 'package:easy_read/shared/helpers.dart';
+import 'package:easy_read/screens/auth/sign_up/components/sign_up_form.dart';
 
 class Body extends StatelessWidget {
   const Body({

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../shared/helpers.dart';
+import 'package:easy_read/shared/helpers.dart';
 
 class Feature extends StatelessWidget {
   /// The `Feature` widget displays a feature

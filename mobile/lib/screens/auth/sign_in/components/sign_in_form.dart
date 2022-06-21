@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../../../../shared/helpers.dart';
-import '../../../../shared/util/my_primary_button.dart';
-import '../../../../shared/util/my_text_input_field.dart';
+import 'package:easy_read/shared/helpers.dart';
+import 'package:easy_read/shared/util/my_primary_button.dart';
+import 'package:easy_read/shared/util/my_text_input_field.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({
