@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../shared/constants.dart';
+import '../../../shared/helpers.dart';
 import 'components/body.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -13,15 +13,15 @@ class SignUpScreen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios_new,
-            color: miPrimaryColor,
+            color: myPrimaryColor,
           ),
         ),
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.white,
       ),
-      body: Body(),
+      body: const Body(),
     );
   }
 }

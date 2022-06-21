@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../shared/constants.dart';
+import '../../../../shared/helpers.dart';
 import 'sign_in_form.dart';
 
 class Body extends StatelessWidget {
@@ -20,10 +20,10 @@ class Body extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: miDefaultSize * 2),
+              const SizedBox(height: myDefaultSize * 2),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: miDefaultSize * 1.7),
+                    const EdgeInsets.symmetric(horizontal: myDefaultSize * 1.7),
                 child: Text(
                   'Sign In',
                   style: themeData.textTheme.headline3!.copyWith(
@@ -32,9 +32,8 @@ class Body extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: miDefaultSize * 1.7),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: myDefaultSize * 1.7),
                 child: SignInForm(),
               ),
             ],

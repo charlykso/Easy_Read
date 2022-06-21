@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../shared/constants.dart';
+import '../../../shared/helpers.dart';
 
 class Feature extends StatelessWidget {
   /// The `Feature` widget displays a feature
@@ -27,19 +27,19 @@ class Feature extends StatelessWidget {
         Text(
           text,
           style: themeData.textTheme.headline1!.copyWith(
-            color: miDarkColor,
-            fontSize: miDefaultSize * 2,
+            color: mySecondaryColor,
+            fontSize: myDefaultSize * 2,
           ),
           textAlign: TextAlign.center,
         ),
         const Spacer(),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: miDefaultSize),
+          padding: const EdgeInsets.symmetric(horizontal: myDefaultSize),
           child: Text(
             description,
             style: themeData.textTheme.headline3!.copyWith(
-              color: miPrimaryColor,
-              fontSize: miDefaultSize * 1.3,
+              color: myPrimaryColor,
+              fontSize: myDefaultSize * 1.3,
             ),
             textAlign: TextAlign.center,
           ),

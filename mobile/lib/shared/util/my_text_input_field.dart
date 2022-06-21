@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../constants.dart';
+import '../helpers.dart';
 
-class MiTextInputField extends StatelessWidget {
+class MyTextInputField extends StatelessWidget {
   /// A custom text input widget
-  const MiTextInputField({
+  const MyTextInputField({
     Key? key,
     required this.hintText,
     required this.textInputType,
@@ -25,7 +25,7 @@ class MiTextInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: miDefaultSize),
+      padding: const EdgeInsets.symmetric(vertical: myDefaultSize),
       child: TextFormField(
         decoration: decorateTextInput(hintText: hintText),
         inputFormatters: inputFormatters,
@@ -39,23 +39,24 @@ class MiTextInputField extends StatelessWidget {
 
   OutlineInputBorder buildOutlineInputBorder({bool focused = false}) {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(miDefaultSize * 1.43),
-      borderSide: focused ? BorderSide(color: miPrimaryColor) : BorderSide.none,
+      borderRadius: BorderRadius.circular(myDefaultSize * 1.43),
+      borderSide:
+          focused ? const BorderSide(color: myPrimaryColor) : BorderSide.none,
     );
   }
 
   InputDecoration decorateTextInput({required String hintText}) {
     return InputDecoration(
       filled: true,
-      fillColor: miLightGreyColor,
+      fillColor: myLightGreyColor,
       focusedBorder: buildOutlineInputBorder(focused: true),
       border: buildOutlineInputBorder(),
-      contentPadding: EdgeInsets.symmetric(
-        horizontal: miDefaultSize * 1.43,
-        vertical: miDefaultSize * 2,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: myDefaultSize * 1.43,
+        vertical: myDefaultSize * 2,
       ),
       hintText: hintText,
-      hintStyle: TextStyle(fontSize: miDefaultSize * 1.35),
+      hintStyle: const TextStyle(fontSize: myDefaultSize * 1.35),
     );
   }
 }

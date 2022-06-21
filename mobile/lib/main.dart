@@ -1,6 +1,8 @@
-import 'package:easy_read/screens/onboarding/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'shared/helpers.dart';
+import 'screens/home/home_screen.dart' show HomeScreen;
 
 void main() => runApp(const MyApp());
 
@@ -13,11 +15,11 @@ class MyApp extends StatelessWidget {
       title: 'Easy Read',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primaryColor: myPrimaryColor,
         useMaterial3: true,
-        textTheme: GoogleFonts.robotoTextTheme(),
+        textTheme: GoogleFonts.robotoTextTheme().apply(bodyColor: myTextColor),
       ),
-      home: const OnboardingScreen(),
+      home: const HomeScreen(),
     );
   }
 }

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import '../helpers.dart';
 
-class MiPrimaryButton extends StatelessWidget {
+class MyPrimaryButton extends StatelessWidget {
   /// The primary button for this app
-  const MiPrimaryButton({
+  const MyPrimaryButton({
     Key? key,
     required this.text,
     this.press,
-    this.height = miDefaultSize * 4,
-    this.width = miDefaultSize * 16,
+    this.height = myDefaultSize * 4,
+    this.width = myDefaultSize * 16,
     this.bgColor,
   }) : super(key: key);
 
@@ -27,20 +27,20 @@ class MiPrimaryButton extends StatelessWidget {
       child: TextButton(
         onPressed: press,
         style: TextButton.styleFrom(
-          backgroundColor: bgColor ?? miPrimaryColor,
+          backgroundColor: bgColor ?? myPrimaryColor,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(miDefaultSize * 1.4),
+              Radius.circular(myDefaultSize * 1.4),
             ),
-            side: BorderSide(color: miPrimaryColor),
+            side: BorderSide(color: myPrimaryColor),
           ),
         ),
         child: Text(
           text,
           style: TextStyle(
-            color: bgColor != null ? miPrimaryColor : Colors.white,
+            color: bgColor != null ? myPrimaryColor : Colors.white,
             fontSize:
-                bgColor != null ? miDefaultSize * 1.5 : miDefaultSize * 1.25,
+                bgColor != null ? myDefaultSize * 1.5 : myDefaultSize * 1.25,
             fontWeight: FontWeight.w500,
           ),
         ),

@@ -1,8 +1,8 @@
 import 'package:easy_read/screens/auth/sign_up/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../shared/constants.dart';
-import '../shared/util/mi_primary_button.dart';
+import '../shared/helpers.dart';
+import '../shared/util/my_primary_button.dart';
 import 'auth/sign_in/sign_in_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -21,41 +21,41 @@ class WelcomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Spacer(),
+              const Spacer(),
               Text(
                 'Get Started',
                 style: themeData.textTheme.headline1!.copyWith(
-                  color: miDarkColor,
-                  fontSize: miDefaultSize * 2.2,
+                  color: mySecondaryColor,
+                  fontSize: myDefaultSize * 2.2,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Image.asset(
                 'assets/images/reading.png',
                 width: size.width,
                 height: size.height * 0.4,
               ),
-              Spacer(flex: 2),
-              MiPrimaryButton(
+              const Spacer(flex: 2),
+              MyPrimaryButton(
                 text: 'Create account',
                 press: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => SignUpScreen()),
+                      builder: (BuildContext context) => const SignUpScreen()),
                 ),
               ),
-              SizedBox(height: miDefaultSize),
-              MiPrimaryButton(
+              const SizedBox(height: myDefaultSize),
+              MyPrimaryButton(
                 text: 'Sign In',
                 bgColor: Colors.transparent,
                 press: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (BuildContext context) => SignInScreen(),
+                    builder: (BuildContext context) => const SignInScreen(),
                   ),
                 ),
               ),
-              Spacer(flex: 2),
+              const Spacer(flex: 2),
             ],
           ),
         ),

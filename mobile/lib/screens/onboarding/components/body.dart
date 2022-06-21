@@ -1,9 +1,9 @@
 import 'package:easy_read/screens/welcome_screen.dart';
-import 'package:easy_read/shared/constants.dart';
+import 'package:easy_read/shared/helpers.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/feature_info.dart';
-import '../../../shared/util/mi_primary_button.dart';
+import '../../../shared/util/my_primary_button.dart';
 import 'feature.dart';
 
 class Body extends StatefulWidget {
@@ -68,13 +68,13 @@ class _BodyState extends State<Body> {
                   ),
                 ),
                 const Spacer(),
-                MiPrimaryButton(
+                MyPrimaryButton(
                   text: 'Skip',
                   press: () {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => WelcomeScreen(),
+                        builder: (context) => const WelcomeScreen(),
                       ),
                     );
                   },
@@ -90,15 +90,16 @@ class _BodyState extends State<Body> {
 
   AnimatedContainer buildDot({required int index}) {
     return AnimatedContainer(
-      duration: miAnimationDuration,
-      height: miDefaultSize * 1.1,
-      width: miDefaultSize * 1.1,
+      duration: myAnimationDuration,
+      height: myDefaultSize * 1.1,
+      width: myDefaultSize * 1.1,
       decoration: BoxDecoration(
-        color:
-            currentPage == index ? miDarkColor : miDarkColor.withOpacity(0.3),
-        borderRadius: BorderRadius.circular(miDefaultSize * 0.8),
+        color: currentPage == index
+            ? mySecondaryColor
+            : mySecondaryColor.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(myDefaultSize * 0.8),
       ),
-      margin: const EdgeInsets.only(right: miDefaultSize),
+      margin: const EdgeInsets.only(right: myDefaultSize),
     );
   }
 }

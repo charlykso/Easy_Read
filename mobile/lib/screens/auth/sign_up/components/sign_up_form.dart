@@ -1,24 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../../shared/constants.dart';
-import '../../../../shared/util/mi_primary_button.dart';
-import '../../../../shared/util/mi_text_input_field.dart';
-
-/// Fancy extension to simplfy [MaterialState] calls
-extension MaterialStateSet on Set<MaterialState> {
-  bool get hasError => contains(MaterialState.error);
-  bool get isSelected => contains(MaterialState.selected);
-}
-
-Color? getColor(Set<MaterialState> states) {
-  if (states.hasError) {
-    return Colors.red;
-  } else if (states.isSelected) {
-    return miPrimaryColor;
-  }
-  return Colors.grey.withOpacity(.4);
-}
+import '../../../../shared/helpers.dart';
+import '../../../../shared/util/my_primary_button.dart';
+import '../../../../shared/util/my_text_input_field.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({
@@ -31,53 +16,51 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
-  String first_name = '';
-  String last_name = '';
+  String firstName = '';
+  String lastName = '';
   String email = '';
-  String phone_number = '';
+  String phoneNumber = '';
   String password = '';
   bool stayLoggedIn = false;
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Form(
         key: _formKey,
         child: Column(
           children: [
-            MiTextInputField(
+            MyTextInputField(
               hintText: 'First Name',
               textInputType: TextInputType.name,
-              onChanged: (String value) => setState(() => first_name = value),
+              onChanged: (String value) => setState(() => firstName = value),
               validator: (String? val) =>
                   val!.isEmpty ? 'Enter your first name' : null,
             ),
-            MiTextInputField(
+            MyTextInputField(
               hintText: 'Last Name',
               textInputType: TextInputType.name,
-              onChanged: (String value) => setState(() => last_name = value),
+              onChanged: (String value) => setState(() => lastName = value),
               validator: (String? val) =>
                   val!.isEmpty ? 'Enter your last name' : null,
             ),
-            MiTextInputField(
+            MyTextInputField(
               hintText: 'Email Address',
               textInputType: TextInputType.emailAddress,
               onChanged: (String value) => setState(() => email = value),
               validator: (String? val) =>
                   val!.isEmpty ? 'Enter an email' : null,
             ),
-            MiTextInputField(
+            MyTextInputField(
               hintText: 'Phone number',
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp('[0-9+]')),
               ],
               textInputType: TextInputType.number,
-              onChanged: (String value) => setState(() => phone_number = value),
+              onChanged: (String value) => setState(() => phoneNumber = value),
               validator: (String? val) =>
                   val!.isEmpty ? 'Enter phone number' : null,
             ),
-            MiTextInputField(
+            MyTextInputField(
               hintText: 'Password',
               textInputType: TextInputType.text,
               obscureText: true,
@@ -85,27 +68,27 @@ class _SignUpFormState extends State<SignUpForm> {
               validator: validatePassword,
             ),
             Padding(
-              padding: const EdgeInsets.only(top: miDefaultSize * 2.2),
-              child: MiPrimaryButton(
+              padding: const EdgeInsets.only(top: myDefaultSize * 2.2),
+              child: MyPrimaryButton(
                 text: 'Sign Up',
                 bgColor: Colors.transparent,
                 press: () {
                   if (_formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         content: Text(
                           'Valid',
                           style: TextStyle(
                             color: Colors.white,
                           ),
                         ),
-                        backgroundColor: miPrimaryColor,
+                        backgroundColor: myPrimaryColor,
                       ),
                     );
                   }
                 },
-                height: miDefaultSize * 5,
-                width: size.width,
+                height: myDefaultSize * 5,
+                width: double.infinity,
               ),
             ),
           ],

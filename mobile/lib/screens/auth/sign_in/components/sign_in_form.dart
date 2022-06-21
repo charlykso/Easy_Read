@@ -1,23 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../shared/constants.dart';
-import '../../../../shared/util/mi_primary_button.dart';
-import '../../../../shared/util/mi_text_input_field.dart';
-
-/// Fancy extension to simplfy [MaterialState] calls
-extension MaterialStateSet on Set<MaterialState> {
-  bool get hasError => contains(MaterialState.error);
-  bool get isSelected => contains(MaterialState.selected);
-}
-
-Color? getColor(Set<MaterialState> states) {
-  if (states.hasError) {
-    return Colors.red;
-  } else if (states.isSelected) {
-    return miPrimaryColor;
-  }
-  return Colors.grey.withOpacity(.4);
-}
+import '../../../../shared/helpers.dart';
+import '../../../../shared/util/my_primary_button.dart';
+import '../../../../shared/util/my_text_input_field.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({
@@ -42,14 +27,14 @@ class _SignInFormState extends State<SignInForm> {
         key: _formKey,
         child: Column(
           children: [
-            MiTextInputField(
+            MyTextInputField(
               hintText: 'Email Address or Phone Number',
               onChanged: (String value) => setState(() => email = value),
               textInputType: TextInputType.text,
               validator: (String? val) =>
                   val!.isEmpty ? 'Enter email or phone number' : null,
             ),
-            MiTextInputField(
+            MyTextInputField(
               hintText: 'Password',
               textInputType: TextInputType.text,
               obscureText: true,
@@ -57,7 +42,7 @@ class _SignInFormState extends State<SignInForm> {
               validator: validatePassword,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: miDefaultSize),
+              padding: const EdgeInsets.symmetric(vertical: myDefaultSize),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -71,19 +56,19 @@ class _SignInFormState extends State<SignInForm> {
                               setState(() => stayLoggedIn = value!),
                           shape: RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius.circular(miDefaultSize * 0.5),
+                                BorderRadius.circular(myDefaultSize * 0.5),
                           ),
                           fillColor:
                               MaterialStateProperty.resolveWith(getColor),
                         ),
                       ),
-                      SizedBox(width: miDefaultSize * 0.5),
+                      const SizedBox(width: myDefaultSize * 0.5),
                       Text(
                         'Stay Logged In',
                         style: TextStyle(
                           fontSize: size.width > 360
-                              ? miDefaultSize
-                              : miDefaultSize * 0.8,
+                              ? myDefaultSize
+                              : myDefaultSize * 0.8,
                           color: Colors.black.withOpacity(.6),
                         ),
                       ),
@@ -95,8 +80,8 @@ class _SignInFormState extends State<SignInForm> {
                       'Forgot Your Password?',
                       style: TextStyle(
                         fontSize: size.width > 360
-                            ? miDefaultSize
-                            : miDefaultSize * 0.8,
+                            ? myDefaultSize
+                            : myDefaultSize * 0.8,
                         color: Colors.black.withOpacity(.6),
                       ),
                     ),
@@ -105,26 +90,26 @@ class _SignInFormState extends State<SignInForm> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: miDefaultSize * 1.5),
-              child: MiPrimaryButton(
+              padding: const EdgeInsets.only(top: myDefaultSize * 1.5),
+              child: MyPrimaryButton(
                 text: 'Sign In',
                 bgColor: Colors.transparent,
                 press: () {
                   if (_formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         content: Text(
                           'Valid',
                           style: TextStyle(
                             color: Colors.white,
                           ),
                         ),
-                        backgroundColor: miPrimaryColor,
+                        backgroundColor: myPrimaryColor,
                       ),
                     );
                   }
                 },
-                height: miDefaultSize * 5,
+                height: myDefaultSize * 5,
                 width: size.width,
               ),
             ),
