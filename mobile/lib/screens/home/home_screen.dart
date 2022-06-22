@@ -1,3 +1,4 @@
+import 'package:easy_read/screens/home/components/home_search_delegate.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,8 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () =>
+                showSearch(context: context, delegate: HomeSearchDelegate()),
             icon: const Icon(
               Icons.search_rounded,
               color: myPrimaryColor,
@@ -25,7 +27,7 @@ class HomeScreen extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              //! Navigate to dashboard
+              //TODO: Navigate to dashboard
             },
             icon: const Icon(
               Icons.dashboard_rounded,

@@ -30,15 +30,12 @@ class _SignInFormState extends State<SignInForm> {
               hintText: 'Email Address or Phone Number',
               onChanged: (String value) => setState(() => email = value),
               textInputType: TextInputType.text,
-              validator: (String? val) =>
-                  val!.isEmpty ? 'Enter email or phone number' : null,
             ),
             MyTextInputField(
               hintText: 'Password',
               textInputType: TextInputType.text,
               obscureText: true,
               onChanged: (String value) => setState(() => password = value),
-              validator: validatePassword,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: myDefaultSize),
@@ -57,8 +54,8 @@ class _SignInFormState extends State<SignInForm> {
                             borderRadius:
                                 BorderRadius.circular(myDefaultSize * 0.5),
                           ),
-                          fillColor:
-                              MaterialStateProperty.resolveWith(getColor),
+                          fillColor: MaterialStateProperty.resolveWith<Color?>(
+                              getColor),
                         ),
                       ),
                       const SizedBox(width: myDefaultSize * 0.5),
@@ -94,11 +91,25 @@ class _SignInFormState extends State<SignInForm> {
                 text: 'Sign In',
                 bgColor: Colors.transparent,
                 press: () {
-                  if (_formKey.currentState!.validate()) {
+                  if (email.trim().isEmpty || password.trim().isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        duration: myAnimationDuration,
+                        content: const Text(
+                          'Invalid email address or password',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.red[700],
+                      ),
+                    );
+                  } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
+                        duration: myAnimationDuration,
                         content: Text(
-                          'Valid',
+                          'It\'s valid for now!',
                           style: TextStyle(
                             color: Colors.white,
                           ),
@@ -114,19 +125,5 @@ class _SignInFormState extends State<SignInForm> {
             ),
           ],
         ));
-  }
-
-  String? validatePassword(String? val) {
-    if (val!.isEmpty) {
-      return 'Must be more than 6 characters\nMust contain at least one uppercase letter\nMust have at least one number';
-    } else if (val.length < 6) {
-      return 'Must be more than 6 characters';
-    } else if (!val.contains(RegExp(r'[A-Z]'))) {
-      return 'Must contain at least one uppercase letter';
-    } else if (!val.contains(RegExp(r'[0-9]'))) {
-      return 'Must have at least one number';
-    }
-
-    return '';
   }
 }

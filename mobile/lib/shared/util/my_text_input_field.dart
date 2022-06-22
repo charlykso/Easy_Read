@@ -10,7 +10,7 @@ class MyTextInputField extends StatelessWidget {
     required this.textInputType,
     this.obscureText = false,
     required this.onChanged,
-    required this.validator,
+    this.validator,
     this.inputFormatters,
   }) : super(key: key);
 

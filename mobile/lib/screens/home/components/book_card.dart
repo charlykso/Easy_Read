@@ -56,6 +56,7 @@ class BookCard extends StatelessWidget {
                           ?.copyWith(color: Colors.black.withOpacity(.6)),
                     ),
                     TextSpan(
+                      //TODO: Add intl package to format this price
                       text: '\u20A6${price.toStringAsFixed(2)}',
                       style: currentTheme.textTheme.button?.copyWith(
                         color: myPrimaryColor,

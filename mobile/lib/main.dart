@@ -1,7 +1,7 @@
+import 'package:easy_read/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_read/shared/helpers.dart';
-import 'package:easy_read/screens/home/home_screen.dart' show HomeScreen;
 
 void main() => runApp(const MyApp());
 
