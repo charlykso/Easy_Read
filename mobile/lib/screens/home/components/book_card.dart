@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_read/shared/helpers.dart';
+import 'package:intl/intl.dart';
 
 class BookCard extends StatelessWidget {
   /// displays a book
@@ -22,59 +23,85 @@ class BookCard extends StatelessWidget {
     bool isMobile = size.width < 700;
     ThemeData currentTheme = Theme.of(context);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Container(
-          height: isMobile ? 250 : 240,
-          width: isMobile ? 170 : 200,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(myDefaultSize),
-            image: DecorationImage(
-              image: AssetImage(image),
-              fit: BoxFit.fill,
+    return GestureDetector(
+      onTap: () {
+        //TODO: Navigate to book details screen
+      },
+      child: Container(
+        height: size.height * .4,
+        width: size.width * .4,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(myDefaultSize),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 8),
+              color: mySecondaryColor.withOpacity(.3),
+              spreadRadius: 1.5,
+              blurRadius: 2.0,
             ),
-          ),
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: myDefaultSize),
-          child: Row(
-            children: [
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: '$title\n',
-                      style: currentTheme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: myDefaultSize * 1.1,
-                      ),
-                    ),
-                    TextSpan(
-                      text: '$author\n',
-                      style: currentTheme.textTheme.titleMedium
-                          ?.copyWith(color: Colors.black.withOpacity(.6)),
-                    ),
-                    TextSpan(
-                      //TODO: Add intl package to format this price
-                      text: '\u20A6${price.toStringAsFixed(2)}',
-                      style: currentTheme.textTheme.button?.copyWith(
-                        color: myPrimaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Container(
+              height: isMobile ? size.height * 0.27 : size.height * .6,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(myDefaultSize),
+                  topRight: Radius.circular(myDefaultSize),
+                ),
+                image: DecorationImage(
+                  image: AssetImage(image),
+                  fit: BoxFit.fill,
                 ),
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: myDefaultSize * .6,
+                top: myDefaultSize * .5,
+              ),
+              child: Row(
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '$title\n',
+                          style: currentTheme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: myDefaultSize * 1.1,
+                          ),
+                        ),
+                        TextSpan(
+                          text: '$author\n',
+                          style: currentTheme.textTheme.titleMedium?.copyWith(
+                            color: Colors.black.withOpacity(.6),
+                            fontSize: myDefaultSize,
+                          ),
+                        ),
+                        TextSpan(
+                          text: NumberFormat.currency(
+                            name: '\u20A6',
+                            decimalDigits: 2,
+                          ).format(price),
+                          style: currentTheme.textTheme.button?.copyWith(
+                            color: myPrimaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-        // ElevatedButton.icon(
-        //   onPressed: () {},
-        //   icon: const Icon(Icons.monetization_on),
-        //   label: Text(price.toStringAsFixed(2)),
-        // ),
-      ],
+      ),
     );
   }
 }

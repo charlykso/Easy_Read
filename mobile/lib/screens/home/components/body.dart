@@ -11,22 +11,25 @@ class Body extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     bool isMobile = size.width < 700;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: myDefaultSize * .7),
-      child: GridView.builder(
-        itemCount: books.length,
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 250,
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: myDefaultSize,
-          childAspectRatio: isMobile ? 0.52 : 0.57,
-        ),
-        itemBuilder: (context, index) => BookCard(
-          image: books[index].coverImage,
-          title: books[index].title,
-          author: books[index].author,
-          price: books[index].price,
-        ),
+    return GridView.builder(
+      padding: const EdgeInsets.fromLTRB(
+        myDefaultSize * 1.2,
+        myDefaultSize * .7,
+        myDefaultSize * 1.2,
+        myDefaultSize * 2,
+      ),
+      itemCount: books.length,
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 250,
+        crossAxisSpacing: myDefaultSize,
+        mainAxisSpacing: myDefaultSize * 2.5,
+        childAspectRatio: isMobile ? 0.52 : 0.57,
+      ),
+      itemBuilder: (context, index) => BookCard(
+        image: books[index].coverImage,
+        title: books[index].title,
+        author: books[index].author,
+        price: books[index].price,
       ),
     );
   }

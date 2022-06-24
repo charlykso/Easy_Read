@@ -1,3 +1,5 @@
+import 'package:easy_read/shared/util/my_winged_divider.dart';
+import 'package:easy_read/shared/util/social_media_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:easy_read/shared/util/my_primary_button.dart';
@@ -122,6 +124,24 @@ class _SignInFormState extends State<SignInForm> {
                 height: myDefaultSize * 5,
                 width: size.width,
               ),
+            ),
+            const MyWingedDivider(text: 'OR'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SocialMediaIcon(
+                  imagePath: 'assets/icons/facebook.svg',
+                  tap: () {},
+                ),
+                SocialMediaIcon(
+                  imagePath: 'assets/icons/twitter.svg',
+                  tap: () {},
+                ),
+                SocialMediaIcon(
+                  imagePath: 'assets/icons/google-plus.svg',
+                  tap: () {},
+                ),
+              ],
             ),
           ],
         ));

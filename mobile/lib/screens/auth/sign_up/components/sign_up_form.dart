@@ -1,3 +1,5 @@
+import 'package:easy_read/shared/util/my_winged_divider.dart';
+import 'package:easy_read/shared/util/social_media_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:easy_read/shared/helpers.dart';
@@ -90,6 +92,25 @@ class _SignUpFormState extends State<SignUpForm> {
                 width: double.infinity,
               ),
             ),
+            const MyWingedDivider(text: 'OR'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SocialMediaIcon(
+                  imagePath: 'assets/icons/facebook.svg',
+                  tap: () {},
+                ),
+                SocialMediaIcon(
+                  imagePath: 'assets/icons/twitter.svg',
+                  tap: () {},
+                ),
+                SocialMediaIcon(
+                  imagePath: 'assets/icons/google-plus.svg',
+                  tap: () {},
+                ),
+              ],
+            ),
+            const SizedBox(height: myDefaultSize * 2),
           ],
         ));
   }

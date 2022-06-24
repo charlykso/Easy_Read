@@ -3,7 +3,7 @@ import 'package:easy_read/screens/home/components/home_search_filter_form.dart';
 import 'package:easy_read/screens/home/components/search_result.dart';
 import 'package:easy_read/screens/home/components/search_suggestion.dart';
 import 'package:easy_read/shared/helpers.dart';
-import 'package:easy_read/shared/util/no_search_result.dart';
+import 'package:easy_read/shared/no_search_result.dart';
 import 'package:flutter/material.dart';
 
 class HomeSearchDelegate extends SearchDelegate {

@@ -27,10 +27,10 @@ class HomeScreen extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              //TODO: Navigate to dashboard
+              //TODO: Navigate to library
             },
             icon: const Icon(
-              Icons.dashboard_rounded,
+              Icons.my_library_books_rounded,
               color: myPrimaryColor,
               size: 30.0,
             ),
