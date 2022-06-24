@@ -15,7 +15,7 @@ class SearchSuggestion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
     int indexOfFirstLetterOfQueryInSuggestion =
         suggestion.toLowerCase().indexOf(
               query.toLowerCase(),

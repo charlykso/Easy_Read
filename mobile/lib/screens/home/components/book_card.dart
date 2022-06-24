@@ -1,3 +1,5 @@
+import 'package:easy_read/model/book.dart';
+import 'package:easy_read/screens/detail/detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:intl/intl.dart';
@@ -6,16 +8,10 @@ class BookCard extends StatelessWidget {
   /// displays a book
   const BookCard({
     Key? key,
-    required this.image,
-    required this.title,
-    required this.author,
-    required this.price,
+    required this.book,
   }) : super(key: key);
 
-  final String image;
-  final String title;
-  final String author;
-  final double price;
+  final Book book;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +20,12 @@ class BookCard extends StatelessWidget {
     ThemeData currentTheme = Theme.of(context);
 
     return GestureDetector(
-      onTap: () {
-        //TODO: Navigate to book details screen
-      },
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailScreen(book: book),
+        ),
+      ),
       child: Container(
         height: size.height * .4,
         width: size.width * .4,
@@ -54,7 +53,7 @@ class BookCard extends StatelessWidget {
                   topRight: Radius.circular(myDefaultSize),
                 ),
                 image: DecorationImage(
-                  image: AssetImage(image),
+                  image: AssetImage(book.coverImage),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -70,14 +69,14 @@ class BookCard extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: '$title\n',
+                          text: '${book.title}\n',
                           style: currentTheme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: myDefaultSize * 1.1,
                           ),
                         ),
                         TextSpan(
-                          text: '$author\n',
+                          text: '${book.author}\n',
                           style: currentTheme.textTheme.titleMedium?.copyWith(
                             color: Colors.black.withOpacity(.6),
                             fontSize: myDefaultSize,
@@ -87,7 +86,7 @@ class BookCard extends StatelessWidget {
                           text: NumberFormat.currency(
                             name: '\u20A6',
                             decimalDigits: 2,
-                          ).format(price),
+                          ).format(book.price),
                           style: currentTheme.textTheme.button?.copyWith(
                             color: myPrimaryColor,
                             fontWeight: FontWeight.bold,

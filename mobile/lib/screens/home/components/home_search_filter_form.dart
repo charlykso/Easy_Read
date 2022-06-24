@@ -16,7 +16,7 @@ class _HomeSearchFilterFormState extends State<HomeSearchFilterForm> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.42,

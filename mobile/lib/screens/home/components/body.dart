@@ -26,10 +26,7 @@ class Body extends StatelessWidget {
         childAspectRatio: isMobile ? 0.52 : 0.57,
       ),
       itemBuilder: (context, index) => BookCard(
-        image: books[index].coverImage,
-        title: books[index].title,
-        author: books[index].author,
-        price: books[index].price,
+        book: books[index],
       ),
     );
   }

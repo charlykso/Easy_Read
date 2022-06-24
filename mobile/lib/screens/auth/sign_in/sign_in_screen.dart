@@ -1,5 +1,5 @@
+import 'package:easy_read/shared/plain_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_read/shared/helpers.dart';
 import 'package:easy_read/screens/auth/sign_in/components/body.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -9,17 +9,7 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: myPrimaryColor,
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        surfaceTintColor: Colors.white,
-      ),
+      appBar: plainAppBar(context: context),
       body: const Body(),
     );
   }
