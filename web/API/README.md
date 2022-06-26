@@ -1,1 +1,1 @@
-This is the api that will be suplying to both the mobile and the web
+This app will enable user to subscribe and read book online.
