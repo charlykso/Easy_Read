@@ -27,9 +27,14 @@ namespace API.Models
         public String? Publisher {get; set;}
 
         [NotMapped]
-        public IFormFile? Cover_Img {get; set;}
+        public IFormFile? Front_Cover_Img {get; set;}
 
-        public String? Cover_Img_url {get; set;}
+        public String? Front_Cover_Img_url {get; set;}
+
+        [NotMapped]
+        public IFormFile? Back_Cover_Img {get; set;}
+
+        public String? Back_Cover_Img_url {get; set;}
 
         [Required]
         [Column(TypeName = "nvarchar(MAX)")]

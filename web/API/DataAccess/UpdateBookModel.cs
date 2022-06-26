@@ -3,10 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.DataAccess
 {
-    public class BookModel
+    public class UpdateBookModel
     {
-        public int? Id {get; set;}
-
         [Required]
         [MaxLength(50)]
         public String? Title {get; set;}
@@ -42,7 +40,6 @@ namespace API.DataAccess
 
         [Required]
         public double Price {get; set;}
-
 
     }
 }
