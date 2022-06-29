@@ -1,4 +1,4 @@
-package com.miralo.easyread
+package com.listacc.easyread
 
 import io.flutter.embedding.android.FlutterActivity
 

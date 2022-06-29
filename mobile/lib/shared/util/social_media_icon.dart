@@ -15,7 +15,7 @@ class SocialMediaIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: tap,
       child: Container(
         padding: const EdgeInsets.all(myDefaultSize * 1.5),
         decoration: BoxDecoration(

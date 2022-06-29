@@ -72,18 +72,19 @@ class _SignUpFormState extends State<SignUpForm> {
               padding: const EdgeInsets.only(top: myDefaultSize * 2.2),
               child: MyPrimaryButton(
                 text: 'Sign Up',
-                bgColor: Colors.transparent,
+                // bgColor: Colors.transparent,
                 press: () {
                   if (_formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
+                        duration: myAnimationDuration,
                         content: Text(
-                          'Valid',
+                          'Valid details',
                           style: TextStyle(
                             color: Colors.white,
                           ),
                         ),
-                        backgroundColor: myPrimaryColor,
+                        backgroundColor: mySecondaryColor,
                       ),
                     );
                   }
@@ -97,15 +98,11 @@ class _SignUpFormState extends State<SignUpForm> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SocialMediaIcon(
-                  imagePath: 'assets/icons/facebook.svg',
-                  tap: () {},
-                ),
-                SocialMediaIcon(
-                  imagePath: 'assets/icons/twitter.svg',
-                  tap: () {},
-                ),
-                SocialMediaIcon(
                   imagePath: 'assets/icons/google-plus.svg',
+                  tap: () {},
+                ),
+                SocialMediaIcon(
+                  imagePath: 'assets/icons/facebook.svg',
                   tap: () {},
                 ),
               ],

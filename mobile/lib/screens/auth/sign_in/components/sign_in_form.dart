@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:easy_read/screens/home/home_screen.dart';
+import 'package:easy_read/services/google_auth.dart';
 import 'package:easy_read/shared/util/my_winged_divider.dart';
 import 'package:easy_read/shared/util/social_media_icon.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +51,7 @@ class _SignInFormState extends State<SignInForm> {
                   Row(
                     children: [
                       Transform.scale(
-                        scale: 2.3,
+                        scale: 1.5,
                         child: Checkbox(
                           value: stayLoggedIn,
                           onChanged: (bool? value) =>
@@ -60,7 +64,6 @@ class _SignInFormState extends State<SignInForm> {
                               getColor),
                         ),
                       ),
-                      const SizedBox(width: myDefaultSize * 0.5),
                       Text(
                         'Stay Logged In',
                         style: TextStyle(
@@ -130,20 +133,37 @@ class _SignInFormState extends State<SignInForm> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SocialMediaIcon(
-                  imagePath: 'assets/icons/facebook.svg',
-                  tap: () {},
-                ),
-                SocialMediaIcon(
-                  imagePath: 'assets/icons/twitter.svg',
-                  tap: () {},
-                ),
-                SocialMediaIcon(
                   imagePath: 'assets/icons/google-plus.svg',
+                  tap: signInWithGoogle,
+                ),
+                SocialMediaIcon(
+                  imagePath: 'assets/icons/facebook.svg',
                   tap: () {},
                 ),
               ],
             ),
           ],
         ));
+  }
+
+  signInWithGoogle() async {
+    final dynamic user = await GoogleAuth.signIn();
+
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: myAnimationDuration,
+          backgroundColor: Colors.red[700],
+          content: const Text('Unable to sign in!'),
+        ),
+      );
+    } else {
+      log(user.toString());
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+      );
+    }
   }
 }
