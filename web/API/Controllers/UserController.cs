@@ -3,13 +3,14 @@ using API.DataAccess;
 using API.Models;
 using API.Repo;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class UserController : ControllerBase
     {
         private readonly IUser? _iUser;
@@ -56,18 +57,34 @@ namespace API.Controllers
         {
             try
             {
-                var user = new User();
-                user.Firstname = newUser.Firstname;
-                user.Lastname = newUser.Lastname;
-                user.Email = newUser.Email;
-                user.Phone_no = newUser.Phone_no;
-                var newUser_password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
-                user.Password = newUser_password;
-                user.Role = newUser.Role;
-                user.Created_at = DateTime.Now;
+                if (ModelState.IsValid)
+                {
+                    var checkEmail = _iUser!.CheckEmail(newUser.Email!);
+                    if (checkEmail == "Not Exist")
+                    {
+                        var user = new User();
+                        user.Firstname = newUser.Firstname;
+                        user.Lastname = newUser.Lastname;
+                        user.Email = newUser.Email;
+                        user.Phone_no = newUser.Phone_no;
+                        var newUser_password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
+                        user.Password = newUser_password;
+                        user.Role = newUser.Role;
+                        user.Created_at = DateTime.Now;
 
-                _iUser!.CreateUser(user);
-                return Ok(user);
+                        // var token = UserManager.ConfirmEmailTokenPurpose(user);
+                        _iUser!.CreateUser(user);
+                        return Ok(user);
+                    }else{
+                        return BadRequest("Email already exist!");
+                    }
+
+                    
+                }else
+                {
+                    return BadRequest("Please input correct details");
+                }
+                
             }
             catch (System.Exception ex)
             {

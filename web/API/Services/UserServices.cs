@@ -11,6 +11,28 @@ namespace API.Services
         {
             _easyReaderDBContext = easyReaderDBContext;
         }
+
+        public string CheckEmail(string Email)
+        {
+            try
+            {
+                var emailExist = _easyReaderDBContext!.Users.FirstOrDefault(e => 
+                e.Email!.ToLower() == Email.ToLower());
+
+                if (emailExist is null)
+                {
+                    return("Not Exist");
+                }else{
+                    return("Exist");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                
+                return(ex.Message);
+            }
+        }
+
         public void CreateUser(User NewUser)
         {
             try
