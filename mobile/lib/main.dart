@@ -1,6 +1,7 @@
+import 'package:easy_read/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
-
-import 'screens/home/home.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:easy_read/shared/helpers.dart';
 
 void main() => runApp(const MyApp());
 
@@ -11,10 +12,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Easy Read',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: myPrimaryColor,
+        useMaterial3: true,
+        textTheme: GoogleFonts.robotoTextTheme().apply(bodyColor: myTextColor),
       ),
-      home: const Home(),
+      home: const WelcomeScreen(),
     );
   }
 }
