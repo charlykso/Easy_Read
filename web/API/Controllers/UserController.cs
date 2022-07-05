@@ -59,8 +59,8 @@ namespace API.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var checkEmail = _iUser!.CheckEmail(newUser.Email!);
-                    if (checkEmail == "Not Exist")
+                    var checkPhoneNo = _iUser!.CheckPhone(newUser.Phone_no!);
+                    if (checkPhoneNo == "Not Exist")
                     {
                         var user = new User();
                         user.Firstname = newUser.Firstname;
@@ -76,7 +76,7 @@ namespace API.Controllers
                         _iUser!.CreateUser(user);
                         return Ok(user);
                     }else{
-                        return BadRequest("Email already exist!");
+                        return BadRequest("Phone number already exist!");
                     }
 
                     

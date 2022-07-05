@@ -33,6 +33,27 @@ namespace API.Services
             }
         }
 
+        public string CheckPhone(string Phone_no)
+        {
+            try
+            {
+                var phone_noExist = _easyReaderDBContext!.Users.FirstOrDefault(p => 
+                p.Phone_no == Phone_no);
+
+                if (phone_noExist is null)
+                {
+                    return("Not Exist");
+                }else{
+                    return("Exist");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                
+                return(ex.Message);
+            }
+        }
+
         public void CreateUser(User NewUser)
         {
             try
