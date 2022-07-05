@@ -8,22 +8,27 @@ namespace API.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [StringLength(50, MinimumLength = 2)]
+        [RegularExpression("^([A-Za-z]+).$", ErrorMessage = "Accepted characters(uppercase, lowercase and a dot(.))")]
         public string? Lastname { get; set; }
         
         [Required]
-        [MaxLength(50)]
+        [StringLength(50, MinimumLength = 2)]
+        [RegularExpression("^([A-Za-z]+).$", ErrorMessage = "Accepted characters(uppercase, lowercase and a dot(.))")]
         public string? Firstname { get; set; }
 
         [Required]
+        [EmailAddress(ErrorMessage = "Invalid email address.")]
+        [RegularExpression(@"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$", ErrorMessage = "Invalid Email pattern.")]
         [MaxLength(50)]
         public string? Email { get; set; }
 
         [Required]
-        [MaxLength(15)]
+        [StringLength(15, MinimumLength = 9)]
+        [RegularExpression("^[+][0-9]+$", ErrorMessage = "Invalid phone number partern")]
         public string? Phone_no { get; set; }
         
-        [MaxLength(20)]
+        [MaxLength(10)]
         public string? Gender { get; set; }
 
         [Required]

@@ -1,5 +1,7 @@
 using System.Text;
 using API.Models;
+using API.Repo;
+using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -40,10 +42,10 @@ builder.Services.AddAuthentication(options =>
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt: Key"]))
         };
     }
-    catch (System.Exception)
+    catch (System.Exception ex)
     {
         
-        throw;
+        Console.WriteLine(ex.Message);
     }
 });
 
@@ -52,6 +54,12 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
+builder.Services.AddScoped<IUser, UserServices>();
+builder.Services.AddScoped<IAuthor, AuthourServices>();
+builder.Services.AddScoped<IBook, BookServices>();
+builder.Services.AddScoped<IBook_User, BookUserServices>();
+
+builder.Services.AddMvc();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

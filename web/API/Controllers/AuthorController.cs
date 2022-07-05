@@ -58,30 +58,36 @@ namespace API.Controllers
         {
             try
             {
-                if (newAuthor.Image != null)
+                if (ModelState.IsValid)
                 {
-                    var guid = Guid.NewGuid();
-                    var filePath = Path.Combine("wwwroot/images", guid + ".jpg");
-                    var filestream = new FileStream(filePath, FileMode.Create);
-                    newAuthor.Image.CopyTo(filestream);
+                    if (newAuthor.Image != null)
+                    {
+                        var guid = Guid.NewGuid();
+                        var filePath = Path.Combine("wwwroot/images", guid + ".jpg");
+                        var filestream = new FileStream(filePath, FileMode.Create);
+                        newAuthor.Image.CopyTo(filestream);
 
-                    var author = new Author();
-                    author.Firstname = newAuthor.Firstname;
-                    author.Lastname = newAuthor.Lastname;
-                    author.Email = newAuthor.Email;
-                    author.Date_of_birth = newAuthor.Date_of_birth;
-                    author.Phone_no = newAuthor.Phone_no;
-                    author.Gender = newAuthor.Gender;
-                    author.ImageURL = filePath;
-                    var newAuthor_pass = BCrypt.Net.BCrypt.HashPassword(newAuthor.Password);
-                    author.Password = newAuthor_pass;
-                    author.Created_at = DateTime.Now;
+                        var author = new Author();
+                        author.Firstname = newAuthor.Firstname;
+                        author.Lastname = newAuthor.Lastname;
+                        author.Email = newAuthor.Email;
+                        author.Date_of_birth = newAuthor.Date_of_birth;
+                        author.Phone_no = newAuthor.Phone_no;
+                        author.Gender = newAuthor.Gender;
+                        author.ImageURL = filePath;
+                        var newAuthor_pass = BCrypt.Net.BCrypt.HashPassword(newAuthor.Password);
+                        author.Password = newAuthor_pass;
+                        author.Created_at = DateTime.Now;
 
-                    _iAuthor!.CreateAuthor(author);
-                    return Ok("Author created successfuly!");
+                        _iAuthor!.CreateAuthor(author);
+                        return Ok("Author created successfuly!");
+                    }else
+                    {
+                        return BadRequest("Please enter Author's image");
+                    }
                 }else
                 {
-                    return BadRequest("Please enter Author's image");
+                    return BadRequest("Please fill your information in correct format");
                 }
                 
             }

@@ -3194,11 +3194,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\API.csproj",
+      "projectUniqueName": "C:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "c:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\API.csproj",
+      "projectPath": "C:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\API.csproj",
       "packagesPath": "C:\\Users\\Ikenna Remigius\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\obj\\",
+      "outputPath": "C:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Ikenna Remigius\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -3292,7 +3292,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.105\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.106\\RuntimeIdentifierGraph.json"
       }
     }
   }
