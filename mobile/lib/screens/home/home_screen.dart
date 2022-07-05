@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_read/screens/auth/sign_in/sign_in_screen.dart';
 import 'package:easy_read/screens/home/components/home_search_delegate.dart';
 import 'package:easy_read/services/google_auth.dart';
@@ -45,7 +43,6 @@ class HomeScreen extends StatelessWidget {
               final dynamic user = await GoogleAuth.signOut();
 
               if (user == null) {
-                log(user.toString());
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => const SignInScreen(),
@@ -56,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                   SnackBar(
                     duration: myAnimationDuration,
                     backgroundColor: Colors.red[700],
-                    content: const Text('Sign attempt failed!'),
+                    content: const Text('Sign out attempt failed!'),
                   ),
                 );
               }

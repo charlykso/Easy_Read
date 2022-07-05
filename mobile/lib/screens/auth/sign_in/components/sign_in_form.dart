@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_read/screens/home/home_screen.dart';
 import 'package:easy_read/services/google_auth.dart';
 import 'package:easy_read/shared/util/my_winged_divider.dart';
@@ -147,18 +145,22 @@ class _SignInFormState extends State<SignInForm> {
   }
 
   signInWithGoogle() async {
-    final dynamic user = await GoogleAuth.signIn();
+    if (GoogleAuth.currentUser() != null) {
+      GoogleAuth.signOut();
+    }
+    final user = await GoogleAuth.signIn();
+
+    user?.forEach((key, value) => "$key is $value".log());
 
     if (user == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          duration: myAnimationDuration,
+          duration: myAnimationDuration * 3,
           backgroundColor: Colors.red[700],
           content: const Text('Unable to sign in!'),
         ),
       );
     } else {
-      log(user.toString());
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const HomeScreen(),

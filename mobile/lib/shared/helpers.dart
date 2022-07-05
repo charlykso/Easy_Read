@@ -1,3 +1,5 @@
+import 'dart:developer' as devtools show log;
+
 import 'package:flutter/material.dart';
 
 const myDefaultSize = 14.0;
@@ -11,6 +13,12 @@ const myLightGreyColor = Color(0x66efefef);
 extension MaterialStateSet on Set<MaterialState> {
   bool get hasError => contains(MaterialState.error);
   bool get isSelected => contains(MaterialState.selected);
+}
+
+// TODO: Remove this method on release build
+// * For Debug mode only
+extension Log on Object {
+  void log() => devtools.log(toString());
 }
 
 Color? getColor(Set<MaterialState> states) {
