@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\API.csproj": {}
+    "C:\\Users\\Mirolic\\Documents\\Projects\\full_stack\\Easy_Read\\web\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\API.csproj": {
+    "C:\\Users\\Mirolic\\Documents\\Projects\\full_stack\\Easy_Read\\web\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\Mirolic\\Documents\\Projects\\full_stack\\Easy_Read\\web\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\API.csproj",
-        "packagesPath": "C:\\Users\\Ikenna Remigius\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\obj\\",
+        "projectPath": "C:\\Users\\Mirolic\\Documents\\Projects\\full_stack\\Easy_Read\\web\\API\\API.csproj",
+        "packagesPath": "C:\\Users\\Mirolic\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Mirolic\\Documents\\Projects\\full_stack\\Easy_Read\\web\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Ikenna Remigius\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Mirolic\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -105,7 +107,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.105\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

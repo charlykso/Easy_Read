@@ -1,13 +1,15 @@
 import 'package:easy_read/screens/auth/sign_in/sign_in_screen.dart';
 import 'package:easy_read/screens/home/components/home_search_delegate.dart';
-import 'package:easy_read/services/google_auth.dart';
+import 'package:easy_read/services/auth_service.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:flutter/material.dart';
 
 import 'components/body.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
+
+  final AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +42,9 @@ class HomeScreen extends StatelessWidget {
           ),
           IconButton(
             onPressed: () async {
-              final dynamic user = await GoogleAuth.signOut();
+              final dynamic user = await authService.signOut();
 
+              // TODO: Implement this auto with riverpod
               if (user == null) {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(

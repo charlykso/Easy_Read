@@ -1,11 +1,12 @@
 import 'package:easy_read/screens/home/home_screen.dart';
-import 'package:easy_read/services/google_auth.dart';
+import 'package:easy_read/services/auth_service.dart';
 import 'package:easy_read/shared/util/my_winged_divider.dart';
 import 'package:easy_read/shared/util/social_media_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:easy_read/shared/util/my_primary_button.dart';
 import 'package:easy_read/shared/util/my_text_input_field.dart';
+import 'package:flutter/services.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({
@@ -18,7 +19,7 @@ class SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<SignInForm> {
   final _formKey = GlobalKey<FormState>();
-  String email = '';
+  String phoneNumber = '';
   String password = '';
   bool stayLoggedIn = false;
 
@@ -31,9 +32,13 @@ class _SignInFormState extends State<SignInForm> {
         child: Column(
           children: [
             MyTextInputField(
-              hintText: 'Email Address or Phone Number',
-              onChanged: (String value) => setState(() => email = value),
-              textInputType: TextInputType.text,
+              hintText: 'Phone Number',
+              onChanged: (String value) => setState(() => phoneNumber = value),
+              inputFormatters: [
+                //TODO: Change this regexp when implementing signin with phone number and password
+                FilteringTextInputFormatter.allow(RegExp('[0-9+]')),
+              ],
+              textInputType: TextInputType.number,
             ),
             MyTextInputField(
               hintText: 'Password',
@@ -94,7 +99,7 @@ class _SignInFormState extends State<SignInForm> {
                 text: 'Sign In',
                 bgColor: Colors.transparent,
                 press: () {
-                  if (email.trim().isEmpty || password.trim().isEmpty) {
+                  if (phoneNumber.trim().isEmpty || password.trim().isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         duration: myAnimationDuration,
@@ -145,13 +150,11 @@ class _SignInFormState extends State<SignInForm> {
   }
 
   signInWithGoogle() async {
-    if (GoogleAuth.currentUser() != null) {
-      GoogleAuth.signOut();
-    }
-    final user = await GoogleAuth.signIn();
+    AuthService authService = AuthService();
 
-    user?.forEach((key, value) => "$key is $value".log());
+    final user = await authService.signInWithGoogle();
 
+    // TODO: Implement this auto with riverpod
     if (user == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -163,7 +166,7 @@ class _SignInFormState extends State<SignInForm> {
     } else {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
+          builder: (context) => HomeScreen(),
         ),
       );
     }
