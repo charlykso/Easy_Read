@@ -41,6 +41,7 @@ dependencies:
   intl: ^0.17.0 # Provides special formating features
   google_sign_in: ^5.3.3 # For google auth
   dio: ^4.0.6 # For network calls
+  flutter_facebook_auth: ^4.3.4+2
 
 dev_dependencies:
   flutter_test:

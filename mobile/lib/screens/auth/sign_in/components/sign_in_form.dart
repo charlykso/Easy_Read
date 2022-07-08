@@ -23,6 +23,51 @@ class _SignInFormState extends State<SignInForm> {
   String password = '';
   bool stayLoggedIn = false;
 
+  AuthService authService = AuthService();
+
+  signInWithFacebook() async {
+    final String? user = await authService.signInWithFacebook();
+
+    // TODO: Implement this auto with riverpod
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: myAnimationDuration * 3,
+          backgroundColor: Colors.red[700],
+          content: const Text('Unable to sign in!'),
+        ),
+      );
+    } else {
+      "$user is ready!".log();
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        ),
+      );
+    }
+  }
+
+  signInWithGoogle() async {
+    final user = await authService.signInWithGoogle();
+
+    // TODO: Implement this auto with riverpod
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: myAnimationDuration * 3,
+          backgroundColor: Colors.red[700],
+          content: const Text('Unable to sign in!'),
+        ),
+      );
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -141,34 +186,11 @@ class _SignInFormState extends State<SignInForm> {
                 ),
                 SocialMediaIcon(
                   imagePath: 'assets/icons/facebook.svg',
-                  tap: () {},
+                  tap: signInWithFacebook,
                 ),
               ],
             ),
           ],
         ));
-  }
-
-  signInWithGoogle() async {
-    AuthService authService = AuthService();
-
-    final user = await authService.signInWithGoogle();
-
-    // TODO: Implement this auto with riverpod
-    if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          duration: myAnimationDuration * 3,
-          backgroundColor: Colors.red[700],
-          content: const Text('Unable to sign in!'),
-        ),
-      );
-    } else {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ),
-      );
-    }
   }
 }

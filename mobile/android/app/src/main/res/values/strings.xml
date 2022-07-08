@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resources>  
+  <string name="app_name">Easy Read</string>
+  <string name="facebook_app_id">1382307512281766</string>
+  <string name="fb_login_protocol_scheme">fb1382307512281766</string>
+  <string name="facebook_client_token">49eb63617e9b3af20438ad56d5a80e20</string>
+</resources>

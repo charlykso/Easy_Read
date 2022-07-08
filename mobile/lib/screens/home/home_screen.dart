@@ -42,10 +42,10 @@ class HomeScreen extends StatelessWidget {
           ),
           IconButton(
             onPressed: () async {
-              final dynamic user = await authService.signOut();
+              final dynamic result = await authService.signOut();
 
               // TODO: Implement this auto with riverpod
-              if (user == null) {
+              if (result == "success") {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => const SignInScreen(),
@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    duration: myAnimationDuration,
+                    duration: myAnimationDuration * 3,
                     backgroundColor: Colors.red[700],
                     content: const Text('Sign out attempt failed!'),
                   ),
