@@ -28,7 +28,7 @@ class MyTextInputField extends StatelessWidget {
       child: TextFormField(
         decoration: decorateTextInput(hintText: hintText),
         inputFormatters: inputFormatters,
-        keyboardType: TextInputType.name,
+        keyboardType: keyboardType,
         obscureText: obscureText,
         onChanged: onChanged,
         validator: validator,
