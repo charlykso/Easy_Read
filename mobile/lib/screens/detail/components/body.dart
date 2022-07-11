@@ -1,4 +1,4 @@
-import 'package:easy_read/model/book.dart';
+import 'package:easy_read/models/book.dart';
 import 'package:easy_read/screens/detail/components/author_with_publication_year.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:easy_read/shared/util/my_primary_button.dart';

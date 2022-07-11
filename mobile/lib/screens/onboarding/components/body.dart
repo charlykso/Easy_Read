@@ -1,7 +1,7 @@
 import 'package:easy_read/screens/welcome_screen.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_read/model/feature_info.dart';
+import 'package:easy_read/models/feature_info.dart';
 import 'package:easy_read/shared/util/my_primary_button.dart';
 import 'package:easy_read/screens/onboarding/components/feature.dart';
 

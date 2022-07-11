@@ -1,4 +1,4 @@
-import 'package:easy_read/shared/plain_app_bar.dart';
+import 'package:easy_read/shared/util/plain_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_read/screens/auth/sign_in/components/body.dart';
 

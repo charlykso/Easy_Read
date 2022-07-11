@@ -7,7 +7,7 @@ class MyTextInputField extends StatelessWidget {
   const MyTextInputField({
     Key? key,
     required this.hintText,
-    required this.textInputType,
+    required this.keyboardType,
     this.obscureText = false,
     required this.onChanged,
     this.validator,
@@ -15,7 +15,7 @@ class MyTextInputField extends StatelessWidget {
   }) : super(key: key);
 
   final String hintText;
-  final TextInputType textInputType;
+  final TextInputType keyboardType;
   final bool obscureText;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
@@ -32,30 +32,8 @@ class MyTextInputField extends StatelessWidget {
         obscureText: obscureText,
         onChanged: onChanged,
         validator: validator,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
       ),
-    );
-  }
-
-  OutlineInputBorder buildOutlineInputBorder({bool focused = false}) {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(myDefaultSize * 1.43),
-      borderSide:
-          focused ? const BorderSide(color: myPrimaryColor) : BorderSide.none,
-    );
-  }
-
-  InputDecoration decorateTextInput({required String hintText}) {
-    return InputDecoration(
-      filled: true,
-      fillColor: myLightGreyColor,
-      focusedBorder: buildOutlineInputBorder(focused: true),
-      border: buildOutlineInputBorder(),
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: myDefaultSize * 1.43,
-        vertical: myDefaultSize * 2,
-      ),
-      hintText: hintText,
-      hintStyle: const TextStyle(fontSize: myDefaultSize * 1.35),
     );
   }
 }
