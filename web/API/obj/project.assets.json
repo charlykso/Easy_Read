@@ -4507,11 +4507,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\API.csproj",
+      "projectUniqueName": "c:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\API.csproj",
+      "projectPath": "c:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\API.csproj",
       "packagesPath": "C:\\Users\\Ikenna Remigius\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\obj\\",
+      "outputPath": "c:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Ikenna Remigius\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4614,5 +4614,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file c:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
