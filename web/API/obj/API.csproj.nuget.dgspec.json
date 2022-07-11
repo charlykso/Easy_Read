@@ -14,12 +14,14 @@
         "outputPath": "C:\\Users\\Ikenna Remigius\\Documents\\ASPDOTNET\\Easy_Read\\web\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Ikenna Remigius\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Ikenna Remigius\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -84,7 +86,11 @@
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
-              "version": "[6.18.0, )"
+              "version": "[6.19.0, )"
+            },
+            "Twilio": {
+              "target": "Package",
+              "version": "[5.76.0, )"
             }
           },
           "imports": [
@@ -105,7 +111,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.106\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

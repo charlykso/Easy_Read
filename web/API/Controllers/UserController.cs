@@ -13,10 +13,12 @@ namespace API.Controllers
     //[Authorize(Roles = "Admin")]
     public class UserController : ControllerBase
     {
+        private readonly IConfiguration? _Iconfig;
         private readonly IUser? _iUser;
-        public UserController(IUser iUser)
+        public UserController(IUser iUser, IConfiguration Iconfig)
         {
             _iUser = iUser;
+            _Iconfig = Iconfig;
         }
 
         //api/user/GetAllUsers
@@ -51,9 +53,9 @@ namespace API.Controllers
             }
         }
 
-        //api/user/createuser
-        [HttpPost("CreateUser")]
-        public ActionResult CreateUser([FromForm] UserModel newUser)
+        //api/user/verifyPhone
+        [HttpPost("VerifyPhone")]
+        public ActionResult VerifyUserPhone([FromForm] UserModel newUser)
         {
             try
             {
@@ -62,22 +64,49 @@ namespace API.Controllers
                     var checkPhoneNo = _iUser!.CheckPhone(newUser.Phone_no!);
                     if (checkPhoneNo == "Not Exist")
                     {
-                        var user = new User();
-                        user.Firstname = newUser.Firstname;
-                        user.Lastname = newUser.Lastname;
-                        user.Email = newUser.Email;
-                        user.Phone_no = newUser.Phone_no;
-                        var newUser_password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
-                        user.Password = newUser_password;
-                        user.Role = newUser.Role;
-                        user.Created_at = DateTime.Now;
+                        var verifyNo = new VeriffyPhoneNo(_Iconfig!);
+                        var phoneCode = verifyNo.verifyPhone(newUser.Phone_no!);
 
-                        // var token = UserManager.ConfirmEmailTokenPurpose(user);
-                        _iUser!.CreateUser(user);
-                        return Ok(user);
+                        return Ok(phoneCode);
                     }else{
                         return BadRequest("Phone number already exist!");
                     }
+
+                    
+                }else
+                {
+                    return BadRequest("Please input correct details");
+                }
+                
+            }
+            catch (System.Exception ex)
+            {
+                
+                return BadRequest(ex.Message);
+            }
+        }
+
+        //api/user/createuser
+        [HttpPost("CreateUser")]
+        public ActionResult CreateUser([FromForm] UserModel newUser)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    
+                    var user = new User();
+                    user.Firstname = newUser.Firstname;
+                    user.Lastname = newUser.Lastname;
+                    user.Email = newUser.Email;
+                    user.Phone_no = newUser.Phone_no;
+                    var newUser_password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
+                    user.Password = newUser_password;
+                    user.Role = newUser.Role;
+                    user.Created_at = DateTime.Now;
+
+                    _iUser!.CreateUser(user);
+                    return Ok(user);
 
                     
                 }else
