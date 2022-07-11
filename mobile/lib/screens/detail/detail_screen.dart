@@ -1,9 +1,9 @@
 import 'dart:io' show Platform;
 
-import 'package:easy_read/model/book.dart';
+import 'package:easy_read/models/book.dart';
 import 'package:easy_read/screens/detail/components/body.dart';
 import 'package:easy_read/shared/helpers.dart';
-import 'package:easy_read/shared/plain_app_bar.dart';
+import 'package:easy_read/shared/util/plain_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class DetailScreen extends StatelessWidget {

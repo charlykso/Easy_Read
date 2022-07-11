@@ -40,8 +40,8 @@ dependencies:
   flutter_svg: ^1.1.0 # For some svgs
   intl: ^0.17.0 # Provides special formating features
   google_sign_in: ^5.3.3 # For google auth
-  dio: ^4.0.6 # For network calls
   flutter_facebook_auth: ^4.3.4+2
+  intl_phone_field: ^3.1.0
 
 dev_dependencies:
   flutter_test:

@@ -1,10 +1,12 @@
 import 'package:easy_read/shared/util/my_winged_divider.dart';
 import 'package:easy_read/shared/util/social_media_icon.dart';
+import 'package:easy_read/shared/validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:easy_read/shared/util/my_primary_button.dart';
 import 'package:easy_read/shared/util/my_text_input_field.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl_phone_field/phone_number.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({
@@ -17,12 +19,13 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
-  String firstName = '';
-  String lastName = '';
-  String email = '';
-  String phoneNumber = '';
-  String password = '';
-  bool stayLoggedIn = false;
+  final Validator _validator = Validator();
+
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? phoneNumber;
+  String? password;
 
   @override
   Widget build(BuildContext context) {
@@ -32,47 +35,40 @@ class _SignUpFormState extends State<SignUpForm> {
           children: [
             MyTextInputField(
               hintText: 'First Name',
-              textInputType: TextInputType.name,
+              keyboardType: TextInputType.name,
               onChanged: (String value) => setState(() => firstName = value),
-              validator: (String? val) =>
-                  val!.isEmpty ? 'Enter your first name' : null,
+              validator: _validator.validateName,
             ),
             MyTextInputField(
               hintText: 'Last Name',
-              textInputType: TextInputType.name,
+              keyboardType: TextInputType.name,
               onChanged: (String value) => setState(() => lastName = value),
-              validator: (String? val) =>
-                  val!.isEmpty ? 'Enter your last name' : null,
+              validator: _validator.validateName,
             ),
             MyTextInputField(
               hintText: 'Email Address',
-              textInputType: TextInputType.emailAddress,
+              keyboardType: TextInputType.emailAddress,
               onChanged: (String value) => setState(() => email = value),
-              validator: (String? val) =>
-                  val!.isEmpty ? 'Enter an email' : null,
+              validator: _validator.validateEmail,
             ),
-            MyTextInputField(
-              hintText: 'Phone number',
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp('[0-9+]')),
-              ],
-              textInputType: TextInputType.number,
-              onChanged: (String value) => setState(() => phoneNumber = value),
-              validator: (String? val) =>
-                  val!.isEmpty ? 'Enter phone number' : null,
+            IntlPhoneField(
+              decoration: decorateTextInput(hintText: "Phone Number"),
+              onChanged: (PhoneNumber phone) =>
+                  setState(() => phoneNumber = phone.completeNumber),
+              initialCountryCode: "NG",
+              disableLengthCheck: true,
             ),
             MyTextInputField(
               hintText: 'Password',
-              textInputType: TextInputType.text,
+              keyboardType: TextInputType.text,
               obscureText: true,
               onChanged: (String value) => setState(() => password = value),
-              validator: validatePassword,
+              validator: _validator.validatePassword,
             ),
             Padding(
               padding: const EdgeInsets.only(top: myDefaultSize * 2.2),
               child: MyPrimaryButton(
                 text: 'Sign Up',
-                // bgColor: Colors.transparent,
                 press: () {
                   if (_formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -110,19 +106,5 @@ class _SignUpFormState extends State<SignUpForm> {
             const SizedBox(height: myDefaultSize * 2),
           ],
         ));
-  }
-
-  String? validatePassword(String? val) {
-    if (val!.isEmpty) {
-      return 'Must be more than 6 characters\nMust contain at least one uppercase letter\nMust have at least one number';
-    } else if (val.length < 6) {
-      return 'Must be more than 6 characters';
-    } else if (!val.contains(RegExp(r'[A-Z]'))) {
-      return 'Must contain at least one uppercase letter';
-    } else if (!val.contains(RegExp(r'[0-9]'))) {
-      return 'Must have at least one number';
-    }
-
-    return '';
   }
 }

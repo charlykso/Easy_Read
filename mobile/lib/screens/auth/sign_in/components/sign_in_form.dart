@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:easy_read/shared/util/my_primary_button.dart';
 import 'package:easy_read/shared/util/my_text_input_field.dart';
-import 'package:flutter/services.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl_phone_field/phone_number.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({
@@ -19,9 +20,9 @@ class SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<SignInForm> {
   final _formKey = GlobalKey<FormState>();
+
   String phoneNumber = '';
   String password = '';
-  bool stayLoggedIn = false;
 
   AuthService authService = AuthService();
 
@@ -76,67 +77,36 @@ class _SignInFormState extends State<SignInForm> {
         key: _formKey,
         child: Column(
           children: [
-            MyTextInputField(
-              hintText: 'Phone Number',
-              onChanged: (String value) => setState(() => phoneNumber = value),
-              inputFormatters: [
-                //TODO: Change this regexp when implementing signin with phone number and password
-                FilteringTextInputFormatter.allow(RegExp('[0-9+]')),
-              ],
-              textInputType: TextInputType.number,
+            IntlPhoneField(
+              decoration: decorateTextInput(hintText: "Phone Number"),
+              onChanged: (PhoneNumber phone) =>
+                  setState(() => phoneNumber = phone.completeNumber),
+              initialCountryCode: "NG",
+              autovalidateMode: AutovalidateMode.disabled,
+              disableLengthCheck: true,
             ),
             MyTextInputField(
               hintText: 'Password',
-              textInputType: TextInputType.text,
+              keyboardType: TextInputType.text,
               obscureText: true,
               onChanged: (String value) => setState(() => password = value),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: myDefaultSize),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Transform.scale(
-                        scale: 1.5,
-                        child: Checkbox(
-                          value: stayLoggedIn,
-                          onChanged: (bool? value) =>
-                              setState(() => stayLoggedIn = value!),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(myDefaultSize * 0.5),
-                          ),
-                          fillColor: MaterialStateProperty.resolveWith<Color?>(
-                              getColor),
-                        ),
-                      ),
-                      Text(
-                        'Stay Logged In',
-                        style: TextStyle(
-                          fontSize: size.width > 360
-                              ? myDefaultSize
-                              : myDefaultSize * 0.8,
-                          color: Colors.black.withOpacity(.6),
-                        ),
-                      ),
-                    ],
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Forgot Your Password?',
-                      style: TextStyle(
-                        fontSize: size.width > 360
-                            ? myDefaultSize
-                            : myDefaultSize * 0.8,
-                        color: Colors.black.withOpacity(.6),
-                      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Forgot Your Password?',
+                    style: TextStyle(
+                      fontSize: size.width > 360
+                          ? myDefaultSize
+                          : myDefaultSize * 0.8,
+                      color: myPrimaryColor,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: myDefaultSize * 1.5),

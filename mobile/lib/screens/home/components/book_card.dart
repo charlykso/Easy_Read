@@ -1,4 +1,4 @@
-import 'package:easy_read/model/book.dart';
+import 'package:easy_read/models/book.dart';
 import 'package:easy_read/screens/detail/detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_read/shared/helpers.dart';
