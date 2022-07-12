@@ -13,9 +13,11 @@ namespace API.Controllers
   public class UserController : ControllerBase
   {
     private readonly IUser? _iUser;
-    public UserController(IUser iUser)
+    private readonly IConfiguration _IConfig;
+    public UserController(IUser iUser, IConfiguration IConfig)
     {
       _iUser = iUser;
+      _IConfig = IConfig;
     }
 
     //api/user/GetAllUsers
@@ -30,7 +32,6 @@ namespace API.Controllers
       }
       catch (System.Exception ex)
       {
-
         return BadRequest(ex.Message);
       }
     }
@@ -46,6 +47,33 @@ namespace API.Controllers
       }
       catch (System.Exception ex)
       {
+        return BadRequest(ex.Message);
+      }
+    }
+
+    //api/user/verifyUser
+    [HttpPost("VerifyUser")]
+    public ActionResult VerifyUserPhone([FromForm] UserModel newUser)
+    {
+      try
+      {
+        if (ModelState.IsValid)
+        {
+          var phoneExist = _iUser!.CheckPhone(newUser.Phone_no!);
+          if (phoneExist == "Not Exist")
+          {
+            var code = new VeriffyPhoneNo(_IConfig);
+            var dCode = code.verifyPhone(newUser.Phone_no!);
+
+            return Ok(dCode);
+          }
+          return BadRequest("The phone number already exist");
+        }
+        return BadRequest("Invalid input format");
+      }
+      catch (System.Exception ex)
+      {
+
         return BadRequest(ex.Message);
       }
     }
@@ -67,7 +95,9 @@ namespace API.Controllers
         user.Created_at = DateTime.Now;
 
         _iUser!.CreateUser(user);
-        return Ok(user);
+        var newToken = new GenerateToken(_IConfig);
+        var token = newToken.GenerateTokenForUser(user);
+        return Ok(token);
       }
       catch (System.Exception ex)
       {
