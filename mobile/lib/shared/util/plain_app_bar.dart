@@ -6,6 +6,7 @@ AppBar plainAppBar({
   Color? backgroundColor = Colors.transparent,
   Color? surfaceTintColor = Colors.white,
   List<Widget>? actions,
+  Widget? title,
 }) {
   return AppBar(
     leading: IconButton(

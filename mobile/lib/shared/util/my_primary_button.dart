@@ -27,11 +27,9 @@ class MyPrimaryButton extends StatelessWidget {
         onPressed: press,
         style: TextButton.styleFrom(
           backgroundColor: bgColor ?? myPrimaryColor,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(myDefaultSize * 1.4),
-            ),
-            side: BorderSide(color: myPrimaryColor),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(myDefaultSize * 1.4),
+            side: const BorderSide(color: myPrimaryColor),
           ),
         ),
         child: Text(
