@@ -9,7 +9,7 @@ namespace API.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  [Authorize(Roles = "Admin")]
+  //[Authorize(Roles = "Admin")]
   public class UserController : ControllerBase
   {
     private readonly IUser? _iUser;
@@ -62,9 +62,13 @@ namespace API.Controllers
           var phoneExist = _iUser!.CheckPhone(newUser.Phone_no!);
           if (phoneExist == "Not Exist")
           {
-            var code = new VeriffyPhoneNo(_IConfig);
+            var code = new VeriffyPhoneNo();
             var dCode = code.verifyPhone(newUser.Phone_no!);
 
+            if (dCode == "Request not sent")
+            {
+              return BadRequest("Request not sent");
+            }
             return Ok(dCode);
           }
           return BadRequest("The phone number already exist");

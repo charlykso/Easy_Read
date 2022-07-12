@@ -16,7 +16,10 @@
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:7144;http://localhost:5273",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "TWILIO_ACC_SID": "AC059c27940ac6cf32f62a6c439d36d6c6",
+        "TWILIO_AUTH_TOKEN": "251084cf1bd19d17b23858b464248e58",
+        "TWILIO_PHONE_NO": "+19854647430"
       }
     },
     "IIS Express": {

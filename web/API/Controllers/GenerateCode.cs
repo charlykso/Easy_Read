@@ -4,7 +4,7 @@ namespace API.Controllers
 {
     public class GenerateCode
     {
-        public string[] generateCode()
+        public string generateCode()
         {
                 string[] newNum = new string[6];
                 Random random = new Random();
@@ -13,7 +13,8 @@ namespace API.Controllers
                 {
                     newNum[i] = random.Next(10).ToString();
                 }
-                return (newNum);
+                string codeRand = string.Join("", newNum);
+                return (codeRand);
         }
     }
 }
