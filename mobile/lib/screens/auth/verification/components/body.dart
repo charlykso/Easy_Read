@@ -3,11 +3,16 @@ import 'package:easy_read/screens/auth/verification/components/resend_with_confi
 import 'package:easy_read/shared/helpers.dart' show myDefaultSize;
 import 'package:flutter/material.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Padding(
