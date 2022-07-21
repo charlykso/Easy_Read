@@ -23,8 +23,38 @@ namespace API.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user!.Id!.ToString()!),
                 new Claim(ClaimTypes.Name, user!.Firstname!),
                 new Claim(ClaimTypes.GivenName, user!.Lastname!),
+                new Claim(ClaimTypes.Role, user!.Role!),
                 new Claim(ClaimTypes.Email, user!.Email!),
                 new Claim(ClaimTypes.Hash, user!.Password!)
+            };
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(Claims),
+                Expires = DateTime.Now.AddHours(1),
+                SigningCredentials = credentials,
+                Issuer = _IConfig["Jwt: Issuer"],
+                Audience = _IConfig["Jwt: Audience"]
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+
+        }
+        public String GenerateTokenForSocialUser(User user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_IConfig!["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var Claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, user!.Id!.ToString()!),
+                new Claim(ClaimTypes.Name, user!.Firstname!),
+                new Claim(ClaimTypes.GivenName, user!.Lastname!),
+                new Claim(ClaimTypes.Role, user!.Role!),
+                new Claim(ClaimTypes.Email, user!.Email!)
             };
             var tokenDescriptor = new SecurityTokenDescriptor
             {

@@ -17,12 +17,12 @@ builder.Services.AddDbContext<EasyReaderDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EasyReaderAppCon"));
 });
 
+builder.Services.AddHttpClient();
 //For JWTBearer
-builder.Services.AddAuthentication(options => 
+builder.Services.AddAuthentication(opt => 
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
+    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 .AddCookie(cfg => cfg.SlidingExpiration = true)
 .AddJwtBearer(options => 
@@ -76,7 +76,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// app.UseAuthentication();
+
 app.UseStaticFiles();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

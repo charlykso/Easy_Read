@@ -1,9 +1,5 @@
-using System;
-using System.Text.Json;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.EnvironmentVariables;
 
 namespace API.Controllers
 {
