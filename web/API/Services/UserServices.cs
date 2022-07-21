@@ -16,14 +16,14 @@ namespace API.Services
         {
             try
             {
-                var emailExist = _easyReaderDBContext!.Users.FirstOrDefault(e => 
+                var checkUserEmail = _easyReaderDBContext!.Users.FirstOrDefault(e => 
                 e.Email!.ToLower() == Email.ToLower());
 
-                if (emailExist is null)
+                if (checkUserEmail is null)
                 {
-                    return("Not Exist");
+                    return("NOT EXIST");
                 }else{
-                    return("Exist");
+                    return("EXIST");
                 }
             }
             catch (System.Exception ex)
@@ -32,6 +32,29 @@ namespace API.Services
                 return(ex.Message);
             }
         }
+
+        public User GetUserByMail(string Email)
+        {
+            try
+            {
+                var user = _easyReaderDBContext!.Users.FirstOrDefault(e => 
+                e.Email!.ToLower() == Email.ToLower());
+                if (user is null)
+                {
+                    return(null!);
+                }else{
+                    return(user);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                
+                Console.WriteLine(ex.Message);
+                return (null!);
+            }
+
+        }
+        
 
         public string CheckPhone(string Phone_no)
         {

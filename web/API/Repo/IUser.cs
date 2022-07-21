@@ -6,6 +6,7 @@ namespace API.Repo
     {
         public IEnumerable<User> GetAllUsers();
         public User GetUser(int Id);
+        public User GetUserByMail(string Email);
         public string CheckEmail(string Email);
         public string CheckPhone(string Phone_no);
         public void CreateUser(User NewUser);
