@@ -12,6 +12,7 @@ class MyTextInputField extends StatelessWidget {
     required this.onChanged,
     this.validator,
     this.inputFormatters,
+    this.initialValue,
   }) : super(key: key);
 
   final String hintText;
@@ -20,6 +21,7 @@ class MyTextInputField extends StatelessWidget {
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
   final List<TextInputFormatter>? inputFormatters;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class MyTextInputField extends StatelessWidget {
         onChanged: onChanged,
         validator: validator,
         autovalidateMode: AutovalidateMode.onUserInteraction,
+        initialValue: initialValue,
       ),
     );
   }

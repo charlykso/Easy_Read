@@ -3,13 +3,17 @@ class Validator {
   final RegExp _validName =
           RegExp(r"^[a-z]{2,}[-\'\.]?$", caseSensitive: false),
       _validEmail = RegExp(
-          r"^[a-z0-9_]+([\.-]?[a-z0-9_]+)*@[a-z0-9_]+([\.-]?[a-z0-9_]+){2,63}(\.[a-z0-9_]{2,3})+$");
+          r"^[a-z0-9_]+([\.-]?[a-z0-9_]+)*@[a-z0-9_]+([\.-]?[a-z0-9_]+){2,63}(\.[a-z0-9_]{2,3})+$"),
+      _validPhoneNumber = RegExp(r"^\+[0-9]$");
 
   String? validateName(String? value) =>
       _validName.hasMatch(value!) ? null : 'Invalid name';
 
   String? validateEmail(String? value) =>
       _validEmail.hasMatch(value!) ? null : 'Invalid email address';
+
+  String? validatePhoneNumber(String? value) =>
+      _validPhoneNumber.hasMatch(value!) ? null : 'Invalid email address';
 
   String? validatePassword(String? value) {
     if (value!.isEmpty) {

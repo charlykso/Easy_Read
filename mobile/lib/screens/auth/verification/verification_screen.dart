@@ -13,7 +13,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: plainAppBar(context: context),
+      appBar: plainAppBar(
+        context: context,
+        hasLeadingBackButton: false,
+      ),
       body: const Body(),
     );
   }

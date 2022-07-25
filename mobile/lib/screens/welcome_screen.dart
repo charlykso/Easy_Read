@@ -1,4 +1,3 @@
-import 'package:easy_read/screens/auth/verification/verification_screen.dart';
 import 'package:easy_read/screens/auth/sign_up/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_read/shared/helpers.dart';
@@ -36,22 +35,9 @@ class WelcomeScreen extends StatelessWidget {
                 height: size.height * 0.4,
               ),
               const Spacer(flex: 2),
-              ElevatedButton(
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const VerificationScreen(),
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(primary: Colors.green),
-                child: const Text(
-                  "Verification",
-                  style: TextStyle(color: Color(0xffffffff)),
-                ),
-              ),
               MyPrimaryButton(
                 text: 'Create account',
-                press: () => Navigator.push(
+                press: () => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) => const SignUpScreen()),
@@ -61,7 +47,7 @@ class WelcomeScreen extends StatelessWidget {
               MyPrimaryButton(
                 text: 'Sign In',
                 bgColor: Colors.transparent,
-                press: () => Navigator.push(
+                press: () => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (BuildContext context) => const SignInScreen(),

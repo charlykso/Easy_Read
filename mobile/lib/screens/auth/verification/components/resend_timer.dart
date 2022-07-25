@@ -1,38 +1,43 @@
+import 'package:easy_read/providers/guest_notifier.dart';
 import 'package:easy_read/shared/animation/countdown_transition.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ResendTimer extends StatefulWidget {
+class ResendTimer extends ConsumerStatefulWidget {
   const ResendTimer({Key? key}) : super(key: key);
 
   @override
-  State<ResendTimer> createState() => _ResendTimerState();
+  ResendTimerState createState() => ResendTimerState();
 }
 
-class _ResendTimerState extends State<ResendTimer>
+class ResendTimerState extends ConsumerState<ResendTimer>
     with TickerProviderStateMixin {
-  late AnimationController controller;
   int waitTime = 60;
 
   @override
-  void initState() {
-    super.initState();
-    controller = AnimationController(
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final guestState = ref.watch(guestNotifierProvider);
+    guestState.countdownAnimationController = AnimationController(
       duration: Duration(seconds: waitTime),
       vsync: this,
     );
-    controller.forward();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
+    guestState.countdownAnimationController?.forward();
   }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final guestState = ref.watch(guestNotifierProvider);
+    guestState.countdownAnimationController?.addStatusListener((status) {
+      switch (status) {
+        case AnimationStatus.completed:
+          ref.watch(guestNotifierProvider.notifier).setCanResend(value: true);
+          break;
+        default:
+      }
+    });
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +48,8 @@ class _ResendTimerState extends State<ResendTimer>
         ),
         const SizedBox(width: myDefaultSize * 0.4),
         CountdownTransition(
-          animation: StepTween(begin: waitTime, end: 0).animate(controller),
+          animation: StepTween(begin: waitTime, end: 0)
+              .animate(guestState.countdownAnimationController!),
         ),
       ],
     );

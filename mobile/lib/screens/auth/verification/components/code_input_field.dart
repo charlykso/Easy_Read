@@ -1,16 +1,19 @@
+import 'package:easy_read/providers/guest_notifier.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CodeInputField extends StatelessWidget {
   const CodeInputField({
     Key? key,
+    required this.index,
   }) : super(key: key);
+
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-
     return SizedBox(
       height: 50,
       width: 50,
@@ -23,28 +26,37 @@ class CodeInputField extends StatelessWidget {
             BoxShadow(
               color: Colors.black87.withOpacity(.3),
               offset: const Offset(0, .75),
-              blurRadius: 25,
-              spreadRadius: 1,
+              blurRadius: 5,
+              spreadRadius: .3,
             ),
           ],
         ),
-        child: TextFormField(
-          onChanged: (value) {
-            if (value.length == 1) {
-              FocusScope.of(context).nextFocus();
-            }
+        child: Consumer(
+          builder: (_, ref, __) {
+            final guestNotifier = ref.watch(guestNotifierProvider.notifier);
+
+            return TextFormField(
+              onChanged: (value) {
+                if (value.length == 1) {
+                  guestNotifier.setInputCode(userInput: value, index: index);
+                  FocusScope.of(context).nextFocus();
+                }
+              },
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  ?.copyWith(fontWeight: FontWeight.bold),
+              keyboardType: TextInputType.number,
+              textAlign: TextAlign.center,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(1),
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(borderSide: BorderSide.none),
+              ),
+            );
           },
-          style:
-              theme.textTheme.headline6?.copyWith(fontWeight: FontWeight.bold),
-          keyboardType: TextInputType.number,
-          textAlign: TextAlign.center,
-          inputFormatters: [
-            LengthLimitingTextInputFormatter(1),
-            FilteringTextInputFormatter.digitsOnly,
-          ],
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(borderSide: BorderSide.none),
-          ),
         ),
       ),
     );

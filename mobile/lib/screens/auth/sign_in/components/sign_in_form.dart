@@ -19,12 +19,18 @@ class SignInForm extends StatefulWidget {
 }
 
 class _SignInFormState extends State<SignInForm> {
-  final _formKey = GlobalKey<FormState>();
+  late NavigatorState _navigator;
 
+  final _formKey = GlobalKey<FormState>();
   String phoneNumber = '';
   String password = '';
-
   AuthService authService = AuthService();
+
+  @override
+  void didChangeDependencies() {
+    _navigator = Navigator.of(context);
+    super.didChangeDependencies();
+  }
 
   signInWithFacebook() async {
     final String? user = await authService.signInWithFacebook();
@@ -40,7 +46,7 @@ class _SignInFormState extends State<SignInForm> {
       );
     } else {
       "$user is ready!".log();
-      Navigator.of(context).pushReplacement(
+      _navigator.pushReplacement(
         MaterialPageRoute(
           builder: (context) => HomeScreen(),
         ),
@@ -82,8 +88,6 @@ class _SignInFormState extends State<SignInForm> {
               onChanged: (PhoneNumber phone) =>
                   setState(() => phoneNumber = phone.completeNumber),
               initialCountryCode: "NG",
-              autovalidateMode: AutovalidateMode.disabled,
-              disableLengthCheck: true,
             ),
             MyTextInputField(
               hintText: 'Password',

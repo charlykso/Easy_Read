@@ -7,15 +7,18 @@ AppBar plainAppBar({
   Color? surfaceTintColor = Colors.white,
   List<Widget>? actions,
   Widget? title,
+  bool hasLeadingBackButton = true,
 }) {
   return AppBar(
-    leading: IconButton(
-      onPressed: () => Navigator.pop(context),
-      icon: const Icon(
-        Icons.arrow_back_ios_new,
-        color: myPrimaryColor,
-      ),
-    ),
+    leading: hasLeadingBackButton
+        ? IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+              color: myPrimaryColor,
+            ),
+          )
+        : null,
     backgroundColor: backgroundColor,
     surfaceTintColor: surfaceTintColor,
     actions: actions,
