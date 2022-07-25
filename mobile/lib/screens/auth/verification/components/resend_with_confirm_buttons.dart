@@ -49,7 +49,7 @@ class ResendWithConfirmButtons extends ConsumerWidget {
               press: resendCode,
             ),
           ),
-          crossFadeState: guestState.canResend
+          crossFadeState: guestState.canResend!
               ? CrossFadeState.showSecond
               : CrossFadeState.showFirst,
           duration: myAnimationDuration,
@@ -58,7 +58,7 @@ class ResendWithConfirmButtons extends ConsumerWidget {
         CustomButton(
           text: "Confirm",
           press: () {
-            if (guestState.verificationCode == guestState.inputCode) {
+            if (guestNotifier.validateVerificationCode()) {
               //- At the end, clear temp user state
               // guestNotifier.reset();
               // "After reset guest state fn is\n${guestState.firstName}".log();
@@ -71,7 +71,7 @@ class ResendWithConfirmButtons extends ConsumerWidget {
                 ),
               );
             } else {
-              "User input is - ${guestState.inputCode}".log();
+              "User input is - ${guestState.userInputCodes?.join()}".log();
               "verification code is ${guestState.verificationCode}".log();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

@@ -10,7 +10,7 @@ class GuestState {
     this.phoneNumber,
     this.password,
     this.verificationCode,
-    this.inputCode,
+    this.userInputCodes,
     this.canResend = false,
     this.countdownAnimationController,
   });
@@ -27,8 +27,8 @@ class GuestState {
   String? verificationCode;
 
   /// Verification code entered by user on `VerificationScreen`
-  String? inputCode;
-  bool canResend;
+  List<String?>? userInputCodes;
+  bool? canResend = false;
 
   GuestState copyWith({
     String? firstName,
@@ -37,9 +37,9 @@ class GuestState {
     PhoneNumber? phoneNumber,
     String? password,
     String? verificationCode,
-    String? inputCode,
     bool? canResend,
     AnimationController? countdownController,
+    List<String?>? inputCodes,
   }) {
     return GuestState(
       firstName: firstName ?? this.firstName,
@@ -48,7 +48,7 @@ class GuestState {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       password: password ?? this.password,
       verificationCode: verificationCode ?? this.verificationCode,
-      inputCode: inputCode ?? this.inputCode,
+      userInputCodes: inputCodes ?? userInputCodes,
       canResend: canResend ?? this.canResend,
       countdownAnimationController:
           countdownController ?? countdownAnimationController,
