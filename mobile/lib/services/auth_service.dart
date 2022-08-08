@@ -9,7 +9,7 @@ class AuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   var dio = Dio();
   String? userToken = "user fake token";
-  String address = "https://192.168.0.100:7144";
+  String address = "https://192.168.1.103:7144";
 
   Future<String?> signInWithGoogle() async {
     try {
