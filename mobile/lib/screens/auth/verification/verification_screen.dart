@@ -1,12 +1,15 @@
+import 'package:easy_read/services/dialog_helper.dart';
 import 'package:easy_read/shared/util/plain_app_bar.dart';
 import 'package:easy_read/providers/guest_notifier.dart';
-import 'package:easy_read/screens/auth/sign_up/sign_up_screen.dart';
 import 'package:easy_read/screens/auth/verification/components/resend_timer.dart';
 import 'package:easy_read/screens/auth/verification/components/resend_with_confirm_buttons.dart';
-import 'package:easy_read/shared/helpers.dart' show myDefaultSize;
+import 'package:easy_read/shared/helpers.dart';
+import 'package:easy_read/shared/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl_phone_field/phone_number.dart';
 
 class VerificationScreen extends ConsumerStatefulWidget {
   const VerificationScreen({Key? key}) : super(key: key);
@@ -45,7 +48,7 @@ class VerificationScreenState extends ConsumerState<VerificationScreen> {
                 Text(
                   "Verify Mobile Number",
                   style: Theme.of(context).textTheme.headline4?.copyWith(
-                        color: Colors.black,
+                        color: Theme.of(context).primaryColor,
                       ),
                 ),
                 const Text(
@@ -63,10 +66,54 @@ class VerificationScreenState extends ConsumerState<VerificationScreen> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignUpScreen())),
+                      onPressed: () => showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Change phone number'),
+                          content: IntlPhoneField(
+                            decoration:
+                                decorateTextInput(hintText: "Phone Number")
+                                    .copyWith(
+                                        border: null,
+                                        focusedBorder: null,
+                                        errorBorder: null),
+                            onChanged: (PhoneNumber phone) =>
+                                guestState.phoneNumber = phone,
+                            initialCountryCode: "NG",
+                            validator: (PhoneNumber? value) => Validator()
+                                .validatePhoneNumber(value?.completeNumber),
+                            initialValue: guestState.phoneNumber?.number,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 0, vertical: myDefaultSize * .6),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'Cancel'),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                final guestNotifier =
+                                    ref.watch(guestNotifierProvider.notifier);
+                                dynamic result = await guestNotifier
+                                    .requestVerificationCodeFromApi();
+
+                                if (result != null &&
+                                    result.contains(RegExp(r"^[0-9]{6}$"))) {
+                                  guestState.verificationCode = result;
+                                  guestNotifier.resetOnResend();
+
+                                  Navigator.pop(context);
+                                } else {
+                                  DialogHelper.showErrorDialog(
+                                      context: context, description: result);
+                                }
+                              },
+                              child: const Text('Save'),
+                            ),
+                          ],
+                        ),
+                      ),
                       child: const Text("Change phone number?"),
                     ),
                   ],

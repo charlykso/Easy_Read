@@ -10,6 +10,7 @@ AppBar plainAppBar({
   bool hasLeadingBackButton = true,
 }) {
   return AppBar(
+    automaticallyImplyLeading: hasLeadingBackButton,
     leading: hasLeadingBackButton
         ? IconButton(
             onPressed: () => Navigator.pop(context),

@@ -1,5 +1,6 @@
 import 'package:easy_read/providers/guest_notifier.dart';
 import 'package:easy_read/screens/auth/verification/verification_screen.dart';
+import 'package:easy_read/services/dialog_helper.dart';
 import 'package:easy_read/shared/util/my_winged_divider.dart';
 import 'package:easy_read/shared/util/social_media_icon.dart';
 import 'package:easy_read/shared/validator.dart';
@@ -74,7 +75,6 @@ class SignUpForm extends ConsumerWidget {
                   if (result != null &&
                       result.contains(RegExp(r"^[0-9]{6}$"))) {
                     guestState.verificationCode = result;
-                    "Verification code is ${guestState.verificationCode}".log();
 
                     Navigator.pushReplacement(
                       context,
@@ -82,8 +82,8 @@ class SignUpForm extends ConsumerWidget {
                           builder: (context) => const VerificationScreen()),
                     );
                   } else {
-                    //TODO: Handle errors properly
-                    "$result".log();
+                    DialogHelper.showErrorDialog(
+                        context: context, description: result);
                   }
                 }
               },

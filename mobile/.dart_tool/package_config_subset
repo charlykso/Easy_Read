@@ -118,6 +118,10 @@ lints
 2.17
 file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/lints-2.0.0/
 file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/lints-2.0.0/lib/
+logger
+2.12
+file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/logger-1.1.0/
+file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/logger-1.1.0/lib/
 matcher
 2.12
 file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.11/
@@ -324,6 +328,6 @@ file:///home/miralo/snap/flutter/common/flutter/packages/flutter_web_plugins/
 file:///home/miralo/snap/flutter/common/flutter/packages/flutter_web_plugins/lib/
 easy_read
 2.17
-file:///media/miralo/CODE/projects/full_stack/Easy_Read/mobile/
-file:///media/miralo/CODE/projects/full_stack/Easy_Read/mobile/lib/
+file:///mnt/code/projects/full_stack/Easy_Read/mobile/
+file:///mnt/code/projects/full_stack/Easy_Read/mobile/lib/
 2

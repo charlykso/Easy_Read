@@ -1,6 +1,7 @@
 import 'dart:developer' as devtools show log;
 
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 const myDefaultSize = 14.0;
 const myAnimationDuration = Duration(milliseconds: 200);
@@ -21,6 +22,14 @@ extension MaterialStateSet on Set<MaterialState> {
 extension Log on Object {
   void log() => devtools.log(toString());
 }
+
+Logger logger = Logger(
+  // Customize the printer
+  printer: PrettyPrinter(
+    methodCount: 0,
+    printTime: false,
+  ),
+);
 
 Color? getColor(Set<MaterialState> states) {
   if (states.hasError) {

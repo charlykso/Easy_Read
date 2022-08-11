@@ -200,6 +200,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "logger",
+      "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/logger-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "matcher",
       "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.11",
       "packageUri": "lib/",
@@ -494,7 +500,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2022-08-03T17:52:51.501945Z",
+  "generated": "2022-08-08T12:41:31.844442Z",
   "generator": "pub",
   "generatorVersion": "2.17.6"
 }

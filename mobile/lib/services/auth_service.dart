@@ -1,15 +1,23 @@
 import 'package:easy_read/models/user.dart';
+import 'package:easy_read/services/app_exceptions.dart';
 import 'package:easy_read/shared/helpers.dart';
+import 'package:easy_read/shared/logger_interceptor.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:dio/dio.dart';
 
 class AuthService {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  var dio = Dio();
   String? userToken = "user fake token";
   String address = "https://192.168.1.103:7144";
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  AuthService()
+      : _dio = Dio(
+          BaseOptions(
+            connectTimeout: 10000,
+          ),
+        )..interceptors.add(LoggerInterceptor());
+  late final Dio _dio;
 
   Future<String?> signInWithGoogle() async {
     try {
@@ -83,16 +91,15 @@ class AuthService {
   Future<String?> getVerificationCode({required User user}) async {
     try {
       var formData = FormData.fromMap(user.toMap());
-      Response response = await dio.post(
+      Response response = await _dio.post(
         "$address/api/user/verifyUser",
         data: formData,
       );
 
       return response.data;
-    } catch (e) {
-      // TODO: Handle all errors properly
-      e.log();
-      return null;
+    } on DioError catch (e) {
+      final String message = DioException.fromDioError(e).toString();
+      return message;
     }
   }
 

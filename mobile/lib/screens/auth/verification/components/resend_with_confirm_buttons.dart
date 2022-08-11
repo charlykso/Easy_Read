@@ -1,5 +1,6 @@
 import 'package:easy_read/providers/guest_notifier.dart';
 import 'package:easy_read/screens/auth/verification/components/custom_button.dart';
+import 'package:easy_read/services/dialog_helper.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,10 +21,8 @@ class ResendWithConfirmButtons extends ConsumerWidget {
       if (result != null && result.contains(RegExp(r"^[0-9]{6}$"))) {
         guestState.verificationCode = result;
         guestNotifier.resetOnResend();
-        "New Verification code is ${guestState.verificationCode}".log();
       } else {
-        //TODO: Handle errors properly
-        "$result".log();
+        DialogHelper.showErrorDialog(context: context, description: result);
       }
     }
 
