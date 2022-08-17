@@ -14,7 +14,18 @@ class GuestNotifier extends StateNotifier<GuestState> {
 
   Future<String?> requestVerificationCodeFromApi() async =>
       await _authService.getVerificationCode(
-        user: User(
+        u: User(
+          firstName: state.firstName,
+          lastName: state.lastName,
+          email: state.emailAddress,
+          phoneNumber: state.phoneNumber?.completeNumber,
+          password: state.password,
+        ),
+      );
+
+  Future<String?> signUserUp() async =>
+      await _authService.signUpWithPhoneNumberAndPassword(
+        u: User(
           firstName: state.firstName,
           lastName: state.lastName,
           email: state.emailAddress,

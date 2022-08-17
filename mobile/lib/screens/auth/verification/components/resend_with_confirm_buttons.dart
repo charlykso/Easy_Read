@@ -1,5 +1,6 @@
 import 'package:easy_read/providers/guest_notifier.dart';
 import 'package:easy_read/screens/auth/verification/components/custom_button.dart';
+import 'package:easy_read/screens/home/home_screen.dart';
 import 'package:easy_read/services/dialog_helper.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:flutter/material.dart';
@@ -56,22 +57,26 @@ class ResendWithConfirmButtons extends ConsumerWidget {
         SizedBox(width: size.width * 0.08),
         CustomButton(
           text: "Confirm",
-          press: () {
+          press: () async {
             if (guestNotifier.validateVerificationCode()) {
-              //- At the end, clear temp user state
-              // guestNotifier.reset();
-              // "After reset guest state fn is\n${guestState.firstName}".log();
+              // Sign user in using the api
+              String? result = await guestNotifier.signUserUp();
 
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  duration: myAnimationDuration * 4,
-                  backgroundColor: myPrimaryColor,
-                  content: const Text('Correct OTP!'),
-                ),
-              );
+              if (result!.contains(RegExp(r"^error"))) {
+                DialogHelper.showErrorDialog(
+                    context: context, description: result.substring(0, 5));
+              } else {
+                //TODO: Save the token permanently on the device
+                //TODO: Fetch user details
+
+                // navigate to home screen
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
+              }
+
+              //- At the end, clear temp user state
+              guestNotifier.reset();
             } else {
-              "User input is - ${guestState.userInputCodes?.join()}".log();
-              "verification code is ${guestState.verificationCode}".log();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   duration: myAnimationDuration * 4,

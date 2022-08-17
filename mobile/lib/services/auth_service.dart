@@ -8,7 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:dio/dio.dart';
 
 class AuthService {
-  String? userToken = "user fake token";
+  String? userToken = "";
   String address = "https://192.168.1.103:7144";
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   AuthService()
@@ -86,13 +86,23 @@ class AuthService {
 
   Future<String?> signInWithPhoneNumberAndPassWord() async => "user token";
 
-  Future<String?> signUpWithPhoneNumberAndPassword() async => "user token";
-
-  Future<String?> getVerificationCode({required User user}) async {
+  Future<String?> signUpWithPhoneNumberAndPassword({required User u}) async {
     try {
-      var formData = FormData.fromMap(user.toMap());
+      var formData = FormData.fromMap(u.toMap());
+      Response result =
+          await _dio.post("$address/api/createuser", data: formData);
+
+      return result.data;
+    } on DioError catch (e) {
+      return "error${DioException.fromDioError(e).toString()}";
+    }
+  }
+
+  Future<String?> getVerificationCode({required User u}) async {
+    try {
+      var formData = FormData.fromMap(u.toMap());
       Response response = await _dio.post(
-        "$address/api/user/verifyUser",
+        "$address/api/user/verifyuser",
         data: formData,
       );
 

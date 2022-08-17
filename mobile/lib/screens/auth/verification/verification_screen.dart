@@ -95,7 +95,7 @@ class VerificationScreenState extends ConsumerState<VerificationScreen> {
                               onPressed: () async {
                                 final guestNotifier =
                                     ref.watch(guestNotifierProvider.notifier);
-                                dynamic result = await guestNotifier
+                                String? result = await guestNotifier
                                     .requestVerificationCodeFromApi();
 
                                 if (result != null &&
