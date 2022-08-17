@@ -1,13 +1,12 @@
-import 'dart:developer' as devtools show log;
-
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'dart:developer' as devtools show log;
 
-const myDefaultSize = 14.0;
+const myDefaultSize = 16.0;
 const myAnimationDuration = Duration(milliseconds: 200);
 const myTextColor = Color(0xbf212121);
-const myPrimaryColor = Color(0xFF4CAF50);
-const mySecondaryColor = Color(0xFF388E3C);
+const myPrimaryColor = Color(0xFF336591);
+const mySecondaryColor = Color.fromARGB(255, 0, 0, 0);
 const myLightGreyColor = Color(0x66efefef);
 final Color myErrorColor = Colors.amber[600] ?? Colors.amber;
 
@@ -17,12 +16,22 @@ extension MaterialStateSet on Set<MaterialState> {
   bool get isSelected => contains(MaterialState.selected);
 }
 
-// TODO: Remove this method on release build
-// * For Debug mode only
+// Extensions
+//* For Debug mode only
 extension Log on Object {
   void log() => devtools.log(toString());
 }
 
+extension StringCasingExtension on String {
+  String toCapitalized() =>
+      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ')
+      .split(' ')
+      .map((str) => str.toCapitalized())
+      .join(' ');
+}
+
+//* Debug mode
 Logger logger = Logger(
   // Customize the printer
   printer: PrettyPrinter(

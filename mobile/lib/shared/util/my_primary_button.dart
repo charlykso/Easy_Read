@@ -7,8 +7,8 @@ class MyPrimaryButton extends StatelessWidget {
     Key? key,
     required this.text,
     this.press,
-    this.height = myDefaultSize * 4,
-    this.width = myDefaultSize * 16,
+    this.height = myDefaultSize * 3,
+    this.width,
     this.bgColor,
   }) : super(key: key);
 
@@ -20,15 +20,17 @@ class MyPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return SizedBox(
       height: height,
-      width: width,
+      width: width ?? myDefaultSize * 18,
       child: TextButton(
         onPressed: press,
         style: TextButton.styleFrom(
           backgroundColor: bgColor ?? myPrimaryColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(myDefaultSize * 1.4),
+            borderRadius: BorderRadius.circular(myDefaultSize * .8),
             side: const BorderSide(color: myPrimaryColor),
           ),
         ),

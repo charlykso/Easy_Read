@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:easy_read/screens/welcome_screen.dart';
+import 'package:easy_read/screens/wrapper.dart';
 import 'package:easy_read/shared/my_http_overrides.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.robotoTextTheme().apply(bodyColor: myTextColor),
         errorColor: myErrorColor,
       ),
-      home: const WelcomeScreen(),
+      home: const Wrapper(),
     );
   }
 }
