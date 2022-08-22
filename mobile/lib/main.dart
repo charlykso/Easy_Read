@@ -23,9 +23,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: myPrimaryColor,
-        primarySwatch: Colors.green,
         useMaterial3: true,
-        textTheme: GoogleFonts.robotoTextTheme().apply(bodyColor: myTextColor),
+        textTheme: GoogleFonts.robotoTextTheme()
+            .apply(bodyColor: myTextColor, displayColor: myTextColor),
         errorColor: myErrorColor,
       ),
       home: const Wrapper(),

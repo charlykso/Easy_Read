@@ -12,33 +12,30 @@ class Body extends StatelessWidget {
     final ThemeData themeData = Theme.of(context);
 
     return SafeArea(
-      child: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: myDefaultSize * 2),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: myDefaultSize * 1.7,
-                  vertical: myDefaultSize * 1.7,
-                ),
-                child: Text(
-                  'Sign In',
-                  style: themeData.textTheme.headline3!.copyWith(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: myDefaultSize * 2),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: myDefaultSize * 1.7,
+                vertical: myDefaultSize * 1.7,
+              ),
+              child: Text(
+                'Sign In',
+                style: themeData.textTheme.headline3!.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: myDefaultSize * 1.7),
-                child: SignInForm(),
-              ),
-            ],
-          ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: myDefaultSize * 1.7),
+              child: SignInForm(),
+            ),
+          ],
         ),
       ),
     );

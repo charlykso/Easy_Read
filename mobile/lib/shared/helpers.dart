@@ -4,9 +4,9 @@ import 'dart:developer' as devtools show log;
 
 const myDefaultSize = 16.0;
 const myAnimationDuration = Duration(milliseconds: 200);
-const myTextColor = Color(0xbf212121);
+const myTextColor = Color(0xFF000000);
 const myPrimaryColor = Color(0xFF336591);
-const mySecondaryColor = Color.fromARGB(255, 0, 0, 0);
+const mySecondaryColor = Color(0xFFEE8803);
 const myLightGreyColor = Color(0x66efefef);
 final Color myErrorColor = Colors.amber[600] ?? Colors.amber;
 
@@ -52,28 +52,16 @@ Color? getColor(Set<MaterialState> states) {
 InputDecoration decorateTextInput({required String hintText}) {
   return InputDecoration(
     filled: true,
-    fillColor: myLightGreyColor,
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(myDefaultSize * 1.43),
-      borderSide: const BorderSide(color: myPrimaryColor),
-    ),
+    fillColor: Colors.white,
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(myDefaultSize * 1.43),
+      borderRadius: BorderRadius.circular(myDefaultSize * .8),
       borderSide: BorderSide.none,
     ),
-    errorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(myDefaultSize * 1.43),
-      borderSide: BorderSide(color: myErrorColor),
-    ),
     contentPadding: const EdgeInsets.symmetric(
-      horizontal: myDefaultSize * 1.43,
-      vertical: myDefaultSize * 2,
+      horizontal: myDefaultSize,
+      vertical: myDefaultSize,
     ),
     hintText: hintText,
     hintStyle: const TextStyle(fontSize: myDefaultSize * 1.35),
-    focusedErrorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(myDefaultSize * 1.43),
-      borderSide: BorderSide(color: myErrorColor),
-    ),
   );
 }

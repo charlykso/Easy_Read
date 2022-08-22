@@ -1,13 +1,14 @@
 import 'package:easy_read/providers/guest_notifier.dart';
+import 'package:easy_read/screens/auth/sign_in/sign_in_screen.dart';
 import 'package:easy_read/screens/auth/verification/verification_screen.dart';
 import 'package:easy_read/services/dialog_helper.dart';
-import 'package:easy_read/shared/util/my_winged_divider.dart';
-import 'package:easy_read/shared/util/social_media_icon.dart';
 import 'package:easy_read/shared/validator.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:easy_read/shared/util/my_primary_button.dart';
 import 'package:easy_read/shared/util/my_text_input_field.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
@@ -41,19 +42,33 @@ class SignUpForm extends ConsumerWidget {
             initialValue: guestState.lastName,
           ),
           MyTextInputField(
-            hintText: 'Email Address',
+            hintText: 'Your Email',
             keyboardType: TextInputType.emailAddress,
             onChanged: (String value) => guestState.emailAddress = value,
             validator: validator.validateEmail,
             initialValue: guestState.emailAddress,
           ),
-          IntlPhoneField(
-            decoration: decorateTextInput(hintText: "Phone Number"),
-            onChanged: (PhoneNumber phone) => guestState.phoneNumber = phone,
-            initialCountryCode: "NG",
-            validator: (PhoneNumber? value) =>
-                validator.validatePhoneNumber(value?.completeNumber),
-            initialValue: guestState.phoneNumber?.number,
+          Padding(
+            padding: const EdgeInsets.only(bottom: myDefaultSize * 1.4),
+            child: Material(
+              elevation: 10.0,
+              shadowColor: Colors.black54,
+              borderRadius: BorderRadius.circular(myDefaultSize * .8),
+              child: IntlPhoneField(
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(11),
+                ],
+                decoration: decorateTextInput(hintText: "Phone Number")
+                    .copyWith(errorMaxLines: 1),
+                onChanged: (PhoneNumber phone) =>
+                    guestState.phoneNumber = phone,
+                initialCountryCode: "NG",
+                validator: (PhoneNumber? value) =>
+                    validator.validatePhoneNumber(value?.completeNumber),
+                initialValue: guestState.phoneNumber?.number,
+                disableLengthCheck: true,
+              ),
+            ),
           ),
           MyTextInputField(
             hintText: 'Password',
@@ -63,49 +78,58 @@ class SignUpForm extends ConsumerWidget {
             validator: validator.validatePassword,
             initialValue: guestState.password,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: myDefaultSize * 2.2),
-            child: MyPrimaryButton(
-              text: 'Sign Up',
-              press: () async {
-                if (formKey.currentState!.validate()) {
-                  dynamic result =
-                      await guestNotifier.requestVerificationCodeFromApi();
+          MyPrimaryButton(
+            text: 'Sign Up',
+            width: double.infinity,
+            press: () async {
+              if (formKey.currentState!.validate()) {
+                dynamic result =
+                    await guestNotifier.requestVerificationCodeFromApi();
 
-                  if (result != null &&
-                      result.contains(RegExp(r"^[0-9]{6}$"))) {
-                    guestState.verificationCode = result;
+                if (result != null && result.contains(RegExp(r"^[0-9]{6}$"))) {
+                  guestState.verificationCode = result;
 
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const VerificationScreen()),
-                    );
-                  } else {
-                    DialogHelper.showErrorDialog(
-                        context: context, description: result);
-                  }
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const VerificationScreen()),
+                  );
+                } else {
+                  DialogHelper.showErrorDialog(
+                      context: context, description: result);
                 }
-              },
-              height: myDefaultSize * 5,
-              width: double.infinity,
+              }
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: myDefaultSize),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.subtitle2,
+                    children: [
+                      const TextSpan(
+                        text: "I have an account. ",
+                      ),
+                      TextSpan(
+                        text: "Sign In",
+                        style: const TextStyle(color: myPrimaryColor),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const SignInScreen(),
+                                ),
+                              ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
-          const MyWingedDivider(text: 'OR'),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SocialMediaIcon(
-                imagePath: 'assets/icons/google-plus.svg',
-                tap: () {},
-              ),
-              SocialMediaIcon(
-                imagePath: 'assets/icons/facebook.svg',
-                tap: () {},
-              ),
-            ],
-          ),
-          const SizedBox(height: myDefaultSize * 2),
         ],
       ),
     );

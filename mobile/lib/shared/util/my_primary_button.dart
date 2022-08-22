@@ -10,36 +10,44 @@ class MyPrimaryButton extends StatelessWidget {
     this.height = myDefaultSize * 3,
     this.width,
     this.bgColor,
+    this.textSize,
+    this.textColor,
   }) : super(key: key);
 
   final String text;
   final Function()? press;
-  final double? height;
-  final double? width;
-  final Color? bgColor;
+  final double? height, width, textSize;
+  final Color? bgColor, textColor;
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-    return SizedBox(
+    return Container(
       height: height,
       width: width ?? myDefaultSize * 18,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(myDefaultSize * .8),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.grey,
+            offset: Offset(0, 2),
+            blurRadius: 3.0,
+            spreadRadius: .4,
+          ),
+        ],
+      ),
       child: TextButton(
         onPressed: press,
         style: TextButton.styleFrom(
-          backgroundColor: bgColor ?? myPrimaryColor,
+          backgroundColor: bgColor ?? mySecondaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(myDefaultSize * .8),
-            side: const BorderSide(color: myPrimaryColor),
           ),
         ),
         child: Text(
           text,
           style: TextStyle(
-            color: bgColor != null ? myPrimaryColor : Colors.white,
-            fontSize:
-                bgColor != null ? myDefaultSize * 1.5 : myDefaultSize * 1.25,
+            color: textColor ?? Colors.white,
+            fontSize: textSize ?? myDefaultSize * 1.25,
             fontWeight: FontWeight.w500,
           ),
         ),

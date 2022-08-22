@@ -70,7 +70,6 @@ class Feature extends StatelessWidget {
                   Text(
                     title.toTitleCase(),
                     style: themeData.textTheme.headline1!.copyWith(
-                      color: mySecondaryColor,
                       fontSize: myDefaultSize * 2,
                       fontWeight: FontWeight.bold,
                     ),
@@ -80,7 +79,6 @@ class Feature extends StatelessWidget {
                   Text(
                     description.toTitleCase(),
                     style: themeData.textTheme.headline3!.copyWith(
-                      color: mySecondaryColor,
                       fontSize: myDefaultSize * 1.3,
                     ),
                     textAlign: TextAlign.center,

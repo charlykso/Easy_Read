@@ -26,16 +26,21 @@ class MyTextInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: myDefaultSize),
-      child: TextFormField(
-        decoration: decorateTextInput(hintText: hintText),
-        inputFormatters: inputFormatters,
-        keyboardType: keyboardType,
-        obscureText: obscureText,
-        onChanged: onChanged,
-        validator: validator,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        initialValue: initialValue,
+      padding: const EdgeInsets.only(bottom: myDefaultSize * 1.4),
+      child: Material(
+        elevation: 10.0,
+        shadowColor: Colors.black54,
+        borderRadius: BorderRadius.circular(myDefaultSize * .8),
+        child: TextFormField(
+          decoration: decorateTextInput(hintText: hintText),
+          inputFormatters: inputFormatters,
+          keyboardType: keyboardType,
+          obscureText: obscureText,
+          onChanged: onChanged,
+          validator: validator,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          initialValue: initialValue,
+        ),
       ),
     );
   }

@@ -17,9 +17,8 @@ class CarouselDot extends StatelessWidget {
       height: myDefaultSize * .75,
       width: myDefaultSize * .75,
       decoration: BoxDecoration(
-        color: currentPage == index
-            ? mySecondaryColor
-            : mySecondaryColor.withOpacity(0.3),
+        color:
+            currentPage == index ? myTextColor : myTextColor.withOpacity(0.3),
         borderRadius: BorderRadius.circular(myDefaultSize * 0.8),
       ),
       margin: const EdgeInsets.only(right: myDefaultSize * .5),
