@@ -13,6 +13,7 @@ class MyTextInputField extends StatelessWidget {
     this.validator,
     this.inputFormatters,
     this.initialValue,
+    this.padding,
   }) : super(key: key);
 
   final String hintText;
@@ -22,11 +23,12 @@ class MyTextInputField extends StatelessWidget {
   final String? Function(String?)? validator;
   final List<TextInputFormatter>? inputFormatters;
   final String? initialValue;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: myDefaultSize * 1.4),
+      padding: padding ?? const EdgeInsets.only(bottom: myDefaultSize * 1.4),
       child: Material(
         elevation: 10.0,
         shadowColor: Colors.black54,

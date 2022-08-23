@@ -7,21 +7,23 @@ class SocialMediaIcon extends StatelessWidget {
     Key? key,
     this.tap,
     required this.imagePath,
+    this.color,
+    this.backgroundColor,
   }) : super(key: key);
 
   final Function()? tap;
   final String imagePath;
+  final Color? color, backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: tap,
       child: Container(
-        padding: const EdgeInsets.all(myDefaultSize * 1.5),
+        padding: const EdgeInsets.all(myDefaultSize),
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(width: 1.1, color: Colors.black.withOpacity(.01)),
-          color: myPrimaryColor.withOpacity(.3),
+          borderRadius: BorderRadius.circular(myDefaultSize),
+          color: backgroundColor ?? myPrimaryColor.withOpacity(.5),
           boxShadow: [
             BoxShadow(
               spreadRadius: 2,
@@ -33,9 +35,9 @@ class SocialMediaIcon extends StatelessWidget {
         ),
         child: SvgPicture.asset(
           imagePath,
-          height: myDefaultSize * 1.5,
-          width: myDefaultSize * 1.5,
-          color: myTextColor,
+          height: myDefaultSize * 1.3,
+          width: myDefaultSize * 1.3,
+          color: color ?? myTextColor,
         ),
       ),
     );

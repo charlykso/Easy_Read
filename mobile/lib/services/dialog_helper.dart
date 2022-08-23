@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
 class DialogHelper {
-  static Future<void> showErrorDialog(
-      {required BuildContext context, String? description}) async {
+  static Future<void> showErrorDialog({
+    required BuildContext context,
+    String? description,
+    String? title,
+  }) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'Error',
+            title ?? 'Operation failed',
             style: Theme.of(context)
                 .textTheme
                 .titleLarge

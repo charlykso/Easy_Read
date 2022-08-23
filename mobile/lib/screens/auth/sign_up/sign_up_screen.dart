@@ -10,17 +10,19 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: myPrimaryColor,
-      appBar: plainAppBar(
-        surfaceTintColor: myPrimaryColor,
-        context: context,
-        hasLeadingBackButton: false,
+    return GestureDetector(
+      onTap: FocusManager.instance.primaryFocus?.unfocus,
+      child: Scaffold(
+        backgroundColor: myPrimaryColor,
+        appBar: plainAppBar(
+          surfaceTintColor: myPrimaryColor,
+          context: context,
+          hasLeadingBackButton: false,
+        ),
+        body: const AuthScreenBackground(
+          child: Body(),
+        ),
       ),
-      body: const AuthScreenBackground(
-        child: Body(),
-      ),
-      resizeToAvoidBottomInset: true,
     );
   }
 }

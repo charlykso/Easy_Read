@@ -46,7 +46,7 @@ class WelcomeScreen extends StatelessWidget {
               const SizedBox(height: myDefaultSize),
               MyPrimaryButton(
                 text: 'Sign In',
-                bgColor: Colors.transparent,
+                backgroundColor: Colors.transparent,
                 press: () => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

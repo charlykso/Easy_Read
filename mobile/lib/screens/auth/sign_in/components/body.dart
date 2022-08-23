@@ -15,24 +15,22 @@ class Body extends StatelessWidget {
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: myDefaultSize * 2),
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: myDefaultSize * 1.7,
-                vertical: myDefaultSize * 1.7,
+                vertical: myDefaultSize * 1.3,
               ),
               child: Text(
                 'Sign In',
                 style: themeData.textTheme.headline3!.copyWith(
-                  color: Colors.black,
+                  color: myPrimaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: myDefaultSize * 1.7),
+              padding: EdgeInsets.symmetric(horizontal: myDefaultSize * 1.6),
               child: SignInForm(),
             ),
           ],

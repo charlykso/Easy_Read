@@ -1,7 +1,8 @@
+import 'package:easy_read/screens/auth/sign_up/sign_up_screen.dart';
 import 'package:easy_read/screens/home/home_screen.dart';
 import 'package:easy_read/services/auth_service.dart';
-import 'package:easy_read/shared/util/my_winged_divider.dart';
 import 'package:easy_read/shared/util/social_media_icon.dart';
+import 'package:easy_read/shared/util/toggle_auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:easy_read/shared/util/my_primary_button.dart';
@@ -83,11 +84,20 @@ class _SignInFormState extends State<SignInForm> {
         key: _formKey,
         child: Column(
           children: [
-            IntlPhoneField(
-              decoration: decorateTextInput(hintText: "Phone Number"),
-              onChanged: (PhoneNumber phone) =>
-                  setState(() => phoneNumber = phone.completeNumber),
-              initialCountryCode: "NG",
+            Padding(
+              padding: const EdgeInsets.only(bottom: myDefaultSize * 1.4),
+              child: Material(
+                elevation: 10.0,
+                shadowColor: Colors.black54,
+                borderRadius: BorderRadius.circular(myDefaultSize * .8),
+                child: IntlPhoneField(
+                  decoration: decorateTextInput(hintText: "Phone Number")
+                      .copyWith(errorMaxLines: 1),
+                  onChanged: (PhoneNumber phone) =>
+                      phoneNumber = phone.completeNumber,
+                  initialCountryCode: "NG",
+                ),
+              ),
             ),
             MyTextInputField(
               hintText: 'Password',
@@ -95,74 +105,78 @@ class _SignInFormState extends State<SignInForm> {
               obscureText: true,
               onChanged: (String value) => setState(() => password = value),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Forgot Your Password?',
-                    style: TextStyle(
-                      fontSize: size.width > 360
-                          ? myDefaultSize
-                          : myDefaultSize * 0.8,
-                      color: myPrimaryColor,
+            MyPrimaryButton(
+              text: 'Continue',
+              width: double.infinity,
+              press: () {
+                if (phoneNumber.trim().isEmpty || password.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      duration: myAnimationDuration,
+                      content: const Text(
+                        'Invalid email address or password',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      backgroundColor: Colors.red[700],
                     ),
-                  ),
-                ),
-              ],
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      duration: myAnimationDuration,
+                      content: Text(
+                        'It\'s valid for now!',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      backgroundColor: myPrimaryColor,
+                    ),
+                  );
+                }
+              },
             ),
             Padding(
-              padding: const EdgeInsets.only(top: myDefaultSize * 1.5),
-              child: MyPrimaryButton(
-                text: 'Sign In',
-                bgColor: Colors.transparent,
-                press: () {
-                  if (phoneNumber.trim().isEmpty || password.trim().isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        duration: myAnimationDuration,
-                        content: const Text(
-                          'Invalid email address or password',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        backgroundColor: Colors.red[700],
-                      ),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        duration: myAnimationDuration,
-                        content: Text(
-                          'It\'s valid for now!',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        backgroundColor: myPrimaryColor,
-                      ),
-                    );
-                  }
-                },
-                height: myDefaultSize * 5,
-                width: size.width,
+              padding: const EdgeInsets.only(
+                top: myDefaultSize,
+                bottom: myDefaultSize * .7,
+              ),
+              child: ToggleAuthScreen(
+                statement: "I don't have an account yet. ",
+                action: "Sign Up",
+                onTap: () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const SignUpScreen(),
+                  ),
+                ),
               ),
             ),
-            const MyWingedDivider(text: 'OR'),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SocialMediaIcon(
-                  imagePath: 'assets/icons/google-plus.svg',
-                  tap: signInWithGoogle,
-                ),
-                SocialMediaIcon(
-                  imagePath: 'assets/icons/facebook.svg',
-                  tap: signInWithFacebook,
-                ),
-              ],
+            Text(
+              "Sign in with",
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: myDefaultSize * .5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SocialMediaIcon(
+                    imagePath: 'assets/icons/google-plus.svg',
+                    tap: signInWithGoogle,
+                    color: Colors.red,
+                    backgroundColor: Colors.white,
+                  ),
+                  SocialMediaIcon(
+                    imagePath: 'assets/icons/facebook.svg',
+                    tap: signInWithFacebook,
+                    color: Colors.white,
+                    backgroundColor: Colors.blue[700],
+                  ),
+                ],
+              ),
             ),
           ],
         ));

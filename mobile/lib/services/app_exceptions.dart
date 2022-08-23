@@ -22,7 +22,8 @@ class DioException implements Exception {
         break;
       case DioErrorType.other:
         if (dioError.message.contains('SocketException')) {
-          errorMessage = 'No internet connection available';
+          errorMessage =
+              'Sorry, could not complete operation.\n Please check your internet connection and try again.';
           break;
         }
         errorMessage = 'Unexpected error occurred.';

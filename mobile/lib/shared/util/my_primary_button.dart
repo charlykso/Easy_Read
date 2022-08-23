@@ -9,7 +9,7 @@ class MyPrimaryButton extends StatelessWidget {
     this.press,
     this.height = myDefaultSize * 3,
     this.width,
-    this.bgColor,
+    this.backgroundColor,
     this.textSize,
     this.textColor,
   }) : super(key: key);
@@ -17,7 +17,7 @@ class MyPrimaryButton extends StatelessWidget {
   final String text;
   final Function()? press;
   final double? height, width, textSize;
-  final Color? bgColor, textColor;
+  final Color? backgroundColor, textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class MyPrimaryButton extends StatelessWidget {
       child: TextButton(
         onPressed: press,
         style: TextButton.styleFrom(
-          backgroundColor: bgColor ?? mySecondaryColor,
+          backgroundColor: backgroundColor ?? mySecondaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(myDefaultSize * .8),
           ),

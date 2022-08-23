@@ -2,8 +2,8 @@ import 'package:easy_read/providers/guest_notifier.dart';
 import 'package:easy_read/screens/auth/sign_in/sign_in_screen.dart';
 import 'package:easy_read/screens/auth/verification/verification_screen.dart';
 import 'package:easy_read/services/dialog_helper.dart';
+import 'package:easy_read/shared/util/toggle_auth_screen.dart';
 import 'package:easy_read/shared/validator.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:easy_read/shared/util/my_primary_button.dart';
@@ -72,7 +72,7 @@ class SignUpForm extends ConsumerWidget {
             initialValue: guestState.password,
           ),
           MyPrimaryButton(
-            text: 'Sign Up',
+            text: 'Continue',
             width: double.infinity,
             press: () async {
               if (formKey.currentState!.validate()) {
@@ -96,31 +96,15 @@ class SignUpForm extends ConsumerWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: myDefaultSize),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    style: Theme.of(context).textTheme.subtitle2,
-                    children: [
-                      const TextSpan(
-                        text: "I have an account. ",
-                      ),
-                      TextSpan(
-                        text: "Sign In",
-                        style: const TextStyle(color: myPrimaryColor),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const SignInScreen(),
-                                ),
-                              ),
-                      ),
-                    ],
-                  ),
+            child: ToggleAuthScreen(
+              statement: "I have an account. ",
+              action: "Sign In",
+              onTap: () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const SignInScreen(),
                 ),
-              ],
+              ),
             ),
           ),
         ],
