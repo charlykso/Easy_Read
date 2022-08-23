@@ -98,6 +98,24 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_keyboard_visibility",
+      "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_keyboard_visibility-5.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_keyboard_visibility_platform_interface",
+      "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_keyboard_visibility_platform_interface-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_keyboard_visibility_web",
+      "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_keyboard_visibility_web-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_lints",
       "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_lints-2.0.1",
       "packageUri": "lib/",
@@ -500,7 +518,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2022-08-17T13:11:02.425912Z",
+  "generated": "2022-08-22T15:50:38.322831Z",
   "generator": "pub",
   "generatorVersion": "2.17.6"
 }

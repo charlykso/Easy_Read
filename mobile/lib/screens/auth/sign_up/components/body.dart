@@ -16,9 +16,8 @@ class Body extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: myDefaultSize * 2),
           Padding(
-            padding: const EdgeInsets.only(bottom: myDefaultSize),
+            padding: const EdgeInsets.symmetric(vertical: myDefaultSize * 1.3),
             child: Text(
               'Sign Up',
               style: themeData.textTheme.headline3!.copyWith(

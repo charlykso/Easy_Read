@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:easy_read/shared/util/my_primary_button.dart';
 import 'package:easy_read/shared/util/my_text_input_field.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
@@ -55,18 +54,12 @@ class SignUpForm extends ConsumerWidget {
               shadowColor: Colors.black54,
               borderRadius: BorderRadius.circular(myDefaultSize * .8),
               child: IntlPhoneField(
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(11),
-                ],
                 decoration: decorateTextInput(hintText: "Phone Number")
                     .copyWith(errorMaxLines: 1),
                 onChanged: (PhoneNumber phone) =>
                     guestState.phoneNumber = phone,
                 initialCountryCode: "NG",
-                validator: (PhoneNumber? value) =>
-                    validator.validatePhoneNumber(value?.completeNumber),
                 initialValue: guestState.phoneNumber?.number,
-                disableLengthCheck: true,
               ),
             ),
           ),

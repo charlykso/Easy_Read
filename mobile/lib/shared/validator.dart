@@ -13,11 +13,11 @@ class Validator {
       _validEmail.hasMatch(value!) ? null : 'Invalid email address';
 
   String? validatePhoneNumber(String? value) =>
-      _validPhoneNumber.hasMatch(value!) ? null : 'Invalid email address';
+      _validPhoneNumber.hasMatch(value!) ? null : 'Invalid phone number';
 
   String? validatePassword(String? value) {
     if (value!.isEmpty) {
-      return 'Must be at least 6 characters\nMust contain at least one uppercase letter\nMust contain at least one number';
+      return 'Please enter password';
     } else if (value.length <= 6) {
       return 'Must be at least 6 characters';
     } else if (!value.contains(RegExp(r"[A-Z]"))) {

@@ -20,7 +20,7 @@ class SignUpScreen extends StatelessWidget {
       body: const AuthScreenBackground(
         child: Body(),
       ),
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
     );
   }
 }
