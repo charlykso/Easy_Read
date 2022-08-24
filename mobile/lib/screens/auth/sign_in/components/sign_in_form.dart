@@ -161,7 +161,7 @@ class _SignInFormState extends State<SignInForm> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: myDefaultSize * .5),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SocialMediaIcon(
                     imagePath: 'assets/icons/google-plus.svg',
@@ -169,6 +169,7 @@ class _SignInFormState extends State<SignInForm> {
                     color: Colors.red,
                     backgroundColor: Colors.white,
                   ),
+                  const SizedBox(width: myDefaultSize * 1.5),
                   SocialMediaIcon(
                     imagePath: 'assets/icons/facebook.svg',
                     tap: signInWithFacebook,

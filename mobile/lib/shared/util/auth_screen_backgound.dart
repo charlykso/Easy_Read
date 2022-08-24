@@ -21,15 +21,16 @@ class AuthScreenBackground extends StatelessWidget {
         children: [
           Positioned(
             bottom: 46,
-            height: size.height * .65,
             width: size.width,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: myDefaultSize),
-              child: Container(
+              child: AnimatedContainer(
+                height: size.height * .65,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(25),
                 ),
+                duration: const Duration(milliseconds: 500),
                 child: Padding(
                   padding: const EdgeInsets.only(top: myDefaultSize * 4),
                   child: child,
@@ -37,14 +38,19 @@ class AuthScreenBackground extends StatelessWidget {
               ),
             ),
           ),
-          if (!isKeyboardVisible)
-            Positioned(
-              top: 0,
-              height: size.height * .3,
+          Positioned(
+            top: 0,
+            height: size.height * .3,
+            child: AnimatedOpacity(
+              // If keyboard is visible, animate to 0.0 (invisible).
+              // If keyboard is not visible, animate to 1.0 (fully visible).
+              opacity: isKeyboardVisible ? 0.0 : 1.0,
+              duration: const Duration(milliseconds: 500),
               child: SvgPicture.asset(
                 "assets/images/new_reg1.svg",
               ),
             ),
+          ),
         ],
       ),
     );
