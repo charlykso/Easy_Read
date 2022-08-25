@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Net.Http.Headers;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +51,15 @@ builder.Services.AddAuthentication(opt =>
     }
 });
 
+//enable CORS
+
+builder.Services.AddCors(c =>
+{
+    c.AddPolicy("AllowAllOrigin", options => options.AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+});
+
 //For Json Serializer
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
@@ -76,14 +87,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// app.UseAuthentication();
-
 app.UseStaticFiles();
 
 app.UseAuthentication();
 
+app.UseRouting();
+
+app.UseCors("AllowAllOrigin");
+
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();
