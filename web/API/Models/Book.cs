@@ -43,9 +43,9 @@ namespace API.Models
         [Required]
         public double Price {get; set;}
 
-        public DateTime Created_at {get; set;}
+        public DateTime? Created_at {get; set;} = null;
 
-        public DateTime Updated_at { get; set; }
+        public DateTime? Updated_at { get; set; } = null;
 
         public int? AuthorId { get; set; }
         public Author? Author { get; set; }

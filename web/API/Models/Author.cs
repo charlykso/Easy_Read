@@ -9,16 +9,15 @@ namespace API.Models
 
         [Required]
         [StringLength(50, MinimumLength = 2)]
-        [RegularExpression("^([A-Za-z]+).$", ErrorMessage = "Accepted characters(uppercase, lowercase and a dot(.))")]
+        [RegularExpression(@"^([A-Za-z-.']+)$", ErrorMessage = "format not accepted")]
         public string? Lastname { get; set; }
         
         [Required]
         [StringLength(50, MinimumLength = 2)]
-        [RegularExpression("^([A-Za-z]+).$", ErrorMessage = "Accepted characters(uppercase, lowercase and a dot(.))")]
+        [RegularExpression(@"^([A-Za-z-.']+)$", ErrorMessage = "format not accepted")]
         public string? Firstname { get; set; }
 
         [Required]
-        [EmailAddress(ErrorMessage = "Invalid email address.")]
         [RegularExpression(@"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$", ErrorMessage = "Invalid Email pattern.")]
         [MaxLength(50)]
         public string? Email { get; set; }
@@ -33,6 +32,7 @@ namespace API.Models
 
         [Required]
         [MaxLength(100)]
+        [StringLength(100, MinimumLength = 6)]
         public string? Password { get; set; }
 
         public DateTime Date_of_birth { get; set; }
@@ -42,9 +42,9 @@ namespace API.Models
 
         public string? ImageURL { get; set; }
 
-        public DateTime Created_at { get; set; }
+        public DateTime? Created_at { get; set; } = null;
 
-        public DateTime Updated_at { get; set; }
+        public DateTime? Updated_at { get; set; } = null;
 
         public List<Book>? Books { get; set; }
 

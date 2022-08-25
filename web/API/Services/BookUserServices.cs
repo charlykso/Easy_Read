@@ -12,20 +12,22 @@ namespace API.Services
         {
             _easyReaderDBContext = easyReaderDBContext;
         }
-        public void CreatePayment(Book_User newBookPayment)
+        public string CreatePayment(Book_User newBookPayment)
         {
             try
             {
-                var payment = _easyReaderDBContext!.Book_Users.Add(newBookPayment);
+                _easyReaderDBContext!.Book_Users.Add(newBookPayment);
                 _easyReaderDBContext.SaveChanges();
+                return ("success");
             }
             catch (System.Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return (ex.Message);
             }
         }
 
-        public void DeletePayment(int Id)
+        public string DeletePayment(int Id)
         {
             try
             {
@@ -37,11 +39,13 @@ namespace API.Services
                     _easyReaderDBContext.SaveChanges();
                 }
                 Console.WriteLine($"No payment found with the id {Id}");
+                return ("success");
             }
             catch (System.Exception ex)
             {
                 
                 Console.WriteLine(ex.Message);
+                return (ex.Message);
             }
         }
 
@@ -85,7 +89,7 @@ namespace API.Services
             }
         }
 
-        public void UpdatePayment(int Id, Book_User editBookPayment)
+        public string UpdatePayment(int Id, Book_User editBookPayment)
         {
             try
             {
@@ -93,15 +97,17 @@ namespace API.Services
 
                 if (payment is null)
                 {
-                    Console.WriteLine($"No payment found with the id {Id}");
+                    return ($"No payment found with the id {Id}");
                 }
                 _easyReaderDBContext.Book_Users.Attach(payment!);
                 _easyReaderDBContext.SaveChanges();
-                Console.WriteLine("Payment Updated successfuly");
+                // Console.WriteLine("Payment Updated successfuly");
+                return ("success");
             }
             catch (System.Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                // Console.WriteLine(ex.Message);
+                return (ex.Message);
             }
         }
     }

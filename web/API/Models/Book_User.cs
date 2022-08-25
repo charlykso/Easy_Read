@@ -15,8 +15,8 @@ namespace API.Models
         [MaxLength(50)]
         public String? Payment_Status { get; set; }
 
-        public DateTime Payment_made_at { get; set; }
+        public DateTime? Payment_made_at { get; set; } = null;
 
-        public DateTime Updated_at { get; set; }
+        public DateTime? Updated_at { get; set; } = null;
     }
 }

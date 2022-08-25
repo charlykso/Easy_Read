@@ -34,9 +34,9 @@ namespace API.Models
         [StringLength(100, MinimumLength = 6)]
         public string? Password { get; set; }
 
-        public DateTime Created_at { get; set; }
+        public DateTime? Created_at { get; set; } = null;
 
-        public DateTime Updated_at { get; set; }
+        public DateTime? Updated_at { get; set; } = null;
 
         public List<Book_User>? Book_User { get; set; }
     }

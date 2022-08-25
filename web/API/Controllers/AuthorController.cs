@@ -9,7 +9,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AuthorController : ControllerBase
     {
         private readonly IAuthor? _iAuthor;
@@ -25,8 +25,11 @@ namespace API.Controllers
             try
             {
                 var author = _iAuthor!.GetAllAuthors().ToList();
-
-                return Ok(author);
+                if (author != null)
+                {
+                    return Ok(author);
+                }
+                return Ok("No author created yet.");
             }
             catch (System.Exception ex)
             {
@@ -42,8 +45,11 @@ namespace API.Controllers
             try
             {
                 var author = _iAuthor!.GetAuthor(Id);
-
-                return Ok(author);
+                if (author != null)
+                {
+                    return Ok(author);
+                }
+                return Ok($"No author witht the id {Id}");
             }
             catch (System.Exception ex)
             {

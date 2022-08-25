@@ -9,7 +9,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
     public class BookController : ControllerBase
     {
         private IConfiguration _iConfig;
@@ -76,9 +76,7 @@ namespace API.Controllers
                             default:
                                 return Ok(book.Skip((currentPageNumber - 1) * currentPageSize).Take(currentPageSize));
                         }
-                }
-                      
-                
+                }  
             }
             catch (System.Exception ex)
             {
@@ -129,15 +127,17 @@ namespace API.Controllers
                 book.Price = newBook.Price;
                 book.Front_Cover_Img_url = first_filePath;
                 book.Back_Cover_Img_url = second_filePath;
-                book.Body = StringEncryption.EncryptString(_iConfig["Enc: key"], newBook.Body!);
+                var key = _iConfig["Enc:key"];
+                var mainBody = StringEncryption.EncryptString(key, newBook.Body!);
+                book.Body = mainBody;
                 book.Created_at = DateTime.Now;
+                book.YearOf_Publication = newBook.YearOf_Publication;
 
                 _iBook!.CreateBook(book);
                 return Ok("Book created successfuly!");
             }
             catch (System.Exception ex)
             {
-                
                 return BadRequest(ex.Message);
             }
         }
@@ -169,6 +169,7 @@ namespace API.Controllers
                 book.Back_Cover_Img_url = second_filePath;
                 book.Body = StringEncryption.EncryptString(_iConfig["Enc: key"], editBook.Body!);
                 book.Updated_at = DateTime.Now;
+                book.YearOf_Publication = editBook.YearOf_Publication;
 
                 _iBook!.UpdateBook(Id, book);
                 return Ok("Book created successfuly!");

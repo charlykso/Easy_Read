@@ -2,7 +2,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using API.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace API.Controllers
 {
@@ -13,7 +15,7 @@ namespace API.Controllers
         {
             _IConfig = IConfig;
         }
-        public String GenerateTokenForUser(User user)
+        public string GenerateTokenForUser(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_IConfig!["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -39,10 +41,16 @@ namespace API.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
+            var mainToken = new{
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expiration = token.ValidTo
+            };
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return JsonConvert.SerializeObject(mainToken);
 
         }
+
+
         public String GenerateTokenForSocialUser(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_IConfig!["Jwt:Key"]));
