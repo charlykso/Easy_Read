@@ -10,14 +10,14 @@ namespace API.Controllers
 {
     public class GenerateToken
     {
-        private readonly IConfiguration? _IConfig;
-        public GenerateToken(IConfiguration IConfig)
+        private readonly IConfiguration? _config;
+        public GenerateToken(IConfiguration config)
         {
-            _IConfig = IConfig;
+            _config = config;
         }
         public string GenerateTokenForUser(User user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_IConfig!["Jwt:Key"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config!.GetSection("Jwt:Key").Value));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var Claims = new[]
@@ -27,15 +27,14 @@ namespace API.Controllers
                 new Claim(ClaimTypes.GivenName, user!.Lastname!),
                 new Claim(ClaimTypes.Role, user!.Role!),
                 new Claim(ClaimTypes.Email, user!.Email!),
-                new Claim(ClaimTypes.Hash, user!.Password!)
             };
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(Claims),
-                Expires = DateTime.Now.AddHours(1),
+                Expires = DateTime.Now.AddHours(2),
                 SigningCredentials = credentials,
-                Issuer = _IConfig["Jwt: Issuer"],
-                Audience = _IConfig["Jwt: Audience"]
+                Issuer = _config.GetSection("Jwt:Issuer").Value,
+                Audience = _config.GetSection("Jwt:Audience").Value
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -53,7 +52,7 @@ namespace API.Controllers
 
         public String GenerateTokenForSocialUser(User user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_IConfig!["Jwt:Key"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config!.GetSection("Jwt:Key").Value));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var Claims = new[]
@@ -69,15 +68,20 @@ namespace API.Controllers
                 Subject = new ClaimsIdentity(Claims),
                 Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = credentials,
-                Issuer = _IConfig["Jwt: Issuer"],
-                Audience = _IConfig["Jwt: Audience"]
+                Issuer = _config["Jwt:Issuer"],
+                Audience = _config["Jwt:Audience"]
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
+            var mainToken = new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expiration = token.ValidTo
+            };
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return JsonConvert.SerializeObject(mainToken);
 
         }
     }

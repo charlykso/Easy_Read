@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    // [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Admin")]
     public class AuthorController : ControllerBase
     {
         private readonly IAuthor? _iAuthor;
@@ -18,6 +18,7 @@ namespace API.Controllers
             _iAuthor = iAuthor;
         }
 
+        [Authorize]
         //api/Author/GetAllAuthors
         [HttpGet("GetAllAuthors")]
         public ActionResult GetAllAuthors()
