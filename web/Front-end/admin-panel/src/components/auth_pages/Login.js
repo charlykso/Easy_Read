@@ -27,13 +27,26 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const userData = { Phone_no, Password }
+     let phoneLen = Phone_no.length
+     let phoneWithCode = '+234'
+     let userData = {}
+     if (Phone_no.charAt(0) === '0') {
+      for (var i = 1; i < phoneLen; i++) {
+        phoneWithCode = phoneWithCode.concat(Phone_no.charAt(i))
+      }
+      // Phone_no = phoneWithCode
+       userData = { Phone_no, Password }
+     }else{
+        userData = { Phone_no, Password }
+     }
     
     try {
       const response = await axios.post(LOGIN_URL, userData, {
         headers: { 'Content-type': 'application/json' },
       })
       const json = await response.data
+      //save token and expiry date
+      localStorage.setItem('token', json.token)
       //save to local storage
       localStorage.setItem('user', JSON.stringify(json))
       //update the AuthContext

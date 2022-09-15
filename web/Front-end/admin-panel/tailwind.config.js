@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
+    './node_modules/tw-elements/dist/js/**/*.js',
+    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
+  ],
   presets: [],
   darkMode: 'media', // or 'class'
   theme: {
@@ -962,5 +966,5 @@ module.exports = {
     'active',
     'disabled',
   ],
-  plugins: [],
+  plugins: [require('tw-elements/dist/plugin'), require('flowbite/plugin')],
 }

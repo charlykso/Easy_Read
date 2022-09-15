@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 const Logout = () => {
     const handleLogout = () => {
         localStorage.clear();
-        window.location.href = '/';
+        localStorage.remove("token")
+        window.location.href = '/login';
     }
     return (
       <Link

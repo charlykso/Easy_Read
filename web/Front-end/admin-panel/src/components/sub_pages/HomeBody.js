@@ -2,32 +2,12 @@ import Carousel from '../sub_pages/Carousel'
 import Library1 from '../../images/reader.png'
 import { Link } from 'react-router-dom'
 import NewUsers from '../sub_pages/New_users'
-import { useEffect, useState } from "react";
-import Loading from "../sub_pages/Loading";
 
-function Home() {
-  const [pageFinishedLoaging, setPageFinishedLoading] = useState(false)
-
-  useEffect(() => {
-    // This will run one time after the component mounts
-    const onPageLoad = () => {
-      setPageFinishedLoading(true)
-    }
-
-    // Check if the page has already loaded
-    if (document.readyState === 'complete') {
-      onPageLoad()
-    } else {
-      window.addEventListener('load', onPageLoad)
-      // Remove the event listener when component unmounts
-      return () => window.removeEventListener('load', onPageLoad)
-    }
-  }, [])
-
+const HomeBody = () => {
   return (
-    <div className='container mx-auto md:px-8 mb-5 mt-5'>
+    <>
       <div className='relative libry'>
-        {pageFinishedLoaging ? <Carousel />: <Loading />}
+        <Carousel />
         <h1 className='absolute text-5xl text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
           Welcome!
         </h1>
@@ -42,10 +22,10 @@ function Home() {
         <div className='flex justify-center w-3/5 max-h-[300px]'>
           <img className='h-[300px] w-[250px]' src={Library1} alt='Library' />
         </div>
-        {pageFinishedLoaging && <NewUsers />}
+        <NewUsers />
       </div>
-    </div>
+    </>
   )
 }
 
-export default Home
+export default HomeBody

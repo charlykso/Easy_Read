@@ -7,14 +7,15 @@ import Payments from './components/main_pages/Payments'
 import Footer from './components/main_pages/Footer'
 import Login from './components/auth_pages/Login'
 import { Routes, Route } from 'react-router-dom'
+import CreateUser from "./components/main_pages/CreateUser";
+import CreateAuthor from "./components/main_pages/CreateAuthor";
 import ProtectedRoutes from './components/auth_pages/ProtectedRoutes'
-
 
 function App() {
   return (
     <div className='App'>
       <Navbar />
-      <div className='section '>
+      <div className='section min-h-screen'>
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route element={<ProtectedRoutes />}>
@@ -23,6 +24,8 @@ function App() {
             <Route path='/authors' element={<Authors />} />
             <Route path='/books' element={<Books />} />
             <Route path='/payments' element={<Payments />} />
+            <Route path='/author/add' element={<CreateAuthor />} />
+            <Route path='/user/add' element={<CreateUser />} />
           </Route>
         </Routes>
       </div>

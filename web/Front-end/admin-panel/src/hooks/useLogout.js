@@ -5,13 +5,14 @@ export const useLogout = () => {
     const { dispatch } = useAuthContext()
     const navigate = useNavigate()
     const logout = () => {
-        //remove toke from localstorage
+        //remove token from localstorage
         localStorage.removeItem('user')
+        localStorage.removeItem('token')
 
         //dispatch logout function
         dispatch({type: 'LOGOUT'})
 
-        navigate('/')
+        navigate('/login')
     }
 
     return {logout}

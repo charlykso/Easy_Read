@@ -4,7 +4,10 @@ const New_users = () => {
         <h3 className='text-black-700 text-2xl md:text-3xl lg:text-4xl font-bold pl-5'>
           New Users
         </h3>
-        <p className='text-justify p-5'>
+        <p
+          className='text-justify p-5 mt-4 max-h-56 overflow-y-auto max-w-3xl'
+          id='collapseWithScrollbar'
+        >
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem enim
           earum quis. Cumque temporibus, vel, assumenda delectus incidunt magnam
           animi dolor quidem mollitia atque molestiae? Id corrupti reiciendis

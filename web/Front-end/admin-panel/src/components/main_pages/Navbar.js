@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import useWatch from "../../hooks/useWatch";
 import { useLogout } from "../../hooks/useLogout";
+import AuthUserBtn from "../sub_pages/AuthUserBtn";
 
 const Navbar = () => {
   const [navbar, setNavbar] = useState(false)
@@ -13,13 +14,13 @@ const Navbar = () => {
       setLoggedIn(false)
       console.log(loggedIn)
     } else {
+      // const {admin} = window.localStorage.getItem('user')
       setLoggedIn(true)
       console.log(loggedIn)
     }
-    // alert("Good morning")
+  
   }, [loggedIn])
 
-  // console.log(loggedIn)
 
   const handleLogout = () => {
     logout()
@@ -117,20 +118,15 @@ const Navbar = () => {
         <div className='hidden space-x-2 md:inline-block'>
           {!loggedIn ? (
             <>
-            <Link
-              to='/login'
-              className='px-4 py-2 text-white bg-gray-600 rounded-md shadow hover:bg-gray-800'
-            >
-              Sign in
-            </Link>
+              <Link
+                to='/login'
+                className='px-4 py-2 text-white bg-gray-600 rounded-md shadow hover:bg-gray-800'
+              >
+                Sign in
+              </Link>
             </>
           ) : (
-            <button
-              className='px-4 py-2 text-gray-800 bg-white rounded-md shadow hover:bg-gray-100'
-              onClick={handleLogout}
-            >
-              Sign out
-            </button>
+            <AuthUserBtn />
           )}
         </div>
       </div>
