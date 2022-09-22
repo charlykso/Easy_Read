@@ -1,41 +1,17 @@
 import 'package:easy_read/models/book.dart';
-import 'package:easy_read/screens/home/components/home_search_filter_form.dart';
-import 'package:easy_read/screens/home/components/search_result.dart';
+import 'package:easy_read/screens/home/components/display_search_results.dart';
 import 'package:easy_read/screens/home/components/search_suggestion.dart';
-import 'package:easy_read/shared/helpers.dart';
+import 'package:easy_read/shared/my_search.dart';
 import 'package:easy_read/shared/util/no_search_result.dart';
 import 'package:flutter/material.dart';
 
-class HomeSearchDelegate extends SearchDelegate {
+class HomeSearchDelegate extends MySearchDelegate {
   HomeSearchDelegate() : super(searchFieldLabel: 'Search by title');
 
   List<Book> searchResults = books;
 
-  Future<dynamic> _showSearchFilter(BuildContext context) {
-    return showModalBottomSheet(
-      context: context,
-      builder: (context) => const HomeSearchFilterForm(),
-    );
-  }
-
   @override
-  List<Widget>? buildActions(BuildContext context) => [
-        IconButton(
-          onPressed: () => _showSearchFilter(context),
-          icon: Icon(
-            Icons.tune_rounded,
-            color: Theme.of(context).primaryColor,
-            size: myDefaultSize * 2,
-          ),
-        ),
-        IconButton(
-          onPressed: () => query.isEmpty ? close(context, null) : query = '',
-          icon: Icon(
-            Icons.close_rounded,
-            color: Theme.of(context).primaryColor,
-          ),
-        ),
-      ];
+  List<Widget>? buildActions(BuildContext context) => null;
 
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
@@ -59,14 +35,7 @@ class HomeSearchDelegate extends SearchDelegate {
         ? const NoSearchResult()
         : query.isEmpty
             ? Container()
-            : ListView.builder(
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                itemCount: results.length,
-                itemBuilder: (context, index) => SearchResult(
-                  result: results[index],
-                ),
-              );
+            : DisplaySearchResults(results: results);
   }
 
   @override
