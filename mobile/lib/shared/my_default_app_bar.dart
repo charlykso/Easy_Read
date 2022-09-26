@@ -6,6 +6,29 @@ import 'package:easy_read/shared/my_search.dart';
 import 'package:flutter/material.dart';
 
 AppBar myDefaultAppBar(BuildContext context) {
+  final AuthService authService = AuthService();
+
+  _signUserOut(BuildContext context) async {
+    final dynamic result = await authService.signOut();
+
+    // TODO: Implement this auto with riverpod
+    if (result == "success") {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const SignInScreen(),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: myAnimationDuration * 3,
+          backgroundColor: Colors.red[700],
+          content: const Text('Sign out attempt failed!'),
+        ),
+      );
+    }
+  }
+
   return AppBar(
     surfaceTintColor: Colors.white,
     actions: [
@@ -77,26 +100,4 @@ AppBar myDefaultAppBar(BuildContext context) {
       ),
     ),
   );
-}
-
-_signUserOut(BuildContext context) async {
-  final AuthService authService = AuthService();
-  final dynamic result = await authService.signOut();
-
-  // TODO: Implement this auto with riverpod
-  if (result == "success") {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const SignInScreen(),
-      ),
-    );
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: myAnimationDuration * 3,
-        backgroundColor: Colors.red[700],
-        content: const Text('Sign out attempt failed!'),
-      ),
-    );
-  }
 }

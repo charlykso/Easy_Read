@@ -68,7 +68,7 @@ class _DisplaySearchResultsState extends State<DisplaySearchResults> {
             ],
           ),
         ),
-        Expanded(
+        Flexible(
           child: AnimatedCrossFade(
             firstChild: ListView.builder(
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -78,9 +78,9 @@ class _DisplaySearchResultsState extends State<DisplaySearchResults> {
               ),
             ),
             secondChild: GridView.builder(
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 250,
-                crossAxisSpacing: 10.0,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 5.0,
                 mainAxisSpacing: myDefaultSize,
                 childAspectRatio: isMobile ? 0.52 : 0.57,
               ),
