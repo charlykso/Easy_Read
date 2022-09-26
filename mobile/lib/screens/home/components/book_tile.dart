@@ -67,26 +67,32 @@ class BookTile extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      RatingBar(
-                        minRating: 1,
-                        maxRating: 5,
-                        initialRating: 4,
-                        ratingWidget: RatingWidget(
-                          full: const Icon(
-                            Icons.star,
-                            color: mySecondaryColor,
+                      Row(
+                        children: [
+                          RatingBar(
+                            minRating: 1,
+                            initialRating: 4,
+                            maxRating: 5,
+                            ratingWidget: RatingWidget(
+                              full: const Icon(
+                                Icons.star,
+                                color: mySecondaryColor,
+                              ),
+                              half: const Icon(
+                                Icons.star_half,
+                                color: mySecondaryColor,
+                              ),
+                              empty: const Icon(
+                                Icons.star,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            itemSize: 24,
+                            onRatingUpdate: (rating) {},
                           ),
-                          half: const Icon(
-                            Icons.star_half,
-                            color: mySecondaryColor,
-                          ),
-                          empty: const Icon(
-                            Icons.star,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        itemSize: 30,
-                        onRatingUpdate: (rating) {},
+                          const SizedBox(width: myDefaultSize * .4),
+                          const Text("58 Ratings"),
+                        ],
                       ),
                       const Spacer(flex: 2),
                     ],

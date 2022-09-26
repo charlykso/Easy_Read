@@ -68,25 +68,28 @@ class _DisplaySearchResultsState extends State<DisplaySearchResults> {
             ],
           ),
         ),
-        Flexible(
+        Expanded(
           child: AnimatedCrossFade(
             firstChild: ListView.builder(
+              shrinkWrap: true,
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               itemCount: widget.results.length,
               itemBuilder: (context, index) => BookTile(
                 book: widget.results[index],
               ),
             ),
-            secondChild: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 5.0,
-                mainAxisSpacing: myDefaultSize,
-                childAspectRatio: isMobile ? 0.52 : 0.57,
-              ),
-              itemCount: widget.results.length,
-              itemBuilder: (context, index) => BookCard(
-                book: widget.results[index],
+            secondChild: Padding(
+              padding: const EdgeInsets.only(top: myDefaultSize * .5),
+              child: GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: .65,
+                ),
+                itemCount: widget.results.length,
+                itemBuilder: (context, index) => BookCard(
+                  book: widget.results[index],
+                ),
               ),
             ),
             duration: myAnimationDuration,
