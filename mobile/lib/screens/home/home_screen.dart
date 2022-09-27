@@ -19,17 +19,23 @@ class _HomeScreenState extends State<HomeScreen> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _bottomNavigationBarItems = [
     ReadingNow(),
-    Text(
-      'Book Store',
-      style: optionStyle,
+    Center(
+      child: Text(
+        'Book Store',
+        style: optionStyle,
+      ),
     ),
-    Text(
-      'Library',
-      style: optionStyle,
+    Center(
+      child: Text(
+        'Library',
+        style: optionStyle,
+      ),
     ),
-    Text(
-      'Preferences',
-      style: optionStyle,
+    Center(
+      child: Text(
+        'Preferences',
+        style: optionStyle,
+      ),
     ),
   ];
 
@@ -40,12 +46,24 @@ class _HomeScreenState extends State<HomeScreen> {
     double? svgIconSize = myDefaultSize * 1.5;
     const EdgeInsetsGeometry bottomNavIconPadding =
         EdgeInsets.only(bottom: myDefaultSize * .3);
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: myPrimaryColor,
       appBar: myDefaultAppBar(context),
       drawer: const NavigationDrawer(),
-      body: _bottomNavigationBarItems[_selectedIndex],
+      body: Container(
+        height: size.height * .85,
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(myDefaultSize * 3.5),
+            bottomRight: Radius.circular(myDefaultSize * 3.5),
+          ),
+        ),
+        child: _bottomNavigationBarItems[_selectedIndex],
+      ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           canvasColor: myPrimaryColor,

@@ -31,6 +31,7 @@ AppBar myDefaultAppBar(BuildContext context) {
 
   return AppBar(
     surfaceTintColor: Colors.white,
+    backgroundColor: Colors.white,
     actions: [
       IconButton(
         onPressed: () {},
