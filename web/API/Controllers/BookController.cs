@@ -21,7 +21,7 @@ namespace API.Controllers
         }
 
         //api/book/GetBooks
-        //api/book/GetBooks?sort=desc or asc&by=Title or price or pub_date&pageNumber=1&pageSize=5
+        //api/book/GetAllBooks?sort=desc or asc&by=Title or price or pub_date&pageNumber=1&pageSize=5
         [HttpGet("GetAllBooks")]
         public ActionResult GetAllBooks(string sort, string by, int? pageNumber, int? pageSize)
         {

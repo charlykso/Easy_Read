@@ -20,7 +20,6 @@ const AuthUserBtn = ({ admin }) => {
           <option disabled selected>
             Admin
           </option>
-          <option value="Email">Email</option>
           <option value='Sign out'>
             <button>SIgn out</button>
           </option>

@@ -42,7 +42,7 @@ function Authors() {
         />
       )}
       {isPending && <Loading />}
-      {error && <div>{error}</div>}
+      {error && <div className="text-red-600">{error}</div>}
       {authors && (
         <AuthorsList
           authors={searchTerm.length < 1 ? authors : searchResult}

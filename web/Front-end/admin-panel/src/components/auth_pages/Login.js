@@ -16,6 +16,7 @@ const Login = () => {
   const [errMsg, setErrMsg] = useState('')
   const [checked, setChecked] = useState(false)
   const { dispatch } = useAuthContext()
+  const [onload, setOnload] = useState(false)
 
   useEffect(() => {
     userRef.current.focus()
@@ -27,19 +28,19 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-     let phoneLen = Phone_no.length
-     let phoneWithCode = '+234'
-     let userData = {}
-     if (Phone_no.charAt(0) === '0') {
+    let phoneLen = Phone_no.length
+    let phoneWithCode = '+234'
+    let userData = {}
+    if (Phone_no.charAt(0) === '0') {
       for (var i = 1; i < phoneLen; i++) {
         phoneWithCode = phoneWithCode.concat(Phone_no.charAt(i))
       }
       // Phone_no = phoneWithCode
-       userData = { Phone_no, Password }
-     }else{
-        userData = { Phone_no, Password }
-     }
-    
+      userData = { Phone_no, Password }
+    } else {
+      userData = { Phone_no, Password }
+    }
+
     try {
       const response = await axios.post(LOGIN_URL, userData, {
         headers: { 'Content-type': 'application/json' },
@@ -50,8 +51,9 @@ const Login = () => {
       //save to local storage
       localStorage.setItem('user', JSON.stringify(json))
       //update the AuthContext
+      setOnload(true)
       dispatch({ type: 'LOGIN', payload: json })
-      navigate('/users')
+      navigate('/')
     } catch (error) {
       if (!error.response) {
         setErrMsg('No server response')
@@ -119,7 +121,7 @@ const Login = () => {
                     onChange={(e) => setChecked(e.target.checked)}
                     className='form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer'
                     id='exampleCheck3'
-                  />{" "}
+                  />{' '}
                   <label
                     className='form-check-label inline-block text-gray-800'
                     htmlFor='exampleCheck2'
@@ -136,7 +138,9 @@ const Login = () => {
               </div>
 
               {/* <!-- Submit button --> */}
+
               <button
+                disabled={onload}
                 type='submit'
                 className='inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full'
                 data-mdb-ripple='true'

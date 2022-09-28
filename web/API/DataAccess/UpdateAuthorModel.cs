@@ -25,7 +25,6 @@ namespace API.DataAccess
         [MaxLength(20)]
         public string? Gender { get; set; }
 
-        [Required]
         [MaxLength(100)]
         public string? Password { get; set; }
 

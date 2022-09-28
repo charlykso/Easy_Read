@@ -21,7 +21,6 @@ namespace API.Models
         [MaxLength(50)]
         public string? Email { get; set; }
 
-        [Required]
         [StringLength(15, MinimumLength = 9)]
         [RegularExpression("^[+][0-9]+$", ErrorMessage = "Invalid phone number partern")]
         public string? Phone_no { get; set; }
@@ -29,7 +28,6 @@ namespace API.Models
         [MaxLength(20)]
         public string? Role { get; set; }
 
-        [Required]
         [MaxLength(100)]
         [StringLength(100, MinimumLength = 6)]
         public string? Password { get; set; }

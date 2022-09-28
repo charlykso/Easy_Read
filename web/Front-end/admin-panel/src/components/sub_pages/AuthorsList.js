@@ -1,10 +1,9 @@
-// import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom'
-import Books from "./Books";
+// import { useState } from 'react'
+import Books from './Books'
+import DropDownAction from './DropDownAction'
 // import ReactPaginate from "react-paginate";
 
 const AuthorsList = ({ authors }) => {
-
   return (
     <div className='flex flex-col'>
       <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
@@ -90,32 +89,7 @@ const AuthorsList = ({ authors }) => {
                     <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
                       <div className='flex justify-center'>
                         <div className=' xl:w-36'>
-                          <select
-                            className='form-select appearance-none
-      block
-      px-3
-      xl:w-full
-      py-1.5
-      text-base
-      font-normal
-      text-gray-700
-      bg-white bg-clip-padding bg-no-repeat
-      border border-solid border-gray-300
-      rounded
-      transition
-      ease-in-out
-      m-0
-      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
-                            aria-label='Default select example'
-                          >
-                            <option selected disabled>
-                              ---
-                            </option>
-                            <option value='1'>
-                              <Link to={`/users/${author.Id}`}>Edit</Link>
-                            </option>
-                            <option value='2'>Delete</option>
-                          </select>
+                          <DropDownAction authorsId={author.Id} />
                         </div>
                       </div>
                     </td>

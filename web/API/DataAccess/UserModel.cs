@@ -21,7 +21,6 @@ namespace API.DataAccess
         [RegularExpression(@"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$", ErrorMessage = "Invalid Email pattern.")]
         public string? Email { get; set; }
 
-        [Required]
         [StringLength(15, MinimumLength = 9)]
         [RegularExpression("^[+][0-9]+$", ErrorMessage = "Invalid phone number partern")]
         public string? Phone_no { get; set; }
@@ -29,7 +28,6 @@ namespace API.DataAccess
         [MaxLength(20)]
         public string? Role { get; set; }
 
-        [Required]
         [MaxLength(100)]
         [StringLength(100, MinimumLength = 6)]
         public string? Password { get; set; }

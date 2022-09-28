@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
+import UserDropDownAction from "./UserDropDownAction";
 
 const UserList = ({ users }) => {
   return (
@@ -81,32 +82,7 @@ const UserList = ({ users }) => {
                     <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
                       <div className='flex justify-center'>
                         <div className=' xl:w-36'>
-                          <select
-                            className='form-select appearance-none
-      block
-      px-3
-      xl:w-full
-      py-1.5
-      text-base
-      font-normal
-      text-gray-700
-      bg-white bg-clip-padding bg-no-repeat
-      border border-solid border-gray-300
-      rounded
-      transition
-      ease-in-out
-      m-0
-      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
-                            aria-label='Default select example'
-                          >
-                            <option selected disabled>
-                              ---
-                            </option>
-                            <option value='1'>
-                              <Link to={`/users/${user.Id}`}>Edit</Link>
-                            </option>
-                            <option value='2'>Delete</option>
-                          </select>
+                          <UserDropDownAction userId={user.Id} />
                         </div>
                       </div>
                     </td>

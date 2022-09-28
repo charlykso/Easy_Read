@@ -5,18 +5,17 @@ import CustomInput from '../forms/CustomInput'
 import CustomSelect from '../forms/CustomSelect'
 import { mySchema } from '../forms/Schemas'
 import { addAuthorUrl } from '../sub_pages/BaseUrl'
-import { useRef, useState } from 'react'
-// import axios from "axios";
+import { useCreate } from "../../hooks/useCreate";
+import { useNavigate } from "react-router-dom";
 
 const CreateAuthor = () => {
   const location = useLocation()
-  const [createAuthor, setCreateAuthor] = useState(false)
-  // const [isPending, setIsPending] = useState(true)
-  const fileRef = useRef(null)
+  const navigate = useNavigate();
+  const { createUser, error, isLoading, resData, isCreated, setIsCreated } = useCreate()
   return (
     <div className='container mx-auto md:px-8'>
       <Breadcrumbs location={location.pathname} />
-      {createAuthor && (
+      {isCreated && (
         <div
           className='bg-green-100 rounded-lg py-5 px-6 mb-3 mt-3 text-base text-green-700 inline-flex items-center w-full'
           role='alert'
@@ -36,16 +35,21 @@ const CreateAuthor = () => {
               d='M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z'
             ></path>
           </svg>
-          Author created successfuly
-          <button
-            type='button'
-            class='btn-close box-content w-4 h-4 p-1 ml-auto text-yellow-900 border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-yellow-900 hover:opacity-75 hover:no-underline'
-            data-bs-dismiss='alert'
-            aria-label='Close'
-            onClick = {() => { setCreateAuthor(false)}}
-          ></button>
+          {resData && resData}
+          
+        </div>
+        
+      )}
+
+      {error && (
+        <div
+          className='bg-red-100 rounded-lg py-5 px-6 mb-3 mt-3 text-base text-red-700 inline-flex items-center w-full'
+          role='alert'
+        >
+          <p>{error}</p>
         </div>
       )}
+
       <div className='p-6 rounded-lg shadow-lg h-screen w-full mt-2 bg-white max-w-full'>
         <Formik
           initialValues={{
@@ -53,14 +57,14 @@ const CreateAuthor = () => {
             Lastname: '',
             Email: '',
             Phone_No: '',
-            Age: '',
+            Date_of_birth: null,
             Password: '',
-            Books: [],
             Gender: '',
             AuthorPic: null,
           }}
           validationSchema={mySchema}
-          onSubmit={(values, actions) => {
+          onSubmit={async (values, actions) => {
+            console.log(values)
             let token = JSON.parse(localStorage.getItem('token'))
             let jwt = token.token
             let phoneLen = values.Phone_No.length
@@ -74,37 +78,29 @@ const CreateAuthor = () => {
                 formData.append('Phone_No', phoneWithCode)
               } else if (key === 'AuthorPic') {
                 formData.append('Image', values.AuthorPic)
+              } else if (key === 'Date_of_birth') {
+                console.log(values.Date_of_birth);
+                formData.append(
+                  'Date_of_birth',
+                  values.Date_of_birth
+                )
               } else {
                 formData.append(key, values[key])
               }
             })
+            try {
+              await createUser(addAuthorUrl, formData, jwt)
+              
+              setTimeout(() => {
+                  actions.resetForm()
+                  setIsCreated(false)
+                  navigate('/authors')
+              }, 1000);
+              
+            } catch (error) {
+              console.log(error.message)
+            }
             
-            return fetch(addAuthorUrl, {
-              method: 'post',
-              headers: {
-                Authorization: 'Bearer ' + jwt,
-                // Accept: 'multipart/form-data',
-              },
-              body: formData,
-            })
-              .then((res) => {
-                if (!res.ok) {
-                  if (res.status === 401) {
-                    throw Error('Unauthorised')
-                  } else {
-                    throw Error('Could no create author')
-                  }
-                }
-                return res
-              })
-              .then((Data) => {
-                actions.resetForm()
-                setCreateAuthor(true)
-                console.log(Data)
-              })
-              .catch((error) => {
-                console.log(error)
-              })
           }}
         >
           {(props) => (
@@ -129,8 +125,8 @@ const CreateAuthor = () => {
           ease-in-out
           m-0
           focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
-                    id='exampleInput123'
-                    aria-describedby='emailHelp123'
+                    id='firstname'
+                    aria-describedby='firstname'
                     placeholder='First name'
                   />
                 </div>
@@ -153,8 +149,8 @@ const CreateAuthor = () => {
           ease-in-out
           m-0
           focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
-                    id='`exampleInput1241`'
-                    aria-describedby='emailHelp124'
+                    id='`lastname`'
+                    aria-describedby='lastname'
                     placeholder='Last name'
                   />
                 </div>
@@ -178,7 +174,7 @@ const CreateAuthor = () => {
       focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
                     aria-label='Default select example'
                   >
-                    <option selected disabled>
+                    <option value='' selcted disabled>
                       Select gender
                     </option>
                     <option value='Male'>Male</option>
@@ -187,58 +183,7 @@ const CreateAuthor = () => {
                 </div>
                 <div className='form-group mb-6'>
                   <CustomInput
-                    name='Email'
-                    type='email'
-                    className='form-control
-          block
-          w-full
-          px-3
-          py-1.5
-          text-base
-          font-normal
-          text-gray-700
-          bg-white bg-clip-padding
-          border border-solid border-gray-300
-          rounded
-          transition
-          ease-in-out
-          m-0
-          focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
-                    id='exampleInput1242'
-                    aria-describedby='emailHelp124'
-                    placeholder='Email address'
-                  />
-                </div>
-                <div className='form-group mb-6'>
-                  <CustomSelect
-                    name='Books'
-                    class='form-select appearance-none
-      block
-      w-full
-      px-3
-      py-1.5
-      text-base
-      font-normal
-      text-gray-700
-      bg-white bg-clip-padding bg-no-repeat
-      border border-solid border-gray-300
-      rounded
-      transition
-      ease-in-out
-      m-0
-      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
-                    aria-label='Default select example'
-                  >
-                    <option selected disabled>
-                      Select Book
-                    </option>
-                    <option value='Bood1 Id'>Book 1</option>
-                    <option value='Book2 Id'>Book 2</option>
-                  </CustomSelect>
-                </div>
-                <div className='form-group mb-6'>
-                  <CustomInput
-                    name='Age'
+                    name='Date_of_birth'
                     type='date'
                     className='form-control
           block
@@ -255,11 +200,35 @@ const CreateAuthor = () => {
           ease-in-out
           m-0
           focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
-                    id='exampleInput124'
-                    aria-describedby='emailHelp124'
+                    id='dateofbirth'
+                    aria-describedby='dateofbirth'
                     placeholder='Date of birth'
                   />
                 </div>
+              </div>
+              <div className='form-group mb-6'>
+                <CustomInput
+                  name='Email'
+                  type='email'
+                  className='form-control
+          block
+          w-full
+          px-3
+          py-1.5
+          text-base
+          font-normal
+          text-gray-700
+          bg-white bg-clip-padding
+          border border-solid border-gray-300
+          rounded
+          transition
+          ease-in-out
+          m-0
+          focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
+                  id='email'
+                  aria-describedby='email'
+                  placeholder='Email address'
+                />
               </div>
               <div className='form-group mb-6'>
                 <CustomInput
@@ -279,12 +248,13 @@ const CreateAuthor = () => {
         ease-in-out
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
-                  id='exampleInput125'
-                  placeholder='Phone Number'
+                  id='phoneno'
+                  placeholder='Phone Number (eg 07062682820)'
                 />
               </div>
               <div className='form-group mb-6'>
                 <CustomInput
+                  autoComplete='false'
                   name='Password'
                   type='password'
                   className='form-control block
@@ -301,12 +271,13 @@ const CreateAuthor = () => {
         ease-in-out
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
-                  id='exampleInput1267'
+                  id='password'
                   placeholder='Password'
                 />
               </div>
               <div className='form-group mb-6'>
                 <CustomInput
+                  autoComplete='false'
                   name='ConfirmPassword'
                   type='password'
                   className='form-control block
@@ -323,7 +294,7 @@ const CreateAuthor = () => {
         ease-in-out
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
-                  id='exampleInput126'
+                  id='confirmpass'
                   placeholder='Confirm Password'
                 />
               </div>
@@ -335,7 +306,6 @@ const CreateAuthor = () => {
                   Author's Image
                 </label>
                 <CustomInput
-                  ref={fileRef}
                   name='AuthorPic'
                   onChange={(e) => {
                     props.setFieldValue('AuthorPic', e.target.files[0])
@@ -356,21 +326,8 @@ const CreateAuthor = () => {
                   PNG, JPEG or JPG (MAX. 2mb).
                 </p>
               </div>
-              <div className='form-group form-check text-center mb-6'>
-                <input
-                  type='checkbox'
-                  className='form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain mr-2 cursor-pointer'
-                  id='exampleCheck25'
-                  checked
-                />
-                <label
-                  className='form-check-label inline-block text-gray-800'
-                  for='exampleCheck25'
-                >
-                  Subscribe to our newsletter
-                </label>
-              </div>
               <button
+                disabled={isLoading}
                 type='submit'
                 className='
       w-full
@@ -391,7 +348,7 @@ const CreateAuthor = () => {
       duration-150
       ease-in-out'
               >
-                Add Author
+                {isLoading ? 'Loading...' : 'Add Author'}
               </button>
             </Form>
           )}

@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react'
 
-const useGet = (url, id, jwt) => {
+const useGetBooks = (url, jwt) => {
   const [data, setData] = useState(null)
   const [isPending, setIsPending] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
     const abortCont = new AbortController()
-    
-    fetch(url+id, {
-      method: "GET",
-      headers: {'Authentication': 'Bearer '+jwt}
+
+    fetch(url, {
+      method: 'GET',
+      headers: { Authentication: 'Bearer ' + jwt },
     })
       .then((res) => {
         if (!res.ok) {
@@ -28,9 +28,9 @@ const useGet = (url, id, jwt) => {
         setError(err.message)
       })
     return () => abortCont.abort()
-  }, [url, id, jwt])
+  }, [url, jwt])
 
   return { data, isPending, error }
 }
 
-export default useGet
+export default useGetBooks

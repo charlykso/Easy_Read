@@ -1,7 +1,9 @@
 import { createContext, useReducer, useEffect } from 'react'
-import moment from "moment";
+import moment from 'moment'
 
 export const AuthContext = createContext()
+
+
 
 export const authReducer = (state, action) => {
   switch (action.type) {
@@ -23,7 +25,7 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'))
-    
+
     if (user) {
       const token = JSON.parse(localStorage.getItem('token'))
       var timeNow = moment()
@@ -37,11 +39,13 @@ export const AuthContextProvider = ({ children }) => {
         // console.log("Item removed");
 
         window.location.href = '/login'
+      } else {
+        dispatch({ type: 'LOGIN', payload: user })
+        // history.goBack()
+       
       }
-      dispatch({type: 'LOGIN', payload: user})
     }
   }, [])
-
   console.log('AuthContext state :', state)
 
   return (

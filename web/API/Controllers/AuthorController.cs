@@ -13,12 +13,14 @@ namespace API.Controllers
     public class AuthorController : ControllerBase
     {
         private readonly IAuthor? _iAuthor;
-        public AuthorController(IAuthor iAuthor)
+        private readonly EasyReaderDBContext? _eRDBContext;
+        public AuthorController(IAuthor iAuthor, EasyReaderDBContext? eRDBContext)
         {
             _iAuthor = iAuthor;
+            _eRDBContext = eRDBContext;
         }
 
-        [Authorize]
+        // [Authorize]
         //api/Author/GetAllAuthors
         [HttpGet("GetAllAuthors")]
         public ActionResult GetAllAuthors()
@@ -67,31 +69,40 @@ namespace API.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (newAuthor.Image != null)
+                    var phoneExist = _eRDBContext!.Authors.FirstOrDefault(p => p.Phone_no == newAuthor.Phone_no!);
+                    if (phoneExist != null)
                     {
-                        var guid = Guid.NewGuid();
-                        var filePath = Path.Combine("wwwroot/images", guid + ".jpg");
-                        var filestream = new FileStream(filePath, FileMode.Create);
-                        newAuthor.Image.CopyTo(filestream);
-
-                        var author = new Author();
-                        author.Firstname = newAuthor.Firstname;
-                        author.Lastname = newAuthor.Lastname;
-                        author.Email = newAuthor.Email;
-                        author.Date_of_birth = newAuthor.Date_of_birth;
-                        author.Phone_no = newAuthor.Phone_no;
-                        author.Gender = newAuthor.Gender;
-                        author.ImageURL = filePath;
-                        var newAuthor_pass = BCrypt.Net.BCrypt.HashPassword(newAuthor.Password);
-                        author.Password = newAuthor_pass;
-                        author.Created_at = DateTime.Now;
-
-                        _iAuthor!.CreateAuthor(author);
-                        return Ok("Author created successfuly!");
-                    }else
-                    {
-                        return BadRequest("Please enter Author's image");
+                        return BadRequest("Phone number already taken");
                     }
+                    else{
+                        if (newAuthor.Image != null)
+                        {
+                            var guid = Guid.NewGuid();
+                            var filePath = Path.Combine("wwwroot/images/", guid + ".jpg");
+                            var filestream = new FileStream(filePath, FileMode.Create);
+                            newAuthor.Image.CopyTo(filestream);
+
+                            var author = new Author();
+                            author.Firstname = newAuthor.Firstname;
+                            author.Lastname = newAuthor.Lastname;
+                            author.Email = newAuthor.Email;
+                            author.Date_of_birth = newAuthor.Date_of_birth;
+                            author.Phone_no = newAuthor.Phone_no;
+                            author.Gender = newAuthor.Gender;
+                            author.ImageURL = filePath;
+                            var newAuthor_pass = BCrypt.Net.BCrypt.HashPassword(newAuthor.Password);
+                            author.Password = newAuthor_pass;
+                            author.Created_at = DateTime.Now;
+
+                            _iAuthor!.CreateAuthor(author);
+                            return Ok("Author created successfuly!");
+                        }
+                        else
+                        {
+                            return BadRequest("Please enter Author's image");
+                        }
+                    }
+                    
                 }else
                 {
                     return BadRequest("Please fill your information in correct format");
@@ -121,7 +132,7 @@ namespace API.Controllers
                 }else
                 {
                     var guid = Guid.NewGuid();
-                    var filePath = Path.Combine("wwwroot/images", guid + ".jpg");
+                    var filePath = Path.Combine("wwwroot/images/", guid + ".jpg");
                     var filestream = new FileStream(filePath, FileMode.Create);
                     editAuthor.Image!.CopyTo(filestream);
 
@@ -132,15 +143,11 @@ namespace API.Controllers
                     author.Phone_no = editAuthor.Phone_no;
                     author.Gender = editAuthor.Gender;
                     author.ImageURL = filePath;
-                    var newAuthor_pass = BCrypt.Net.BCrypt.HashPassword(editAuthor.Password);
-                    author.Password = newAuthor_pass;
                     author.Updated_at = DateTime.Now;
 
                     _iAuthor.UpdateAuthor(Id, author);
                     return Ok("Author updated successfuly!");
                 }
-
-                
 
             }
             catch (System.Exception ex)

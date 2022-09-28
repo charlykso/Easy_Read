@@ -23,14 +23,13 @@ namespace API.Models
         public string? Email { get; set; }
 
         [Required]
-        [StringLength(15, MinimumLength = 9)]
+        [StringLength(16, MinimumLength = 9)]
         [RegularExpression("^[+][0-9]+$", ErrorMessage = "Invalid phone number partern")]
         public string? Phone_no { get; set; }
         
         [MaxLength(10)]
         public string? Gender { get; set; }
 
-        [Required]
         [MaxLength(100)]
         [StringLength(100, MinimumLength = 6)]
         public string? Password { get; set; }

@@ -11,7 +11,7 @@ namespace API.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  //[Authorize(Roles = "Admin")]
+  [Authorize]
   public class UserController : ControllerBase
   {
     private readonly IUser? _iUser;
@@ -106,7 +106,12 @@ namespace API.Controllers
         user.Phone_no = newUser.Phone_no;
         var newUser_password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
         user.Password = newUser_password;
-        user.Role = newUser.Role;
+        if(newUser.Role == null)
+        {
+          user.Role = " User";
+        }else{
+          user.Role = newUser.Role;
+        }
         user.Created_at = DateTime.Now;
 
         _iUser!.CreateUser(user);
@@ -117,15 +122,14 @@ namespace API.Controllers
       }
       catch (System.Exception ex)
       {
-
         return BadRequest(ex.Message);
       }
     }
 
-    [AllowAnonymous]
+    // [AllowAnonymous]
     //api/user/UpdateUser
     [HttpPut("UpdateUser/{Id}")]
-    public ActionResult UpdateUser(int Id, [FromBody] UpdateUserModel editUser)
+    public ActionResult UpdateUser(int Id, [FromForm]UpdateUserModel editUser)
     {
       try
       {
@@ -134,13 +138,17 @@ namespace API.Controllers
           return BadRequest("invalid Id");
         }
         var user = _iUser!.GetUser(Id);
-        user.Firstname = editUser.Firstname;
-        user.Lastname = editUser.Lastname;
-        user.Email = editUser.Email;
-        user.Role = editUser.Role;
-        var editUser_pass = BCrypt.Net.BCrypt.HashPassword(editUser.Password);
-        user.Password = editUser_pass;
-        user.Updated_at = DateTime.Now;
+        if (user is null)
+        {
+            return NotFound($"No user found with the id {Id}");
+        }else
+        {
+          user.Firstname = editUser.Firstname;
+          user.Lastname = editUser.Lastname;
+          user.Email = editUser.Email;
+          user.Role = editUser.Role;
+          user.Updated_at = DateTime.Now;
+        }
 
         try
         {
@@ -192,9 +200,6 @@ namespace API.Controllers
             user.Email = Guser.email;
             user.Firstname = Guser.given_name;
             user.Lastname = Guser.family_name;
-            user.Phone_no = "+2349078563432";
-            var gUser_pass = BCrypt.Net.BCrypt.HashPassword(Guser.family_name);
-            user.Password = gUser_pass;
             user.Role = "User";
             user.Created_at = DateTime.Now;
             try
@@ -203,7 +208,15 @@ namespace API.Controllers
               var newToken = new GenerateToken(_IConfig);
               var JwtToken = newToken.GenerateTokenForSocialUser(user);
 
-              return Ok(JwtToken);
+              return Ok(new
+                    {
+                        token = JwtToken,
+                        FirstName = user.Firstname,
+                        LastName = user.Lastname,
+                        Role = user.Role,
+                        Email = user.Email,
+
+                    });
             }
             catch (System.Exception ex1)
             {
@@ -216,7 +229,16 @@ namespace API.Controllers
             var newUser = _iUser.GetUserByMail(Guser.email!);
             var newToken = new GenerateToken(_IConfig);
             var JwtToken = newToken.GenerateTokenForSocialUser(newUser);
-            return Ok(JwtToken);
+            
+             return Ok(new
+                    {
+                        token = JwtToken,
+                        FirstName = newUser.Firstname,
+                        LastName = newUser.Lastname,
+                        Role = newUser.Role,
+                        Email = newUser.Email,
+
+                    });
           }
         }
         return BadRequest("Unautorized");
@@ -264,9 +286,6 @@ namespace API.Controllers
             user.Email = Fuser.email;
             user.Firstname = Name[0];
             user.Lastname = Name[1];
-            user.Phone_no = "+2349078563432";
-            var fUser_pass = BCrypt.Net.BCrypt.HashPassword(Name[2]);
-            user.Password = fUser_pass;
             user.Role = "User";
             user.Created_at = DateTime.Now;
             try
@@ -275,7 +294,16 @@ namespace API.Controllers
               var newToken = new GenerateToken(_IConfig);
               var JwtToken = newToken.GenerateTokenForSocialUser(user);
 
-              return Ok(JwtToken);
+              return Ok(new
+                    {
+                        token = JwtToken,
+                        FirstName = user.Firstname,
+                        LastName = user.Lastname,
+                        Role = user.Role,
+                        Email = user.Email,
+
+                    });
+              
             }
             catch (System.Exception ex1)
             {
@@ -291,6 +319,15 @@ namespace API.Controllers
               var newToken = new GenerateToken(_IConfig);
               var JwtToken = newToken.GenerateTokenForSocialUser(newUser);
               return Ok(JwtToken);
+              return Ok(new
+                    {
+                        token = JwtToken,
+                        FirstName = newUser.Firstname,
+                        LastName = newUser.Lastname,
+                        Role = newUser.Role,
+                        Email = newUser.Email,
+
+                    });
             }
         }
         return BadRequest("Unautorized");
