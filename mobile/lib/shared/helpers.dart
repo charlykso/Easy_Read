@@ -8,7 +8,7 @@ const myTextColor = Color(0xFF000000);
 const myPrimaryColor = Color(0xFF336591);
 const mySecondaryColor = Color(0xFFEE8803);
 const myLightGreyColor = Color(0x66efefef);
-final Color myErrorColor = Colors.amber[600] ?? Colors.amber;
+const myErrorColor = Color(0xFFFFB300);
 
 /// Fancy extension to simplfy [MaterialState] calls
 extension MaterialStateSet on Set<MaterialState> {

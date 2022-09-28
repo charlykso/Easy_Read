@@ -1,5 +1,5 @@
 import 'package:easy_read/models/feature_info.dart';
-import 'package:easy_read/screens/auth/sign_up/sign_up_screen.dart';
+import 'package:easy_read/screens/auth/sign_in/sign_in_screen.dart';
 import 'package:easy_read/screens/onboarding/components/carousel_dot.dart';
 import 'package:easy_read/shared/util/my_primary_button.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +90,7 @@ class Feature extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SignUpScreen(),
+                          builder: (context) => const SignInScreen(),
                         ),
                       );
                     },

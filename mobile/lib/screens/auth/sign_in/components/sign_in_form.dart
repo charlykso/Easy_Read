@@ -49,7 +49,7 @@ class _SignInFormState extends State<SignInForm> {
       "$user is ready!".log();
       _navigator.pushReplacement(
         MaterialPageRoute(
-          builder: (context) => HomeScreen(),
+          builder: (context) => const HomeScreen(),
         ),
       );
     }
@@ -70,7 +70,7 @@ class _SignInFormState extends State<SignInForm> {
     } else {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => HomeScreen(),
+          builder: (context) => const HomeScreen(),
         ),
       );
     }
@@ -164,17 +164,15 @@ class _SignInFormState extends State<SignInForm> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SocialMediaIcon(
-                    imagePath: 'assets/icons/google-plus.svg',
+                    imagePath: 'assets/icons/google_rounded.svg',
                     tap: signInWithGoogle,
                     color: Colors.red,
-                    backgroundColor: Colors.white,
                   ),
                   const SizedBox(width: myDefaultSize * 1.5),
                   SocialMediaIcon(
                     imagePath: 'assets/icons/facebook.svg',
                     tap: signInWithFacebook,
                     color: Colors.white,
-                    backgroundColor: Colors.blue[700],
                   ),
                 ],
               ),

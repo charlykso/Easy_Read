@@ -29,6 +29,8 @@ class AuthService {
       userObject.addAll({
         "accessToken": googleKey?.accessToken,
         "name": result?.displayName,
+        "image": result?.photoUrl,
+        "email": result?.email,
       });
 
       //TODO: Communicate with our backend and get user token
