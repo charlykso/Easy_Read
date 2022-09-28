@@ -8,9 +8,17 @@ class BookTile extends StatelessWidget {
   const BookTile({
     Key? key,
     required this.book,
+    this.padding,
+    this.height,
+    this.width,
+    this.titleStyle,
   }) : super(key: key);
 
   final Book book;
+  final EdgeInsetsGeometry? padding;
+  final double? height;
+  final double? width;
+  final TextStyle? titleStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +33,17 @@ class BookTile extends StatelessWidget {
         ),
       ),
       child: SizedBox(
-        height: size.height * 0.2,
+        height: height ?? size.height * 0.2,
         child: Padding(
-          padding: const EdgeInsets.only(
-            top: myDefaultSize * 1.2,
-            left: myDefaultSize,
-          ),
+          padding: padding ??
+              const EdgeInsets.only(
+                top: myDefaultSize * 1.2,
+                left: myDefaultSize,
+              ),
           child: Row(
             children: [
               Container(
-                width: size.width * 0.25,
+                width: width ?? size.width * 0.25,
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(myDefaultSize * .5),
@@ -55,9 +64,10 @@ class BookTile extends StatelessWidget {
                     children: [
                       Text(
                         book.title,
-                        style: theme.textTheme.headline5?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: titleStyle ??
+                            theme.textTheme.headline5?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                       const SizedBox(height: 2.0),
                       Text(
