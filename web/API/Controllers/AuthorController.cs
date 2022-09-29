@@ -95,7 +95,7 @@ namespace API.Controllers
                             author.Created_at = DateTime.Now;
 
                             _iAuthor!.CreateAuthor(author);
-                            return Ok("Author created successfuly!");
+                            return Created("Success", new { success = "Author created successfuly!"});
                         }
                         else
                         {

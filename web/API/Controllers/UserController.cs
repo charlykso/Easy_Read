@@ -118,7 +118,14 @@ namespace API.Controllers
         //when the user is created generate JWT token for the user and return the token
         var newToken = new GenerateToken(_IConfig);
         var token = newToken.GenerateTokenForUser(user);
-        return Ok(token);
+
+        return Created( "Succesful",new {
+          token = token,
+          Firstname = user.Firstname,
+          Lastname = user.Lastname,
+          Email = user.Email,
+          Phone_no = user.Phone_no,
+        });
       }
       catch (System.Exception ex)
       {
@@ -135,7 +142,7 @@ namespace API.Controllers
       {
         if (Id <= 0)
         {
-          return BadRequest("invalid Id");
+          return NoContent();
         }
         var user = _iUser!.GetUser(Id);
         if (user is null)
@@ -153,7 +160,7 @@ namespace API.Controllers
         try
         {
           _iUser.UpdateUser(Id, user);
-          return Ok(user);
+          return Created("User Updated successfuly", user);
         }
         catch (System.Exception ex1)
         {
@@ -208,14 +215,13 @@ namespace API.Controllers
               var newToken = new GenerateToken(_IConfig);
               var JwtToken = newToken.GenerateTokenForSocialUser(user);
 
-              return Ok(new
+              return Created("Succesful", new
                     {
                         token = JwtToken,
                         FirstName = user.Firstname,
                         LastName = user.Lastname,
                         Role = user.Role,
                         Email = user.Email,
-
                     });
             }
             catch (System.Exception ex1)
@@ -241,7 +247,7 @@ namespace API.Controllers
                     });
           }
         }
-        return BadRequest("Unautorized");
+        return NoContent();
       }
       catch (System.Exception ex)
       {
@@ -294,7 +300,7 @@ namespace API.Controllers
               var newToken = new GenerateToken(_IConfig);
               var JwtToken = newToken.GenerateTokenForSocialUser(user);
 
-              return Ok(new
+              return Created("Succesful", new
                     {
                         token = JwtToken,
                         FirstName = user.Firstname,
@@ -318,7 +324,7 @@ namespace API.Controllers
               var newUser = _iUser.GetUserByMail(Fuser.email!);
               var newToken = new GenerateToken(_IConfig);
               var JwtToken = newToken.GenerateTokenForSocialUser(newUser);
-              return Ok(JwtToken);
+             
               return Ok(new
                     {
                         token = JwtToken,
@@ -330,7 +336,7 @@ namespace API.Controllers
                     });
             }
         }
-        return BadRequest("Unautorized");
+        return NoContent();
       }
       catch (System.Exception ex)
       {
@@ -364,7 +370,7 @@ namespace API.Controllers
         catch (System.Exception ex1)
         {
 
-          return NotFound(ex1.Message);
+          return BadRequest(ex1.Message);
         }
       }
       catch (System.Exception ex)
