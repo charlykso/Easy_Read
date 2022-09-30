@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 AppBar myDefaultAppBar(BuildContext context) {
   final AuthService authService = AuthService();
 
-  _signUserOut(BuildContext context) async {
+  signUserOut(BuildContext context) async {
     final dynamic result = await authService.signOut();
 
     // TODO: Implement this auto with riverpod
@@ -41,7 +41,7 @@ AppBar myDefaultAppBar(BuildContext context) {
         itemBuilder: (context) => [
           PopupMenuItem(
             child: TextButton.icon(
-              onPressed: () => _signUserOut(context),
+              onPressed: () => signUserOut(context),
               icon: const Icon(Icons.logout_outlined),
               label: const Text('Logout'),
             ),

@@ -1,24 +1,25 @@
 class User {
   int? id;
+  String? token;
   String? firstName;
   String? lastName;
   String? email;
   String? phoneNumber;
   String? password;
-  int? code;
 
   User({
     this.id,
+    this.token,
     this.firstName,
     this.lastName,
     this.email,
     this.phoneNumber,
     this.password,
-    this.code,
   });
 
   User.fromJson(Map<String, dynamic> json) {
-    id = json['id'] ?? 0;
+    id = json['id'];
+    token = json['token'];
     firstName = json['firstName'];
     lastName = json['lastName'];
     email = json['email'];
@@ -32,26 +33,24 @@ class User {
         "email": email,
         "phone_no": phoneNumber,
         "password": password,
-        "code": code,
       };
 
   User copyWith({
-    int? id,
+    String? token,
     String? firstName,
     String? lastName,
     String? email,
     String? phoneNumber,
     String? password,
-    int? code,
   }) {
     return User(
-      id: id ?? this.id,
+      id: id,
+      token: token ?? this.token,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       email: email ?? this.email,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       password: password ?? this.password,
-      code: code ?? code,
     );
   }
 }

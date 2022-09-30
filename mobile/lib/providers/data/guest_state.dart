@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
 /// Stores temporary data of a guest user
@@ -13,6 +13,7 @@ class GuestState {
     this.userInputCodes,
     this.canResend = false,
     this.countdownAnimationController,
+    this.userSuppliedCode,
   });
 
   // Sign Up Form States
@@ -28,6 +29,7 @@ class GuestState {
 
   /// Verification code entered by user on `VerificationScreen`
   List<String?>? userInputCodes;
+  String? userSuppliedCode;
   bool? canResend = false;
 
   GuestState copyWith({
@@ -40,6 +42,7 @@ class GuestState {
     bool? canResend,
     AnimationController? countdownController,
     List<String?>? inputCodes,
+    String? userSuppliedCode,
   }) {
     return GuestState(
       firstName: firstName ?? this.firstName,
@@ -52,6 +55,7 @@ class GuestState {
       canResend: canResend ?? this.canResend,
       countdownAnimationController:
           countdownController ?? countdownAnimationController,
+      userSuppliedCode: userSuppliedCode ?? this.userSuppliedCode,
     );
   }
 }

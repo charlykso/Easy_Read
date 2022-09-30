@@ -66,7 +66,6 @@ abstract class MySearchDelegate<T> {
     final ColorScheme colorScheme = theme.colorScheme;
     return theme.copyWith(
       appBarTheme: AppBarTheme(
-        brightness: colorScheme.brightness,
         backgroundColor: colorScheme.brightness == Brightness.dark
             ? Colors.grey[900]
             : Colors.white,
@@ -408,7 +407,7 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
 
     final AuthService authService = AuthService();
 
-    _signUserOut(BuildContext context) async {
+    signUserOut(BuildContext context) async {
       final dynamic result = await authService.signOut();
 
       // TODO: Implement this auto with riverpod
@@ -452,7 +451,7 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
                 itemBuilder: (context) => [
                   PopupMenuItem(
                     child: TextButton.icon(
-                      onPressed: () => _signUserOut(context),
+                      onPressed: () => signUserOut(context),
                       icon: const Icon(Icons.logout_outlined),
                       label: const Text('Logout'),
                     ),

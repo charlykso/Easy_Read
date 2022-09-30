@@ -23,7 +23,7 @@ class GuestNotifier extends StateNotifier<GuestState> {
         ),
       );
 
-  Future<String?> signUserUp() async =>
+  Future<Map?> signUserUp() async =>
       await _authService.signUpWithPhoneNumberAndPassword(
         u: User(
           firstName: state.firstName,
@@ -46,7 +46,8 @@ class GuestNotifier extends StateNotifier<GuestState> {
       );
 
   bool validateVerificationCode() {
-    String? inputCodes = state.userInputCodes?.join();
+    String? inputCodes = state.userInputCodes!.join();
+    state = state.copyWith(userSuppliedCode: inputCodes);
     if (state.verificationCode == inputCodes) {
       return true;
     } else {

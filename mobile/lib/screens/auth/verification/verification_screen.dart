@@ -165,7 +165,10 @@ class VerificationScreenState extends ConsumerState<VerificationScreen> {
         child: TextField(
           onChanged: (String value) {
             //- saving entered value
-            ref.watch(guestNotifierProvider).userInputCodes![index] = value;
+            //! Error here
+            //* create text editing controller and use it to get the value of each textfield
+            //* refer to that pkg for more details
+            ref.watch(guestNotifierProvider).userInputCodes?[index] = value;
             if (value.length == 1 && index != 5) {
               FocusScope.of(context).nextFocus();
             }

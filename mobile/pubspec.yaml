@@ -42,11 +42,11 @@ dependencies:
   google_sign_in: ^5.3.3 # For google auth
   flutter_facebook_auth: ^4.3.4+2
   intl_phone_field: ^3.1.0
-  shared_preferences: ^2.0.15
   dio: ^4.0.6
   logger: ^1.1.0
   flutter_keyboard_visibility: ^5.3.0
   flutter_rating_bar: ^4.0.1
+  flutter_secure_storage: ^5.1.2
 
 dev_dependencies:
   flutter_test:

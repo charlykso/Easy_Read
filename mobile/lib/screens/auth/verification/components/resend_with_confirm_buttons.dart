@@ -1,6 +1,6 @@
 import 'package:easy_read/providers/guest_notifier.dart';
+import 'package:easy_read/providers/user_notifier.dart';
 import 'package:easy_read/screens/auth/verification/components/custom_button.dart';
-import 'package:easy_read/screens/home/home_screen.dart';
 import 'package:easy_read/services/dialog_helper.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,7 @@ class ResendWithConfirmButtons extends ConsumerWidget {
     final Size size = MediaQuery.of(context).size;
     final guestState = ref.watch(guestNotifierProvider);
     final guestNotifier = ref.watch(guestNotifierProvider.notifier);
+    final userNotifier = ref.watch(userNotifierProvider.notifier);
     void resendCode() async {
       dynamic result = await guestNotifier.requestVerificationCodeFromApi();
 
@@ -58,32 +59,33 @@ class ResendWithConfirmButtons extends ConsumerWidget {
         CustomButton(
           text: "Confirm",
           press: () async {
+            logger.i("Before: ${guestState.verificationCode}");
+            logger.wtf(guestState.userInputCodes?.join());
             if (guestNotifier.validateVerificationCode()) {
               // Sign user in using the api
-              String? result = await guestNotifier.signUserUp();
+              Map? result = await guestNotifier.signUserUp();
 
-              if (result!.contains(RegExp(r"^error"))) {
+              if (result!.containsKey("error")) {
                 DialogHelper.showErrorDialog(
-                    context: context, description: result.substring(0, 5));
+                    context: context, description: result["error"]);
+                logger.i("After: ${guestState.verificationCode}");
+                logger.wtf(guestState.userInputCodes?.join());
               } else {
-                //TODO: Save the token permanently on the device
-                //TODO: Fetch user details
+                // Save the details on the device
+                userNotifier.saveCurrentUser();
+
+                // clear temp user state
+                guestNotifier.reset();
 
                 // navigate to home screen
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
+                // Navigator.pushReplacement(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => const HomeScreen()));
               }
-
-              //- At the end, clear temp user state
-              guestNotifier.reset();
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  duration: myAnimationDuration * 4,
-                  backgroundColor: Colors.red[700],
-                  content: const Text('Incorrect code supplied!'),
-                ),
-              );
+              DialogHelper.showErrorDialog(
+                  context: context, description: 'Incorrect code supplied!');
             }
           },
           backgroundColor: Theme.of(context).primaryColor,

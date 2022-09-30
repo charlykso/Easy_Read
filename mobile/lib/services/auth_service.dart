@@ -1,52 +1,47 @@
 import 'package:easy_read/models/user.dart';
-import 'package:easy_read/services/app_exceptions.dart';
+import 'package:easy_read/services/dio_exception.dart';
 import 'package:easy_read/shared/helpers.dart';
-import 'package:easy_read/shared/logger_interceptor.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:dio/dio.dart';
 
 class AuthService {
-  String? userToken = "";
-  String address = "https://192.168.1.103:7144";
+  String? userToken;
+  String address = "https://192.168.0.100:7144";
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   AuthService()
       : _dio = Dio(
           BaseOptions(
             connectTimeout: 10000,
           ),
-        )..interceptors.add(LoggerInterceptor());
+        );
+
   late final Dio _dio;
 
-  Future<String?> signInWithGoogle() async {
+  Map<String, String> _handleDioError(DioError e) =>
+      {"error": DioException.fromDioError(e).toString()};
+
+  Future<Map?> signInWithGoogle() async {
     try {
       await _googleSignIn.signOut();
-      Map<String, dynamic> userObject = {};
       var result = await _googleSignIn.signIn();
       var googleKey = await result?.authentication;
 
-      userObject.addAll({
+      Map<String, dynamic> userObject = {
         "accessToken": googleKey?.accessToken,
-        "name": result?.displayName,
-        "image": result?.photoUrl,
-        "email": result?.email,
-      });
+      };
 
-      //TODO: Communicate with our backend and get user token
-      //TODO: Assign the user token to [userToken]
+      var formData = FormData.fromMap(userObject);
+      Response response =
+          await _dio.post("$address/api/user/googleauth", data: formData);
 
-      return userToken;
-    } on PlatformException catch (e) {
-      e.log();
+      userToken = response.data;
 
-      e.code.log();
-    } catch (e) {
-      // TODO: Handle all errors properly
-      // Other errors
-      e.log();
+      return <String, dynamic>{"success": userToken};
+    } on DioError catch (e) {
+      return _handleDioError(e);
     }
-    return null;
   }
 
   Future<String?> signInWithFacebook() async {
@@ -88,15 +83,15 @@ class AuthService {
 
   Future<String?> signInWithPhoneNumberAndPassWord() async => "user token";
 
-  Future<String?> signUpWithPhoneNumberAndPassword({required User u}) async {
+  Future<Map?> signUpWithPhoneNumberAndPassword({required User u}) async {
     try {
       var formData = FormData.fromMap(u.toMap());
       Response result =
           await _dio.post("$address/api/createuser", data: formData);
 
-      return result.data;
+      return <String, dynamic>{"success": result.data};
     } on DioError catch (e) {
-      return "error${DioException.fromDioError(e).toString()}";
+      return _handleDioError(e);
     }
   }
 
