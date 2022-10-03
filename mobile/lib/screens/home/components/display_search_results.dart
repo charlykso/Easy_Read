@@ -21,8 +21,6 @@ class _DisplaySearchResultsState extends State<DisplaySearchResults> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Column(
       children: [
         const SizedBox(height: myDefaultSize * 1.5),

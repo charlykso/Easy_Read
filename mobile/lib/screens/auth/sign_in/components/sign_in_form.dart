@@ -34,7 +34,7 @@ class _SignInFormState extends State<SignInForm> {
   }
 
   signInWithFacebook() async {
-    final String? user = await authService.signInWithFacebook();
+    final Result user = await authService.signInWithFacebook();
 
     // TODO: Implement this auto with riverpod
     if (user == null) {

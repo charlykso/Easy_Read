@@ -10,7 +10,6 @@ class GuestState {
     this.phoneNumber,
     this.password,
     this.verificationCode,
-    this.userInputCodes,
     this.canResend = false,
     this.countdownAnimationController,
     this.userSuppliedCode,
@@ -28,7 +27,6 @@ class GuestState {
   String? verificationCode;
 
   /// Verification code entered by user on `VerificationScreen`
-  List<String?>? userInputCodes;
   String? userSuppliedCode;
   bool? canResend = false;
 
@@ -41,7 +39,6 @@ class GuestState {
     String? verificationCode,
     bool? canResend,
     AnimationController? countdownController,
-    List<String?>? inputCodes,
     String? userSuppliedCode,
   }) {
     return GuestState(
@@ -51,7 +48,6 @@ class GuestState {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       password: password ?? this.password,
       verificationCode: verificationCode ?? this.verificationCode,
-      userInputCodes: inputCodes ?? userInputCodes,
       canResend: canResend ?? this.canResend,
       countdownAnimationController:
           countdownController ?? countdownAnimationController,

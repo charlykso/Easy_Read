@@ -1,6 +1,8 @@
 import 'package:easy_read/providers/guest_notifier.dart';
+import 'package:easy_read/providers/loading_notifier.dart';
 import 'package:easy_read/screens/auth/sign_in/sign_in_screen.dart';
 import 'package:easy_read/screens/auth/verification/verification_screen.dart';
+import 'package:easy_read/services/auth_service.dart';
 import 'package:easy_read/services/dialog_helper.dart';
 import 'package:easy_read/shared/util/toggle_auth_screen.dart';
 import 'package:easy_read/shared/validator.dart';
@@ -17,8 +19,8 @@ class SignUpForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final guestNotifier = ref.watch(guestNotifierProvider.notifier);
-    final guestState = ref.watch(guestNotifierProvider);
+    final guestNotifier = ref.watch(guestProvider.notifier);
+    final guestState = ref.watch(guestProvider);
     final formKey = GlobalKey<FormState>();
     Validator validator = Validator();
 
@@ -76,11 +78,19 @@ class SignUpForm extends ConsumerWidget {
             width: double.infinity,
             press: () async {
               if (formKey.currentState!.validate()) {
-                dynamic result =
+                final loadingNotifier = ref.watch(loadingProvider.notifier);
+
+                loadingNotifier.turnOn();
+                Result result =
                     await guestNotifier.requestVerificationCodeFromApi();
 
-                if (result != null && result.contains(RegExp(r"^[0-9]{6}$"))) {
-                  guestState.verificationCode = result;
+                loadingNotifier.turnOff();
+                if (result.status == ResultStatus.success) {
+                  //! Debugging -----------------------------------------------|
+                  // && result.data.contains(RegExp(r"^[0-9]{6}$")
+                  guestState.verificationCode = '123456';
+                  //! ---------------------------------------------------------|
+                  // guestState.verificationCode = result.data;
 
                   Navigator.pushReplacement(
                     context,
@@ -89,7 +99,7 @@ class SignUpForm extends ConsumerWidget {
                   );
                 } else {
                   DialogHelper.showErrorDialog(
-                      context: context, description: result);
+                      context: context, description: result.data);
                 }
               }
             },

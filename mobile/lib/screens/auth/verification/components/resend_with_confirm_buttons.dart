@@ -1,6 +1,8 @@
 import 'package:easy_read/providers/guest_notifier.dart';
+import 'package:easy_read/providers/loading_notifier.dart';
 import 'package:easy_read/providers/user_notifier.dart';
 import 'package:easy_read/screens/auth/verification/components/custom_button.dart';
+import 'package:easy_read/services/auth_service.dart';
 import 'package:easy_read/services/dialog_helper.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:flutter/material.dart';
@@ -14,17 +16,23 @@ class ResendWithConfirmButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Size size = MediaQuery.of(context).size;
-    final guestState = ref.watch(guestNotifierProvider);
-    final guestNotifier = ref.watch(guestNotifierProvider.notifier);
-    final userNotifier = ref.watch(userNotifierProvider.notifier);
-    void resendCode() async {
-      dynamic result = await guestNotifier.requestVerificationCodeFromApi();
+    final guestState = ref.watch(guestProvider);
+    final guestNotifier = ref.watch(guestProvider.notifier);
+    final userNotifier = ref.watch(userProvider.notifier);
+    final loadingNotifier = ref.watch(loadingProvider.notifier);
 
-      if (result != null && result.contains(RegExp(r"^[0-9]{6}$"))) {
-        guestState.verificationCode = result;
+    void resendCode() async {
+      loadingNotifier.turnOn();
+
+      Result result = await guestNotifier.requestVerificationCodeFromApi();
+
+      loadingNotifier.turnOff();
+      if (result.status == ResultStatus.success) {
+        guestState.verificationCode = result.data;
         guestNotifier.resetOnResend();
       } else {
-        DialogHelper.showErrorDialog(context: context, description: result);
+        DialogHelper.showErrorDialog(
+            context: context, description: result.data);
       }
     }
 
@@ -59,23 +67,19 @@ class ResendWithConfirmButtons extends ConsumerWidget {
         CustomButton(
           text: "Confirm",
           press: () async {
-            logger.i("Before: ${guestState.verificationCode}");
-            logger.wtf(guestState.userInputCodes?.join());
             if (guestNotifier.validateVerificationCode()) {
               // Sign user in using the api
-              Map? result = await guestNotifier.signUserUp();
+              Result result = await guestNotifier.signUserUp();
 
-              if (result!.containsKey("error")) {
+              if (result.status == ResultStatus.error) {
                 DialogHelper.showErrorDialog(
-                    context: context, description: result["error"]);
-                logger.i("After: ${guestState.verificationCode}");
-                logger.wtf(guestState.userInputCodes?.join());
+                    context: context, description: result.data);
               } else {
                 // Save the details on the device
-                userNotifier.saveCurrentUser();
+                userNotifier.saveCurrentUser(userInfo: result.data);
 
                 // clear temp user state
-                guestNotifier.reset();
+                // guestNotifier.reset();
 
                 // navigate to home screen
                 // Navigator.pushReplacement(

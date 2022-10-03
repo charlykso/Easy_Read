@@ -3,7 +3,7 @@ import 'package:easy_read/providers/data/guest_state.dart';
 import 'package:easy_read/services/auth_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final guestNotifierProvider =
+final guestProvider =
     StateNotifierProvider.autoDispose<GuestNotifier, GuestState>(
         (ref) => GuestNotifier());
 
@@ -12,7 +12,7 @@ class GuestNotifier extends StateNotifier<GuestState> {
 
   final AuthService _authService = AuthService();
 
-  Future<String?> requestVerificationCodeFromApi() async =>
+  Future<Result> requestVerificationCodeFromApi() async =>
       await _authService.getVerificationCode(
         u: User(
           firstName: state.firstName,
@@ -23,7 +23,7 @@ class GuestNotifier extends StateNotifier<GuestState> {
         ),
       );
 
-  Future<Map?> signUserUp() async =>
+  Future<Result> signUserUp() async =>
       await _authService.signUpWithPhoneNumberAndPassword(
         u: User(
           firstName: state.firstName,
@@ -46,9 +46,7 @@ class GuestNotifier extends StateNotifier<GuestState> {
       );
 
   bool validateVerificationCode() {
-    String? inputCodes = state.userInputCodes!.join();
-    state = state.copyWith(userSuppliedCode: inputCodes);
-    if (state.verificationCode == inputCodes) {
+    if (state.verificationCode == state.userSuppliedCode) {
       return true;
     } else {
       return false;

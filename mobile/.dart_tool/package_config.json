@@ -344,6 +344,12 @@
       "languageVersion": "2.16"
     },
     {
+      "name": "pinput",
+      "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/pinput-2.2.12",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "platform",
       "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/platform-3.1.0",
       "packageUri": "lib/",
@@ -378,6 +384,12 @@
       "rootUri": "file:///home/miralo/snap/flutter/common/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "smart_auth",
+      "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/smart_auth-1.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
     },
     {
       "name": "source_span",
@@ -506,7 +518,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2022-09-29T16:25:18.213016Z",
+  "generated": "2022-09-30T08:31:45.375735Z",
   "generator": "pub",
   "generatorVersion": "2.18.2"
 }

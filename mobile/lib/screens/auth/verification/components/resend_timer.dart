@@ -18,7 +18,7 @@ class ResendTimerState extends ConsumerState<ResendTimer>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final guestState = ref.watch(guestNotifierProvider);
+    final guestState = ref.watch(guestProvider);
     guestState.countdownAnimationController = AnimationController(
       duration: Duration(seconds: waitTime),
       vsync: this,
@@ -29,11 +29,11 @@ class ResendTimerState extends ConsumerState<ResendTimer>
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final guestState = ref.watch(guestNotifierProvider);
+    final guestState = ref.watch(guestProvider);
     guestState.countdownAnimationController?.addStatusListener((status) {
       switch (status) {
         case AnimationStatus.completed:
-          ref.watch(guestNotifierProvider.notifier).setCanResend(value: true);
+          ref.watch(guestProvider.notifier).setCanResend(value: true);
           break;
         default:
       }
