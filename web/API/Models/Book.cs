@@ -41,6 +41,7 @@ namespace API.Models
         public String? Body {get; set;}
 
         [Required]
+        
         public double Price {get; set;}
 
         public DateTime? Created_at {get; set;} = null;

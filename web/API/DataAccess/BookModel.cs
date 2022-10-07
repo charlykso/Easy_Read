@@ -43,6 +43,9 @@ namespace API.DataAccess
         [Required]
         public double Price {get; set;}
 
+        [Required]
+        public int? AuthorId { get; set; }
+
 
     }
 }

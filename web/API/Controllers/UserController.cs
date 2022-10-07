@@ -121,6 +121,7 @@ namespace API.Controllers
 
         return Created( "Succesful",new {
           token = token,
+          Id = user.Id,
           Firstname = user.Firstname,
           Lastname = user.Lastname,
           Email = user.Email,

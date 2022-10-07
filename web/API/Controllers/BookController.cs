@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     // [Authorize(Roles = "Admin")]
@@ -110,12 +111,12 @@ namespace API.Controllers
             try
             {
                 var first_guid = Guid.NewGuid();
-                var first_filePath = Path.Combine("wwwroot/book_cover", first_guid + ".jpg");
+                var first_filePath = Path.Combine("wwwroot/book_cover/", first_guid + ".jpg");
                 var first_filestream = new FileStream(first_filePath, FileMode.Create);
                 newBook.Front_Cover_Img!.CopyTo(first_filestream);
 
                 var second_guid = Guid.NewGuid();
-                var second_filePath = Path.Combine("wwwroot/book_cover", second_guid + ".jpg");
+                var second_filePath = Path.Combine("wwwroot/book_cover/", second_guid + ".jpg");
                 var second_filestream = new FileStream(second_filePath, FileMode.Create);
                 newBook.Back_Cover_Img!.CopyTo(second_filestream);
 
@@ -130,6 +131,7 @@ namespace API.Controllers
                 var key = _iConfig["Enc:key"];
                 var mainBody = StringEncryption.EncryptString(key, newBook.Body!);
                 book.Body = mainBody;
+                book.AuthorId = newBook.AuthorId;
                 book.Created_at = DateTime.Now;
                 book.YearOf_Publication = newBook.YearOf_Publication;
 
