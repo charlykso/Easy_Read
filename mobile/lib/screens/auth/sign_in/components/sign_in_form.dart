@@ -1,4 +1,3 @@
-import 'package:easy_read/screens/auth/sign_up/sign_up_screen.dart';
 import 'package:easy_read/screens/home/home_screen.dart';
 import 'package:easy_read/services/auth_service.dart';
 import 'package:easy_read/shared/util/social_media_icon.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:easy_read/shared/util/my_primary_button.dart';
 import 'package:easy_read/shared/util/my_text_input_field.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
@@ -46,7 +46,7 @@ class _SignInFormState extends State<SignInForm> {
         ),
       );
     } else {
-      "$user is ready!".log();
+      logger.i("$user is ready!");
       _navigator.pushReplacement(
         MaterialPageRoute(
           builder: (context) => const HomeScreen(),
@@ -146,12 +146,7 @@ class _SignInFormState extends State<SignInForm> {
               child: ToggleAuthScreen(
                 statement: "I don't have an account yet. ",
                 action: "Sign Up",
-                onTap: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const SignUpScreen(),
-                  ),
-                ),
+                onTap: () => context.goNamed('register'),
               ),
             ),
             Text(

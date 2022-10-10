@@ -63,6 +63,7 @@ class VerificationScreenState extends ConsumerState<VerificationScreen> {
                 guestState.verificationCode = result.data;
                 guestNotifier.resetOnResend();
 
+                if (!mounted) return;
                 Navigator.pop(context);
               } else {
                 DialogHelper.showErrorDialog(
@@ -113,7 +114,7 @@ class VerificationScreenState extends ConsumerState<VerificationScreen> {
                 Row(
                   children: [
                     Text(
-                      guestState.phoneNumber!.completeNumber,
+                      guestState.phoneNumber?.completeNumber ?? '***********',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),

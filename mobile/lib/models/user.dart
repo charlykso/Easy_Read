@@ -1,6 +1,7 @@
 class User {
   int? id;
   String? token;
+  String? tokenExpiration;
   String? firstName;
   String? lastName;
   String? email;
@@ -10,6 +11,7 @@ class User {
   User({
     this.id,
     this.token,
+    this.tokenExpiration,
     this.firstName,
     this.lastName,
     this.email,
@@ -17,14 +19,14 @@ class User {
     this.password,
   });
 
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    token = json['token'];
-    firstName = json['firstName'];
-    lastName = json['lastName'];
-    email = json['email'];
-    phoneNumber = json['phoneNumber'];
-    password = json['password'];
+  User.fromMap(Map<String, dynamic> info) {
+    id = info['id'];
+    token = info['token'];
+    tokenExpiration = info['tokenExpiration'];
+    firstName = info['firstName'];
+    lastName = info['lastName'];
+    email = info['email'];
+    phoneNumber = info['phone_number'];
   }
 
   Map<String, dynamic> toMap() => <String, dynamic>{
@@ -37,6 +39,7 @@ class User {
 
   User copyWith({
     String? token,
+    String? tokenExpiration,
     String? firstName,
     String? lastName,
     String? email,
@@ -46,6 +49,7 @@ class User {
     return User(
       id: id,
       token: token ?? this.token,
+      tokenExpiration: tokenExpiration ?? this.tokenExpiration,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       email: email ?? this.email,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinput/pinput.dart';
 
+// ignore: use_key_in_widget_constructors
 class FilledRoundedPinPut extends StatefulWidget {
   @override
   FilledRoundedPinPutState createState() => FilledRoundedPinPutState();

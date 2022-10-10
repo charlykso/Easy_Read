@@ -1,9 +1,9 @@
 import 'package:easy_read/models/feature_info.dart';
-import 'package:easy_read/screens/auth/sign_in/sign_in_screen.dart';
 import 'package:easy_read/screens/onboarding/components/carousel_dot.dart';
 import 'package:easy_read/shared/util/my_primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_read/shared/helpers.dart';
+import 'package:go_router/go_router.dart';
 
 class Feature extends StatelessWidget {
   /// The `Feature` widget displays a feature
@@ -87,12 +87,7 @@ class Feature extends StatelessWidget {
                   MyPrimaryButton(
                     text: 'Get Started',
                     press: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignInScreen(),
-                        ),
-                      );
+                      context.goNamed('login');
                     },
                   ),
                   const Spacer(),

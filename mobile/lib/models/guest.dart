@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
 /// Stores temporary data of a guest user
-class GuestState {
-  GuestState({
+class Guest {
+  Guest({
     this.firstName,
     this.lastName,
     this.emailAddress,
@@ -30,7 +30,7 @@ class GuestState {
   String? userSuppliedCode;
   bool? canResend = false;
 
-  GuestState copyWith({
+  Guest copyWith({
     String? firstName,
     String? lastName,
     String? emailAddress,
@@ -40,8 +40,9 @@ class GuestState {
     bool? canResend,
     AnimationController? countdownController,
     String? userSuppliedCode,
+    bool? passwordVisible,
   }) {
-    return GuestState(
+    return Guest(
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       emailAddress: emailAddress ?? this.emailAddress,

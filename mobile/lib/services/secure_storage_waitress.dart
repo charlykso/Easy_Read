@@ -28,11 +28,20 @@ class SecureStorageWaitress {
   }
 
   /// Get one item
-  Future<dynamic> getItem({required String k}) async =>
+  Future<String?> getItem({required String k}) async =>
       await _storage.read(key: k);
 
   /// Get all items saved in secure storage
-  Future<Map<String, dynamic>> getAll() async => await _storage.readAll(
+  Future<Map<String, String>> getAll() async => await _storage.readAll(
+        aOptions: _getAndroidOptions(),
+      );
+
+  /// Delete one item
+  Future<void> removeItem({required String k}) async =>
+      await _storage.delete(key: k, aOptions: _getAndroidOptions());
+
+  /// Delete all items from secure storage
+  Future<void> removeAll() async => await _storage.deleteAll(
         aOptions: _getAndroidOptions(),
       );
 }

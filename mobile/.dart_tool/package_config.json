@@ -182,6 +182,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "go_router",
+      "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/go_router-5.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "google_fonts",
       "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/google_fonts-3.0.1",
       "packageUri": "lib/",
@@ -256,6 +262,12 @@
     {
       "name": "logger",
       "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/logger-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "logging",
+      "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/logging-1.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -518,7 +530,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2022-09-30T08:31:45.375735Z",
+  "generated": "2022-10-03T17:03:33.748179Z",
   "generator": "pub",
   "generatorVersion": "2.18.2"
 }

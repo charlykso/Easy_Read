@@ -1,14 +1,13 @@
 import 'package:easy_read/models/user.dart';
-import 'package:easy_read/providers/data/guest_state.dart';
+import 'package:easy_read/models/guest.dart';
 import 'package:easy_read/services/auth_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final guestProvider =
-    StateNotifierProvider.autoDispose<GuestNotifier, GuestState>(
-        (ref) => GuestNotifier());
+final guestProvider = StateNotifierProvider.autoDispose<GuestNotifier, Guest>(
+    (ref) => GuestNotifier());
 
-class GuestNotifier extends StateNotifier<GuestState> {
-  GuestNotifier() : super(GuestState());
+class GuestNotifier extends StateNotifier<Guest> {
+  GuestNotifier() : super(Guest());
 
   final AuthService _authService = AuthService();
 
@@ -53,5 +52,5 @@ class GuestNotifier extends StateNotifier<GuestState> {
     }
   }
 
-  void reset() => state = GuestState();
+  void reset() => state = Guest();
 }

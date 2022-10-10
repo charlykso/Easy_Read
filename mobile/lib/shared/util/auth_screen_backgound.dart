@@ -16,7 +16,7 @@ class AuthScreenBackground extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return KeyboardVisibilityBuilder(
-      builder: (context, isKeyboardVisible) => Stack(
+      builder: (context, keyboardIsVisible) => Stack(
         alignment: Alignment.center,
         children: [
           Positioned(
@@ -44,7 +44,7 @@ class AuthScreenBackground extends StatelessWidget {
             child: AnimatedOpacity(
               // If keyboard is visible, animate to 0.0 (invisible).
               // If keyboard is not visible, animate to 1.0 (fully visible).
-              opacity: isKeyboardVisible ? 0.0 : 1.0,
+              opacity: keyboardIsVisible ? 0.0 : 1.0,
               duration: const Duration(milliseconds: 500),
               child: SvgPicture.asset(
                 "assets/images/new_reg1.svg",

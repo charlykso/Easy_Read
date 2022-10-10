@@ -1,6 +1,6 @@
 import 'package:easy_read/providers/guest_notifier.dart';
 import 'package:easy_read/providers/loading_notifier.dart';
-import 'package:easy_read/providers/user_notifier.dart';
+import 'package:easy_read/providers/user_state.dart';
 import 'package:easy_read/screens/auth/verification/components/custom_button.dart';
 import 'package:easy_read/services/auth_service.dart';
 import 'package:easy_read/services/dialog_helper.dart';
@@ -20,6 +20,7 @@ class ResendWithConfirmButtons extends ConsumerWidget {
     final guestNotifier = ref.watch(guestProvider.notifier);
     final userNotifier = ref.watch(userProvider.notifier);
     final loadingNotifier = ref.watch(loadingProvider.notifier);
+    String resendButtonText = "Resend";
 
     void resendCode() async {
       loadingNotifier.turnOn();
@@ -35,8 +36,6 @@ class ResendWithConfirmButtons extends ConsumerWidget {
             context: context, description: result.data);
       }
     }
-
-    String resendButtonText = "Resend";
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -69,23 +68,19 @@ class ResendWithConfirmButtons extends ConsumerWidget {
           press: () async {
             if (guestNotifier.validateVerificationCode()) {
               // Sign user in using the api
+              loadingNotifier.turnOn();
               Result result = await guestNotifier.signUserUp();
 
+              loadingNotifier.turnOff();
               if (result.status == ResultStatus.error) {
                 DialogHelper.showErrorDialog(
                     context: context, description: result.data);
               } else {
+                // Clear temp user state
+                guestNotifier.reset();
+
                 // Save the details on the device
                 userNotifier.saveCurrentUser(userInfo: result.data);
-
-                // clear temp user state
-                // guestNotifier.reset();
-
-                // navigate to home screen
-                // Navigator.pushReplacement(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => const HomeScreen()));
               }
             } else {
               DialogHelper.showErrorDialog(
