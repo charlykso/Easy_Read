@@ -33,15 +33,8 @@ class GuestNotifier extends StateNotifier<Guest> {
         ),
       );
 
-  void resetOnResend() {
-    setCanResend(value: false);
-    state.countdownAnimationController?.value = 0.0;
-    state.countdownAnimationController?.forward();
-  }
-
   void setCanResend({required bool value}) => state = state.copyWith(
         canResend: value,
-        countdownController: state.countdownAnimationController,
       );
 
   bool validateVerificationCode() {

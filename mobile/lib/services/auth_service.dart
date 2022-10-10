@@ -13,8 +13,7 @@ class AuthService {
   AuthService()
       : _dio = Dio(
           BaseOptions(
-            connectTimeout: 10000,
-            receiveTimeout: 5000,
+            connectTimeout: 20000,
           ),
         )..interceptors.add(LoggerInterceptor());
 

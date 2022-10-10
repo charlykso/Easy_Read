@@ -11,7 +11,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ResendWithConfirmButtons extends ConsumerWidget {
   const ResendWithConfirmButtons({
     Key? key,
+    required this.restartCountdownAnimation,
   }) : super(key: key);
+
+  final Function() restartCountdownAnimation;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,7 +33,8 @@ class ResendWithConfirmButtons extends ConsumerWidget {
       loadingNotifier.turnOff();
       if (result.status == ResultStatus.success) {
         guestState.verificationCode = result.data;
-        guestNotifier.resetOnResend();
+        guestNotifier.setCanResend(value: false);
+        restartCountdownAnimation();
       } else {
         DialogHelper.showErrorDialog(
             context: context, description: result.data);

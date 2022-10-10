@@ -14,25 +14,26 @@ AppBar myDefaultAppBar(BuildContext context, {PreferredSizeWidget? bottom}) {
         onPressed: () {},
         icon: const Icon(Icons.notifications_rounded),
       ),
-      PopupMenuButton(
-        itemBuilder: (context) => [
-          PopupMenuItem(
-            child: Consumer(
-                builder: (BuildContext context, WidgetRef ref, Widget? _) {
-              return TextButton.icon(
-                onPressed: () => ref.read(userProvider.notifier).logout(),
-                icon: const Icon(Icons.logout_outlined),
-                label: const Text('Logout'),
-              );
-            }),
+      Consumer(builder: (BuildContext context, WidgetRef ref, Widget? _) {
+        return PopupMenuButton(
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              onTap: () async => await ref.read(userProvider.notifier).logout(),
+              child: Row(
+                children: const [
+                  Icon(Icons.logout_outlined),
+                  Text('Logout'),
+                ],
+              ),
+            ),
+          ],
+          position: PopupMenuPosition.under,
+          child: const CircleAvatar(
+            radius: myDefaultSize * 1.2,
+            backgroundImage: AssetImage('assets/images/user.png'),
           ),
-        ],
-        position: PopupMenuPosition.under,
-        child: const CircleAvatar(
-          radius: myDefaultSize * 1.2,
-          backgroundImage: AssetImage('assets/images/user.png'),
-        ),
-      ),
+        );
+      }),
       const SizedBox(width: myDefaultSize),
     ],
     bottom: bottom ??

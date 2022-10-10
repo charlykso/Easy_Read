@@ -2,10 +2,10 @@ import 'package:easy_read/providers/loading_notifier.dart';
 import 'package:easy_read/screens/auth/verification/components/filled_rounded_pin_put.dart';
 import 'package:easy_read/services/auth_service.dart';
 import 'package:easy_read/services/dialog_helper.dart';
+import 'package:easy_read/shared/animation/countdown_transition.dart';
 import 'package:easy_read/shared/loading_widget.dart';
 import 'package:easy_read/shared/util/plain_app_bar.dart';
 import 'package:easy_read/providers/guest_notifier.dart';
-import 'package:easy_read/screens/auth/verification/components/resend_timer.dart';
 import 'package:easy_read/screens/auth/verification/components/resend_with_confirm_buttons.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:easy_read/shared/validator.dart';
@@ -21,7 +21,11 @@ class VerificationScreen extends ConsumerStatefulWidget {
   VerificationScreenState createState() => VerificationScreenState();
 }
 
-class VerificationScreenState extends ConsumerState<VerificationScreen> {
+class VerificationScreenState extends ConsumerState<VerificationScreen>
+    with TickerProviderStateMixin {
+  int waitTime = 60;
+  late AnimationController countdownController;
+
   _modifyPhoneNumber(BuildContext context, bool isLoading) async {
     final guestState = ref.watch(guestProvider);
 
@@ -61,7 +65,8 @@ class VerificationScreenState extends ConsumerState<VerificationScreen> {
               loadingNotifier.turnOff();
               if (result.status == ResultStatus.success) {
                 guestState.verificationCode = result.data;
-                guestNotifier.resetOnResend();
+                guestNotifier.setCanResend(value: false);
+                _restartCountdown();
 
                 if (!mounted) return;
                 Navigator.pop(context);
@@ -79,10 +84,39 @@ class VerificationScreenState extends ConsumerState<VerificationScreen> {
     );
   }
 
+  _restartCountdown() {
+    countdownController.value = 0.0;
+    countdownController.forward();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    countdownController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: waitTime),
+    );
+    countdownController.forward();
+  }
+
+  @override
+  void dispose() {
+    countdownController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final guestState = ref.watch(guestProvider);
     final isLoading = ref.watch(loadingProvider);
+    countdownController.addStatusListener((status) {
+      switch (status) {
+        case AnimationStatus.completed:
+          ref.watch(guestProvider.notifier).setCanResend(value: true);
+          break;
+        default:
+      }
+    });
 
     return Scaffold(
       appBar: plainAppBar(
@@ -133,12 +167,27 @@ class VerificationScreenState extends ConsumerState<VerificationScreen> {
                       isLoading ? const LoadingWidget() : FilledRoundedPinPut(),
                 ),
                 const SizedBox(height: myDefaultSize * .6),
-                const ResendTimer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Resend code after',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    const SizedBox(width: myDefaultSize * 0.4),
+                    CountdownTransition(
+                      animation: StepTween(begin: waitTime, end: 0)
+                          .animate(countdownController),
+                    ),
+                  ],
+                ),
               ],
             ),
-            const Positioned(
+            Positioned(
               bottom: 0,
-              child: ResendWithConfirmButtons(),
+              child: ResendWithConfirmButtons(
+                restartCountdownAnimation: _restartCountdown,
+              ),
             ),
           ],
         ),

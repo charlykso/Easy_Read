@@ -22,7 +22,7 @@ class SecureStorageWaitress {
   Future<void> addItems({required Map<String, dynamic> items}) async {
     items.forEach((k, v) async => await _storage.write(
           key: k,
-          value: v,
+          value: v.toString(),
           aOptions: _getAndroidOptions(),
         ));
   }
