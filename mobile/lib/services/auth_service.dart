@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:easy_read/models/user.dart';
+import 'package:easy_read/providers/loading_notifier.dart';
 import 'package:easy_read/services/dio_exception.dart';
 import 'package:easy_read/services/logger_interceptor.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:dio/dio.dart';
 
@@ -13,7 +15,8 @@ class AuthService {
   AuthService()
       : _dio = Dio(
           BaseOptions(
-            connectTimeout: 20000,
+            connectTimeout: 10000,
+            receiveTimeout: 15000,
           ),
         )..interceptors.add(LoggerInterceptor());
 
@@ -23,48 +26,78 @@ class AuthService {
       status: ResultStatus.error,
       data: DioException.fromDioError(e).toString());
 
-  Future<Result?> signInWithGoogle() async {
+  Future<Result> signInWithGoogle(WidgetRef ref) async {
     try {
-      await _googleSignIn.signOut();
-      var result = await _googleSignIn.signIn();
-      var googleKey = await result?.authentication;
+      // interact with google api
+      final googleResponse = await _googleSignIn.signIn();
+      if (googleResponse == null) {
+        ref.read(loadingProvider.notifier).turnOff();
+      }
+      final googleKey = await googleResponse!.authentication;
 
-      Map<String, dynamic> userObject = {
-        "accessToken": googleKey?.accessToken,
-      };
-
-      var formData = FormData.fromMap(userObject);
+      // login to the app api
+      var formData = FormData.fromMap({"token": googleKey.accessToken});
       Response response =
           await _dio.post("$address/api/user/googleauth", data: formData);
+      final result = response.data;
+      result['token'] = json.decode(result['token']);
 
-      return Result(status: ResultStatus.success, data: response.data);
+      return Result(status: ResultStatus.success, data: result);
     } on DioError catch (e) {
       return _handleDioError(e);
     }
   }
 
-  Future<Result> signInWithFacebook() async {
+  Future<Result> signInWithFacebook(WidgetRef ref) async {
     try {
-      final LoginResult result = await FacebookAuth.instance.login();
-      AccessToken? accessToken;
+      // interact with facebook api
+      final facebookResponse = await FacebookAuth.instance.login();
+      final loadingNotifier = ref.read(loadingProvider.notifier);
 
-      accessToken = result.accessToken;
+      switch (facebookResponse.status) {
+        case LoginStatus.cancelled:
+          loadingNotifier.turnOff();
+          break;
+        case LoginStatus.failed:
+          loadingNotifier.turnOff();
+          return Result(
+              status: ResultStatus.error, data: facebookResponse.message);
+        default:
+      }
 
-      Map<String, dynamic> userObject = {
-        "accessToken": accessToken?.token,
-      };
-
-      var formData = FormData.fromMap(userObject);
+      // login to the app api
+      var formData =
+          FormData.fromMap({'token': facebookResponse.accessToken!.token});
       Response response =
-          await _dio.post("$address/api/user/googleauth", data: formData);
+          await _dio.post("$address/api/user/facebookauth", data: formData);
+      final result = response.data;
+      result['token'] = json.decode(result['token']);
 
-      return Result(status: ResultStatus.success, data: response.data);
+      return Result(status: ResultStatus.success, data: result);
     } on DioError catch (e) {
       return _handleDioError(e);
     }
   }
 
-  Future<String?> signInWithPhoneNumberAndPassWord() async => "user token";
+  Future<Result> signInWithPhoneNumberAndPassWord(
+      {required String phoneNumber, required String password}) async {
+    try {
+      Response response = await _dio.post(
+        '$address/api/login',
+        data: {'phone_no': phoneNumber, 'password': password},
+      );
+      final result = response.data;
+      result['token'] = json.decode(result['token']);
+
+      return Result(status: ResultStatus.success, data: result);
+    } on DioError catch (e) {
+      if (e.response?.statusCode == 404) {
+        return const Result(
+            status: ResultStatus.error, data: "User does not exist!");
+      }
+      return _handleDioError(e);
+    }
+  }
 
   Future<Result> signUpWithPhoneNumberAndPassword({required User u}) async {
     try {

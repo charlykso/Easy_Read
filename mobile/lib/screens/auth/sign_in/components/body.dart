@@ -18,9 +18,8 @@ class Body extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: myDefaultSize * 1.3,
-              ),
+              padding:
+                  const EdgeInsets.symmetric(vertical: myDefaultSize * 1.3),
               child: Text(
                 'Sign In',
                 style: themeData.textTheme.headline3!.copyWith(

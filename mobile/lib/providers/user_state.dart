@@ -33,15 +33,6 @@ class UserState extends StateNotifier<User?> {
     }
   }
 
-  Future<void> login(String phone, String password) async {
-    // This mocks a login attempt with phone and password
-    state = await Future.delayed(
-      const Duration(milliseconds: 750),
-      () => User(firstName: 'test', lastName: 'user'),
-    );
-    String myToken = 'my-super-secret-jwt'; // Mock of a permanent storage save
-  }
-
   Future<void> loginWithToken() async {
     // check if a token is saved
     final token = await _storage.getItem(k: "token");

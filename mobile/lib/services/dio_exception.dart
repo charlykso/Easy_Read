@@ -54,8 +54,10 @@ class DioException implements Exception {
         return 'Too many requests.';
       case 500:
         return 'Internal server error.';
+      case 204:
+        return 'Problem communicating with server';
       default:
-        return 'Oops something went wrong!';
+        return 'Oops, something went wrong.';
     }
   }
 

@@ -38,12 +38,10 @@ class SignUpForm extends ConsumerWidget {
         Result result = await guestNotifier.requestVerificationCodeFromApi();
 
         loadingNotifier.turnOff();
-        if (result.status == ResultStatus.success) {
-          //* Debugging -----------------------------------------------|
-          // && result.data.contains(RegExp(r"^[0-9]{6}$")
-          guestState.verificationCode = '123456';
-          // guestState.verificationCode = result.data;
-          //* ---------------------------------------------------------|
+        bool resultIsValid = result.status == ResultStatus.success &&
+            result.data.contains(RegExp(r"^[0-9]{6}$"));
+        if (resultIsValid) {
+          guestState.verificationCode = result.data;
 
           goNamed('verification');
         } else {
