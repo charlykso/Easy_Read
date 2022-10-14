@@ -24,11 +24,14 @@ class ResendWithConfirmButtons extends ConsumerWidget {
     final userNotifier = ref.watch(userProvider.notifier);
     final loadingNotifier = ref.watch(loadingProvider.notifier);
     String resendButtonText = "Resend";
+    final authService = AuthService();
 
     void resendCode() async {
       loadingNotifier.turnOn();
 
-      Result result = await guestNotifier.requestVerificationCodeFromApi();
+      Result result = await authService.getVerificationCode(
+        phoneNumber: guestState.phoneNumber!.completeNumber,
+      );
 
       loadingNotifier.turnOff();
       if (result.status == ResultStatus.success) {
@@ -73,7 +76,16 @@ class ResendWithConfirmButtons extends ConsumerWidget {
             if (guestNotifier.validateVerificationCode()) {
               // Sign user in using the api
               loadingNotifier.turnOn();
-              Result result = await guestNotifier.signUserUp();
+              Result result =
+                  await authService.signUpWithPhoneNumberAndPassword(
+                userData: {
+                  "firstname": guestState.firstName,
+                  "lastname": guestState.lastName,
+                  "email": guestState.emailAddress,
+                  "phone_no": guestState.phoneNumber!.completeNumber,
+                  "password": guestState.password
+                },
+              );
 
               loadingNotifier.turnOff();
               if (result.status == ResultStatus.error) {

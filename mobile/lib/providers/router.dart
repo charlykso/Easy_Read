@@ -1,8 +1,10 @@
+import 'package:easy_read/models/book.dart';
 import 'package:easy_read/models/user.dart';
 import 'package:easy_read/providers/user_state.dart';
 import 'package:easy_read/screens/auth/sign_in/sign_in_screen.dart';
 import 'package:easy_read/screens/auth/sign_up/sign_up_screen.dart';
 import 'package:easy_read/screens/auth/verification/verification_screen.dart';
+import 'package:easy_read/screens/detail/detail_screen.dart';
 import 'package:easy_read/screens/home/home_screen.dart';
 import 'package:easy_read/screens/onboarding/onboarding_screen.dart';
 import 'package:flutter/material.dart';
@@ -97,6 +99,17 @@ class AsyncRouterNotifier extends ChangeNotifier {
           builder: (context, state) => HomeScreen(
             key: state.pageKey,
           ),
+          routes: [
+            GoRoute(
+                name: 'details',
+                path: 'details/:bookId',
+                builder: (context, state) {
+                  // TODO: Have a function or factory or something here
+                  // that returns a book type from the list or state
+                  final bookId = books[int.tryParse(state.params['bookId']!)!];
+                  return DetailScreen(key: state.pageKey, book: bookId);
+                })
+          ],
         ),
         GoRoute(
           name: "onboarding",

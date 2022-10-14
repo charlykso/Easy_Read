@@ -1,6 +1,7 @@
 import 'package:easy_read/models/user.dart';
 import 'package:easy_read/services/auth_service.dart';
 import 'package:easy_read/services/secure_storage_waitress.dart';
+import 'package:easy_read/shared/helpers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userProvider = StateNotifierProvider<UserState, User?>((ref) {
@@ -29,7 +30,7 @@ class UserState extends StateNotifier<User?> {
       await _storage.addItems(items: newUser);
 
       // save to app state
-      state = User.fromMap(newUser);
+      state = User.fromJson(newUser);
     }
   }
 
@@ -53,7 +54,16 @@ class UserState extends StateNotifier<User?> {
     }
 
     // if it has not expired, login with saved credentials
-    state = User.fromMap(await _storage.getAll());
+    state = User.fromJson(await _storage.getAll());
+  }
+
+  Future<void> fakeLoginWithToken() async {
+    logger.i('Start: in fake login');
+    final fss = await _storage.getAll();
+    final tk = await _storage.getItem(k: "token");
+
+    logger.wtf(fss);
+    logger.wtf(tk);
   }
 
   Future<void> logout() async {

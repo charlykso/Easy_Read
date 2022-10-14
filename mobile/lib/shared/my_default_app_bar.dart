@@ -14,26 +14,40 @@ AppBar myDefaultAppBar(BuildContext context, {PreferredSizeWidget? bottom}) {
         onPressed: () {},
         icon: const Icon(Icons.notifications_rounded),
       ),
-      Consumer(builder: (BuildContext context, WidgetRef ref, Widget? _) {
-        return PopupMenuButton(
-          itemBuilder: (context) => [
-            PopupMenuItem(
-              onTap: () async => await ref.read(userProvider.notifier).logout(),
-              child: Row(
-                children: const [
-                  Icon(Icons.logout_outlined),
-                  Text('Logout'),
-                ],
+      Consumer(
+        builder: (BuildContext context, WidgetRef ref, Widget? _) {
+          final userNotifier = ref.read(userProvider.notifier);
+          return PopupMenuButton(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                onTap: () async => await userNotifier.logout(),
+                child: Row(
+                  children: const [
+                    Icon(Icons.logout_outlined),
+                    Text('Logout'),
+                  ],
+                ),
               ),
+              PopupMenuItem(
+                onTap: () async {
+                  await userNotifier.fakeLoginWithToken();
+                },
+                child: Row(
+                  children: const [
+                    Icon(Icons.terminal_sharp),
+                    Text('Check FSS'),
+                  ],
+                ),
+              ),
+            ],
+            position: PopupMenuPosition.under,
+            child: const CircleAvatar(
+              radius: myDefaultSize * 1.2,
+              backgroundImage: AssetImage('assets/images/user.png'),
             ),
-          ],
-          position: PopupMenuPosition.under,
-          child: const CircleAvatar(
-            radius: myDefaultSize * 1.2,
-            backgroundImage: AssetImage('assets/images/user.png'),
-          ),
-        );
-      }),
+          );
+        },
+      ),
       const SizedBox(width: myDefaultSize),
     ],
     bottom: bottom ??

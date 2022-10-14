@@ -123,9 +123,9 @@
     },
     {
       "name": "flutter_riverpod",
-      "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_riverpod-1.0.4",
+      "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_riverpod-2.0.2",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "2.17"
     },
     {
       "name": "flutter_secure_storage",
@@ -387,9 +387,9 @@
     },
     {
       "name": "riverpod",
-      "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/riverpod-1.0.3",
+      "rootUri": "file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/riverpod-2.0.2",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "2.17"
     },
     {
       "name": "sky_engine",
@@ -530,7 +530,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2022-10-03T17:03:33.748179Z",
+  "generated": "2022-10-14T11:40:27.519018Z",
   "generator": "pub",
   "generatorVersion": "2.18.2"
 }

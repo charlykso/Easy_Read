@@ -18,7 +18,7 @@ class SignUpForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final guestNotifier = ref.watch(guestProvider.notifier);
+    final authService = AuthService();
     final guestState = ref.watch(guestProvider);
     final formKey = GlobalKey<FormState>();
     Validator validator = Validator();
@@ -32,10 +32,12 @@ class SignUpForm extends ConsumerWidget {
 
     void submitSignUpForm() async {
       if (formKey.currentState!.validate()) {
-        final loadingNotifier = ref.watch(loadingProvider.notifier);
+        final loadingNotifier = ref.read(loadingProvider.notifier);
 
         loadingNotifier.turnOn();
-        Result result = await guestNotifier.requestVerificationCodeFromApi();
+        Result result = await authService.getVerificationCode(
+          phoneNumber: guestState.phoneNumber!.completeNumber,
+        );
 
         loadingNotifier.turnOff();
         bool resultIsValid = result.status == ResultStatus.success &&

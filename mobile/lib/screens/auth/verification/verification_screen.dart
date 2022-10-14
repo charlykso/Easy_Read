@@ -25,6 +25,7 @@ class VerificationScreenState extends ConsumerState<VerificationScreen>
     with TickerProviderStateMixin {
   int waitTime = 60;
   late AnimationController countdownController;
+  final authService = AuthService();
 
   _modifyPhoneNumber(BuildContext context, bool isLoading) async {
     final guestState = ref.watch(guestProvider);
@@ -59,8 +60,9 @@ class VerificationScreenState extends ConsumerState<VerificationScreen>
               final loadingNotifier = ref.watch(loadingProvider.notifier);
 
               loadingNotifier.turnOn();
-              Result result =
-                  await guestNotifier.requestVerificationCodeFromApi();
+              Result result = await authService.getVerificationCode(
+                phoneNumber: guestState.phoneNumber!.completeNumber,
+              );
 
               loadingNotifier.turnOff();
               if (result.status == ResultStatus.success) {

@@ -1,3 +1,7 @@
+easy_read
+2.17
+file:///home/miralo/projects/full_stack/Easy_Read/mobile/
+file:///home/miralo/projects/full_stack/Easy_Read/mobile/lib/
 async
 2.14
 file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.9.0/
@@ -75,9 +79,9 @@ flutter_rating_bar
 file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_rating_bar-4.0.1/
 file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_rating_bar-4.0.1/lib/
 flutter_riverpod
-2.14
-file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_riverpod-1.0.4/
-file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_riverpod-1.0.4/lib/
+2.17
+file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_riverpod-2.0.2/
+file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_riverpod-2.0.2/lib/
 flutter_secure_storage
 2.12
 file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_secure_storage-5.1.2/
@@ -243,9 +247,9 @@ quiver
 file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-3.1.0/
 file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-3.1.0/lib/
 riverpod
-2.14
-file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/riverpod-1.0.3/
-file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/riverpod-1.0.3/lib/
+2.17
+file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/riverpod-2.0.2/
+file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/riverpod-2.0.2/lib/
 smart_auth
 2.16
 file:///home/miralo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/smart_auth-1.0.5/
@@ -346,8 +350,4 @@ flutter_web_plugins
 2.17
 file:///home/miralo/snap/flutter/common/flutter/packages/flutter_web_plugins/
 file:///home/miralo/snap/flutter/common/flutter/packages/flutter_web_plugins/lib/
-easy_read
-2.17
-file:///mnt/code/projects/full_stack/Easy_Read/mobile/
-file:///mnt/code/projects/full_stack/Easy_Read/mobile/lib/
 2

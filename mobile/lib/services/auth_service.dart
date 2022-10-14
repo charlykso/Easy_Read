@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:easy_read/models/user.dart';
 import 'package:easy_read/providers/loading_notifier.dart';
 import 'package:easy_read/services/dio_exception.dart';
 import 'package:easy_read/services/logger_interceptor.dart';
@@ -99,9 +98,10 @@ class AuthService {
     }
   }
 
-  Future<Result> signUpWithPhoneNumberAndPassword({required User u}) async {
+  Future<Result> signUpWithPhoneNumberAndPassword(
+      {required Map<String, dynamic> userData}) async {
     try {
-      var formData = FormData.fromMap(u.toMap());
+      var formData = FormData.fromMap(userData);
       Response response = await _dio.post(
         "$address/api/user/createuser",
         data: formData,
@@ -115,9 +115,10 @@ class AuthService {
     }
   }
 
-  Future<Result> getVerificationCode({required User u}) async {
+  Future<Result> getVerificationCode({required String phoneNumber}) async {
     try {
-      var formData = FormData.fromMap(u.toMap());
+      var formData = FormData.fromMap({'phone_no': phoneNumber});
+
       Response response = await _dio.post(
         "$address/api/user/verifyuser",
         data: formData,
