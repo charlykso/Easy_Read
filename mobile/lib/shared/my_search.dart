@@ -1,6 +1,5 @@
-import 'package:easy_read/screens/auth/sign_in/sign_in_screen.dart';
-import 'package:easy_read/services/auth_service.dart';
 import 'package:easy_read/shared/helpers.dart';
+import 'package:easy_read/shared/my_default_app_bar.dart';
 import 'package:flutter/material.dart';
 
 ///  * Shows [MySearchDelegate] to define the content of the search page.
@@ -66,7 +65,6 @@ abstract class MySearchDelegate<T> {
     final ColorScheme colorScheme = theme.colorScheme;
     return theme.copyWith(
       appBarTheme: AppBarTheme(
-        brightness: colorScheme.brightness,
         backgroundColor: colorScheme.brightness == Brightness.dark
             ? Colors.grey[900]
             : Colors.white,
@@ -406,29 +404,6 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
         routeName = searchFieldLabel;
     }
 
-    final AuthService authService = AuthService();
-
-    _signUserOut(BuildContext context) async {
-      final dynamic result = await authService.signOut();
-
-      // TODO: Implement this auto with riverpod
-      if (result == "success") {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const SignInScreen(),
-          ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            duration: myAnimationDuration * 3,
-            backgroundColor: Colors.red[700],
-            content: const Text('Sign out attempt failed!'),
-          ),
-        );
-      }
-    }
-
     return Semantics(
       explicitChildNodes: true,
       scopesRoute: true,
@@ -437,35 +412,8 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
       child: Theme(
         data: theme,
         child: Scaffold(
-          appBar: AppBar(
-            surfaceTintColor: Colors.white,
-            leading: widget.delegate.buildLeading(context),
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.notifications_rounded,
-                  color: myTextColor,
-                ),
-              ),
-              PopupMenuButton(
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    child: TextButton.icon(
-                      onPressed: () => _signUserOut(context),
-                      icon: const Icon(Icons.logout_outlined),
-                      label: const Text('Logout'),
-                    ),
-                  ),
-                ],
-                position: PopupMenuPosition.under,
-                child: const CircleAvatar(
-                  radius: myDefaultSize * 1.2,
-                  backgroundImage: AssetImage('assets/images/user.png'),
-                ),
-              ),
-              const SizedBox(width: myDefaultSize),
-            ],
+          appBar: myDefaultAppBar(
+            context,
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(50),
               child: Container(

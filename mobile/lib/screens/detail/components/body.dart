@@ -52,7 +52,7 @@ class Body extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: myDefaultSize * 3),
             child: MyPrimaryButton(
               press: () {
-                //TODO: Navigate to checkout screen
+                //TODO: Go to checkout screen
               },
               text: 'Purchase',
               width: double.infinity,

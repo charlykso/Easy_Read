@@ -7,10 +7,10 @@ class Validator {
       _validPhoneNumber = RegExp(r"^\+[0-9]{13,14}$");
 
   String? validateName(String? value) =>
-      _validName.hasMatch(value!) ? null : 'Invalid name';
+      _validName.hasMatch(value!.trim()) ? null : 'Invalid name';
 
   String? validateEmail(String? value) =>
-      _validEmail.hasMatch(value!) ? null : 'Invalid email address';
+      _validEmail.hasMatch(value!.trim()) ? null : 'Invalid email address';
 
   String? validatePhoneNumber(String? value) =>
       _validPhoneNumber.hasMatch(value!) ? null : 'Invalid phone number';

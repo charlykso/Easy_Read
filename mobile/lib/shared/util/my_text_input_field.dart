@@ -12,7 +12,6 @@ class MyTextInputField extends StatelessWidget {
     required this.onChanged,
     this.validator,
     this.inputFormatters,
-    this.initialValue,
     this.padding,
   }) : super(key: key);
 
@@ -22,7 +21,6 @@ class MyTextInputField extends StatelessWidget {
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
   final List<TextInputFormatter>? inputFormatters;
-  final String? initialValue;
   final EdgeInsetsGeometry? padding;
 
   @override
@@ -41,7 +39,6 @@ class MyTextInputField extends StatelessWidget {
           onChanged: onChanged,
           validator: validator,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          initialValue: initialValue,
         ),
       ),
     );

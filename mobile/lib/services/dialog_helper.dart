@@ -6,6 +6,8 @@ class DialogHelper {
     String? description,
     String? title,
   }) async {
+    final ThemeData theme = Theme.of(context);
+
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -13,12 +15,13 @@ class DialogHelper {
         return AlertDialog(
           title: Text(
             title ?? 'Operation failed',
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge
-                ?.copyWith(color: Theme.of(context).primaryColor),
+            style:
+                theme.textTheme.titleLarge?.copyWith(color: theme.primaryColor),
           ),
-          content: Text(description ?? 'Oops, something went wrong!'),
+          content: Text(
+            description ?? 'Oops, something went wrong!',
+            style: theme.textTheme.bodyText1,
+          ),
           actions: <Widget>[
             TextButton(
               child: const Text('Okay'),

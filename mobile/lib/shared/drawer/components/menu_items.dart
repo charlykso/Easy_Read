@@ -1,5 +1,5 @@
-import 'package:easy_read/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MenuItems extends StatelessWidget {
   const MenuItems({
@@ -21,12 +21,7 @@ class MenuItems extends StatelessWidget {
                 Navigator.pop(context);
 
                 // Navigate to new route
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomeScreen(),
-                  ),
-                );
+                context.goNamed('home');
               }),
           ListTile(
             leading: const Icon(Icons.shopping_cart_outlined),

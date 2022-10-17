@@ -1,7 +1,7 @@
 import 'package:easy_read/models/book.dart';
-import 'package:easy_read/screens/detail/detail_screen.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CoverImageCarousel extends StatelessWidget {
   const CoverImageCarousel({
@@ -15,12 +15,8 @@ class CoverImageCarousel extends StatelessWidget {
       child: ListView.builder(
         itemCount: books.length,
         itemBuilder: (context, index) => GestureDetector(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailScreen(book: books[index]),
-            ),
-          ),
+          onTap: () => context.goNamed('details',
+              params: {'bookId': books[index].id.toString()}),
           child: Container(
             height: myDefaultSize * 1.2,
             width: myDefaultSize * 7.2,

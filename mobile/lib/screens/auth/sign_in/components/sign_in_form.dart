@@ -1,84 +1,70 @@
-import 'package:easy_read/screens/auth/sign_up/sign_up_screen.dart';
-import 'package:easy_read/screens/home/home_screen.dart';
+import 'package:easy_read/providers/loading_notifier.dart';
+import 'package:easy_read/providers/user_state.dart';
 import 'package:easy_read/services/auth_service.dart';
+import 'package:easy_read/services/dialog_helper.dart';
 import 'package:easy_read/shared/util/social_media_icon.dart';
 import 'package:easy_read/shared/util/toggle_auth_screen.dart';
+import 'package:easy_read/shared/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:easy_read/shared/util/my_primary_button.dart';
 import 'package:easy_read/shared/util/my_text_input_field.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
-class SignInForm extends StatefulWidget {
-  const SignInForm({
-    Key? key,
-  }) : super(key: key);
+class SignInForm extends ConsumerStatefulWidget {
+  const SignInForm({Key? key}) : super(key: key);
 
   @override
-  State<SignInForm> createState() => _SignInFormState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SignInFormState();
 }
 
-class _SignInFormState extends State<SignInForm> {
-  late NavigatorState _navigator;
+enum SocialServices { google, facebook }
 
+class _SignInFormState extends ConsumerState<SignInForm> {
   final _formKey = GlobalKey<FormState>();
-  String phoneNumber = '';
-  String password = '';
-  AuthService authService = AuthService();
-
-  @override
-  void didChangeDependencies() {
-    _navigator = Navigator.of(context);
-    super.didChangeDependencies();
-  }
-
-  signInWithFacebook() async {
-    final String? user = await authService.signInWithFacebook();
-
-    // TODO: Implement this auto with riverpod
-    if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          duration: myAnimationDuration * 3,
-          backgroundColor: Colors.red[700],
-          content: const Text('Unable to sign in!'),
-        ),
-      );
-    } else {
-      "$user is ready!".log();
-      _navigator.pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ),
-      );
-    }
-  }
-
-  signInWithGoogle() async {
-    final user = await authService.signInWithGoogle();
-
-    // TODO: Implement this auto with riverpod
-    if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          duration: myAnimationDuration * 3,
-          backgroundColor: Colors.red[700],
-          content: const Text('Unable to sign in!'),
-        ),
-      );
-    } else {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ),
-      );
-    }
-  }
+  late PhoneNumber phoneNumber;
+  late String password;
+  final AuthService _authService = AuthService();
+  final Validator _validator = Validator();
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final loadingNotifier = ref.read(loadingProvider.notifier);
+    final userNotifier = ref.read(userProvider.notifier);
+
+    /// Login using the appropriate api
+    interactWithApis(SocialServices? socialServices) async {
+      Result? result;
+      loadingNotifier.turnOn();
+
+      switch (socialServices) {
+        case SocialServices.google:
+          result = await _authService.signInWithGoogle(ref);
+          break;
+        case SocialServices.facebook:
+          result = await _authService.signInWithFacebook(ref);
+          break;
+        default:
+          // not using any social service
+          if (_formKey.currentState!.validate()) {
+            result = await _authService.signInWithPhoneNumberAndPassWord(
+                phoneNumber: phoneNumber.completeNumber, password: password);
+          }
+      }
+
+      loadingNotifier.turnOff();
+      if (result != null) {
+        if (result.status == ResultStatus.success) {
+          userNotifier.saveCurrentUser(userInfo: result.data);
+        } else {
+          DialogHelper.showErrorDialog(
+              context: context, description: result.data);
+        }
+      }
+    }
 
     return Form(
         key: _formKey,
@@ -93,8 +79,7 @@ class _SignInFormState extends State<SignInForm> {
                 child: IntlPhoneField(
                   decoration: decorateTextInput(hintText: "Phone Number")
                       .copyWith(errorMaxLines: 1),
-                  onChanged: (PhoneNumber phone) =>
-                      phoneNumber = phone.completeNumber,
+                  onChanged: (PhoneNumber phone) => phoneNumber = phone,
                   initialCountryCode: "NG",
                 ),
               ),
@@ -104,39 +89,12 @@ class _SignInFormState extends State<SignInForm> {
               keyboardType: TextInputType.text,
               obscureText: true,
               onChanged: (String value) => setState(() => password = value),
+              validator: _validator.validatePassword,
             ),
             MyPrimaryButton(
               text: 'Continue',
               width: double.infinity,
-              press: () {
-                if (phoneNumber.trim().isEmpty || password.trim().isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      duration: myAnimationDuration,
-                      content: const Text(
-                        'Invalid email address or password',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      backgroundColor: Colors.red[700],
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      duration: myAnimationDuration,
-                      content: Text(
-                        'It\'s valid for now!',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      backgroundColor: myPrimaryColor,
-                    ),
-                  );
-                }
-              },
+              press: () => interactWithApis(null),
             ),
             Padding(
               padding: const EdgeInsets.only(
@@ -146,12 +104,7 @@ class _SignInFormState extends State<SignInForm> {
               child: ToggleAuthScreen(
                 statement: "I don't have an account yet. ",
                 action: "Sign Up",
-                onTap: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const SignUpScreen(),
-                  ),
-                ),
+                onTap: () => context.goNamed('register'),
               ),
             ),
             Text(
@@ -165,13 +118,13 @@ class _SignInFormState extends State<SignInForm> {
                 children: [
                   SocialMediaIcon(
                     imagePath: 'assets/icons/google_rounded.svg',
-                    tap: signInWithGoogle,
+                    tap: () => interactWithApis(SocialServices.google),
                     color: Colors.red,
                   ),
                   const SizedBox(width: myDefaultSize * 1.5),
                   SocialMediaIcon(
                     imagePath: 'assets/icons/facebook.svg',
-                    tap: signInWithFacebook,
+                    tap: () => interactWithApis(SocialServices.facebook),
                     color: Colors.white,
                   ),
                 ],

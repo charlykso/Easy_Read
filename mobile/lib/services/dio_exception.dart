@@ -23,7 +23,7 @@ class DioException implements Exception {
       case DioErrorType.other:
         if (dioError.message.contains('SocketException')) {
           errorMessage =
-              'Sorry, could not complete operation.\n Please check your internet connection and try again.';
+              'Sorry, could not complete operation.\nPlease check your internet connection and try again.';
           break;
         }
         errorMessage = 'Unexpected error occurred.';
@@ -54,8 +54,10 @@ class DioException implements Exception {
         return 'Too many requests.';
       case 500:
         return 'Internal server error.';
+      case 204:
+        return 'Problem communicating with server';
       default:
-        return 'Oops something went wrong!';
+        return 'Oops, something went wrong.';
     }
   }
 

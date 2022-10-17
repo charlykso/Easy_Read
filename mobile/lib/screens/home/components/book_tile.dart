@@ -1,8 +1,8 @@
 import 'package:easy_read/models/book.dart';
-import 'package:easy_read/screens/detail/detail_screen.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:go_router/go_router.dart';
 
 class BookTile extends StatelessWidget {
   const BookTile({
@@ -26,12 +26,8 @@ class BookTile extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
 
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => DetailScreen(book: book),
-        ),
-      ),
+      onTap: () =>
+          context.goNamed('details', params: {'bookId': book.id.toString()}),
       child: SizedBox(
         height: height ?? size.height * 0.2,
         child: Padding(

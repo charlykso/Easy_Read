@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'dart:developer' as devtools show log;
 
 const myDefaultSize = 16.0;
 const myAnimationDuration = Duration(milliseconds: 200);
@@ -14,12 +13,6 @@ const myErrorColor = Color(0xFFFFB300);
 extension MaterialStateSet on Set<MaterialState> {
   bool get hasError => contains(MaterialState.error);
   bool get isSelected => contains(MaterialState.selected);
-}
-
-// Extensions
-//* For Debug mode only
-extension Log on Object {
-  void log() => devtools.log(toString());
 }
 
 extension StringCasingExtension on String {

@@ -1,12 +1,15 @@
+import 'package:easy_read/providers/loading_notifier.dart';
+import 'package:easy_read/screens/auth/verification/components/filled_rounded_pin_put.dart';
+import 'package:easy_read/services/auth_service.dart';
 import 'package:easy_read/services/dialog_helper.dart';
+import 'package:easy_read/shared/animation/countdown_transition.dart';
+import 'package:easy_read/shared/loading_widget.dart';
 import 'package:easy_read/shared/util/plain_app_bar.dart';
 import 'package:easy_read/providers/guest_notifier.dart';
-import 'package:easy_read/screens/auth/verification/components/resend_timer.dart';
 import 'package:easy_read/screens/auth/verification/components/resend_with_confirm_buttons.dart';
 import 'package:easy_read/shared/helpers.dart';
 import 'package:easy_read/shared/validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
@@ -18,17 +21,104 @@ class VerificationScreen extends ConsumerStatefulWidget {
   VerificationScreenState createState() => VerificationScreenState();
 }
 
-class VerificationScreenState extends ConsumerState<VerificationScreen> {
+class VerificationScreenState extends ConsumerState<VerificationScreen>
+    with TickerProviderStateMixin {
+  int waitTime = 60;
+  late AnimationController countdownController;
+  final authService = AuthService();
+
+  _modifyPhoneNumber(BuildContext context, bool isLoading) async {
+    final guestState = ref.watch(guestProvider);
+
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Change phone number'),
+        content: isLoading
+            ? const LoadingWidget()
+            : IntlPhoneField(
+                decoration: decorateTextInput(hintText: "Phone Number")
+                    .copyWith(
+                        border: null, focusedBorder: null, errorBorder: null),
+                onChanged: (PhoneNumber phone) =>
+                    guestState.phoneNumber = phone,
+                initialCountryCode: "NG",
+                validator: (PhoneNumber? value) =>
+                    Validator().validatePhoneNumber(value?.completeNumber),
+                initialValue: guestState.phoneNumber?.number,
+              ),
+        contentPadding: const EdgeInsets.symmetric(
+            horizontal: 0, vertical: myDefaultSize * .6),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              final guestNotifier = ref.watch(guestProvider.notifier);
+              final loadingNotifier = ref.watch(loadingProvider.notifier);
+
+              loadingNotifier.turnOn();
+              Result result = await authService.getVerificationCode(
+                phoneNumber: guestState.phoneNumber!.completeNumber,
+              );
+
+              loadingNotifier.turnOff();
+              if (result.status == ResultStatus.success) {
+                guestState.verificationCode = result.data;
+                guestNotifier.setCanResend(value: false);
+                _restartCountdown();
+
+                if (!mounted) return;
+                Navigator.pop(context);
+              } else {
+                DialogHelper.showErrorDialog(
+                  context: context,
+                  description: result.data,
+                );
+              }
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _restartCountdown() {
+    countdownController.value = 0.0;
+    countdownController.forward();
+  }
+
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    ref.watch(guestNotifierProvider).userInputCodes =
-        List<String?>.filled(6, null);
+  void initState() {
+    super.initState();
+    countdownController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: waitTime),
+    );
+    countdownController.forward();
+  }
+
+  @override
+  void dispose() {
+    countdownController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final guestState = ref.watch(guestNotifierProvider);
+    final guestState = ref.watch(guestProvider);
+    final isLoading = ref.watch(loadingProvider);
+    countdownController.addStatusListener((status) {
+      switch (status) {
+        case AnimationStatus.completed:
+          ref.watch(guestProvider.notifier).setCanResend(value: true);
+          break;
+        default:
+      }
+    });
 
     return Scaffold(
       appBar: plainAppBar(
@@ -60,60 +150,14 @@ class VerificationScreenState extends ConsumerState<VerificationScreen> {
                 Row(
                   children: [
                     Text(
-                      guestState.phoneNumber!.completeNumber,
+                      guestState.phoneNumber?.completeNumber ?? '***********',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     TextButton(
-                      onPressed: () => showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Change phone number'),
-                          content: IntlPhoneField(
-                            decoration:
-                                decorateTextInput(hintText: "Phone Number")
-                                    .copyWith(
-                                        border: null,
-                                        focusedBorder: null,
-                                        errorBorder: null),
-                            onChanged: (PhoneNumber phone) =>
-                                guestState.phoneNumber = phone,
-                            initialCountryCode: "NG",
-                            validator: (PhoneNumber? value) => Validator()
-                                .validatePhoneNumber(value?.completeNumber),
-                            initialValue: guestState.phoneNumber?.number,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 0, vertical: myDefaultSize * .6),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'Cancel'),
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                final guestNotifier =
-                                    ref.watch(guestNotifierProvider.notifier);
-                                String? result = await guestNotifier
-                                    .requestVerificationCodeFromApi();
-
-                                if (result != null &&
-                                    result.contains(RegExp(r"^[0-9]{6}$"))) {
-                                  guestState.verificationCode = result;
-                                  guestNotifier.resetOnResend();
-
-                                  Navigator.pop(context);
-                                } else {
-                                  DialogHelper.showErrorDialog(
-                                      context: context, description: result);
-                                }
-                              },
-                              child: const Text('Save'),
-                            ),
-                          ],
-                        ),
-                      ),
+                      onPressed: () async =>
+                          await _modifyPhoneNumber(context, isLoading),
                       child: const Text("Change phone number?"),
                     ),
                   ],
@@ -121,76 +165,33 @@ class VerificationScreenState extends ConsumerState<VerificationScreen> {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: myDefaultSize * 1.7),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: generateCodeInputFields(context: context),
-                  ),
+                  child:
+                      isLoading ? const LoadingWidget() : FilledRoundedPinPut(),
                 ),
                 const SizedBox(height: myDefaultSize * .6),
-                const ResendTimer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Resend code after',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    const SizedBox(width: myDefaultSize * 0.4),
+                    CountdownTransition(
+                      animation: StepTween(begin: waitTime, end: 0)
+                          .animate(countdownController),
+                    ),
+                  ],
+                ),
               ],
             ),
-            const Positioned(
+            Positioned(
               bottom: 0,
-              child: ResendWithConfirmButtons(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  List<Widget> generateCodeInputFields({required BuildContext context}) {
-    return List.generate(
-        6, (i) => _buildCodeInputField(context: context, index: i));
-  }
-
-  Widget _buildCodeInputField(
-      {required BuildContext context, required int index}) {
-    return SizedBox(
-      width: 50,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black87.withOpacity(.3),
-              offset: const Offset(0, .75),
-              blurRadius: 5,
-              spreadRadius: .3,
-            ),
-          ],
-        ),
-        child: TextField(
-          onChanged: (String value) {
-            //- saving entered value
-            ref.watch(guestNotifierProvider).userInputCodes![index] = value;
-            if (value.length == 1 && index != 5) {
-              FocusScope.of(context).nextFocus();
-            }
-            if (value.isEmpty && index != 0) {
-              FocusScope.of(context).previousFocus();
-            }
-          },
-          maxLength: 1,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
-                fontWeight: FontWeight.bold,
-                fontSize: myDefaultSize * 1.7,
-                color: Colors.black,
+              child: ResendWithConfirmButtons(
+                restartCountdownAnimation: _restartCountdown,
               ),
-          keyboardType: TextInputType.number,
-          textAlign: TextAlign.center,
-          inputFormatters: [
-            LengthLimitingTextInputFormatter(1),
-            FilteringTextInputFormatter.digitsOnly,
+            ),
           ],
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(borderSide: BorderSide.none),
-            contentPadding:
-                EdgeInsets.symmetric(vertical: 3.0, horizontal: 3.0),
-            counterText: "",
-          ),
         ),
       ),
     );
