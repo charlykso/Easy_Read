@@ -1,3 +1,4 @@
+import React from 'react'
 import { Formik, Form } from 'formik'
 import { Schemas } from './Schemas'
 import FormikControl from './FormikControl'
@@ -19,7 +20,7 @@ const FormikContainer = () => {
     email: '',
     selectOption: '',
     checkboxOption: [],
-    birthDate: null
+    birthDate: null,
   }
   const validationSchema = { Schemas }
   const onSubmit = (values) => {

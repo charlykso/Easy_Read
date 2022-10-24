@@ -1,6 +1,8 @@
 import InputComponent from './Input'
 import SelectComponent from "./Select";
 import CheckboxGroup from "./CheckboxGroup";
+import Textarea from "./Textarea";
+import React from "react";
 // import DatePicker from "./DatePicker";
 
 const FormikControl = (props) => {
@@ -9,7 +11,7 @@ const FormikControl = (props) => {
       case 'input':
         return <InputComponent { ...rest }/>
       case 'textarea':
-        break
+        return <Textarea { ...rest } />
       case 'checkbox':
         return <CheckboxGroup { ...rest }/>
       case 'select':

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Search from './Search'
 
 const Breadcrumbs = ({ location, term, searchKeyword, userSearchKeyword }) => {
@@ -10,6 +10,10 @@ const Breadcrumbs = ({ location, term, searchKeyword, userSearchKeyword }) => {
       setButton(1)
     } else if (location === '/authors') {
       setButton(2)
+    } else if (location === '/books') {
+      setButton(3)
+    } else if (location === '/payments') {
+      setButton(4)
     } else {
       setButton(-1)
     }
@@ -32,7 +36,7 @@ const Breadcrumbs = ({ location, term, searchKeyword, userSearchKeyword }) => {
             </Link>
           </li>
         </ol>
-        {(button === 1 || button === 2) && (
+        {(button > 0) && (
           <Search
             term={term}
             searchKeyword={searchKeyword}
@@ -52,6 +56,11 @@ const Breadcrumbs = ({ location, term, searchKeyword, userSearchKeyword }) => {
           {button === 2 && (
             <button className='btn  px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out '>
               <Link to='/author/add'>+ AddAuthor</Link>
+            </button>
+          )}
+          {button === 3 && (
+            <button className='btn  px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out '>
+              <Link to='/book/add'>+ AddBook</Link>
             </button>
           )}
         </div>

@@ -1,5 +1,5 @@
 import Draw2 from '../../images/draw2.svg'
-import React, { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import axios from '../../api/axios'
@@ -13,10 +13,10 @@ const Login = () => {
   const errRef = useRef()
   const [Phone_no, setPhone_no] = useState('')
   const [Password, setPassword] = useState('')
-  const [errMsg, setErrMsg] = useState('')
+  const [errMsg, setErrMsg] = useState(null)
   const [checked, setChecked] = useState(false)
   const { dispatch } = useAuthContext()
-  const [onload, setOnload] = useState(false)
+  const [onload, setOnload] = useState(null)
 
   useEffect(() => {
     userRef.current.focus()
@@ -28,6 +28,8 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setOnload(true)
+    setErrMsg(null)
     let phoneLen = Phone_no.length
     let phoneWithCode = '+234'
     let userData = {}
@@ -36,7 +38,7 @@ const Login = () => {
         phoneWithCode = phoneWithCode.concat(Phone_no.charAt(i))
       }
       // Phone_no = phoneWithCode
-      userData = { Phone_no, Password }
+      userData = { Phone_no, phoneWithCode }
     } else {
       userData = { Phone_no, Password }
     }
@@ -57,14 +59,19 @@ const Login = () => {
     } catch (error) {
       if (!error.response) {
         setErrMsg('No server response')
+        setOnload(false)
       } else if (error.response.status === 400) {
         setErrMsg('Missing Phone_no or Password')
+        setOnload(false)
       } else if (error.response.status === 401) {
         setErrMsg('Unauthorized')
+        setOnload(false)
       } else if (error.response.status === 404) {
         setErrMsg('User not found')
+        setOnload(false)
       } else {
         setErrMsg('Login failed')
+        setOnload(false)
       }
       errRef.current.focus()
     }
@@ -80,7 +87,7 @@ const Login = () => {
           <div className='md:w-8/12 lg:w-5/12 lg:ml-20'>
             <p
               ref={errRef}
-              className={errMsg ? 'errmsg' : 'offscreen'}
+              className={errMsg ? 'errmsg text-red-600' : 'offscreen'}
               aria-live='assertive'
             >
               {errMsg}
@@ -142,11 +149,11 @@ const Login = () => {
               <button
                 disabled={onload}
                 type='submit'
-                className='inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full'
+                className='inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md focus:outline-none focus:ring-0 w-full'
                 data-mdb-ripple='true'
                 data-mdb-ripple-color='light'
               >
-                Sign in
+                {onload ? 'Loading...' : 'Sign in'}
               </button>
 
               <div className='flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5'>

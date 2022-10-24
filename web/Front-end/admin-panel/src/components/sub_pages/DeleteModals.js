@@ -1,14 +1,14 @@
 import { deleteAuthorUrl } from '../sub_pages/BaseUrl'
-import { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import axios from 'axios'
 
 const DeletModals = (props) => {
-  // const navigate = useNavigate()
   const [errMsg, setErrMsg] = useState('')
-  // const [show, setShow] = useState(false);
+  const [disable, setDisable] = useState(false)
   const errRef = useRef()
 
   const handleDelete = async (authorId) => {
+    setDisable(true)
     let token = JSON.parse(localStorage.getItem('token'))
     let jwt = token.token
     let headersList = {
@@ -24,9 +24,6 @@ const DeletModals = (props) => {
     try {
       let response = await axios.request(reqOptions)
       if (response.status === 200) {
-        //   navigate('/authors')
-        //   window.location.href = '/authors'
-        // setShow(false)
         window.location.reload(false)
         console.log(response.data)
       }
@@ -135,6 +132,7 @@ const DeletModals = (props) => {
               onClick={() => {
                 handleDelete(props.authorId)
               }}
+              disabled={disable}
               class='px-6
       py-2.5
       bg-blue-600

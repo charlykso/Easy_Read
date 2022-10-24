@@ -4,17 +4,16 @@ import UserList from '../sub_pages/UserList'
 import Loading from '../sub_pages/Loading'
 import Breadcrumbs from '../sub_pages/Breadcrumbs'
 import { useLocation } from 'react-router-dom'
+import { getAllUserUrl } from "../sub_pages/BaseUrl";
 
 const Users = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [searchResult, setSearchResult] = useState([])
   const location = useLocation()
+  // const token = localStorage.getItem('token')
+  // const jwt = token.token
 
-  const {
-    data: users,
-    isPending,
-    error,
-  } = useFetch('https://localhost:7144/api/User/GetAllUsers')
+  const { data: users, isPending, error } = useFetch(getAllUserUrl)
 
   const searchHandler = (searchTerm) => {
     setSearchTerm(searchTerm)

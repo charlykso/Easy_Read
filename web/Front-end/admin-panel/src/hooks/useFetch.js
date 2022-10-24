@@ -4,13 +4,22 @@ const useFetch = (url) => {
   const [data, setData] = useState(null)
   const [isPending, setIsPending] = useState(true)
   const [error, setError] = useState(null)
+  const token = JSON.parse(localStorage.getItem('token'))
+  const jwt = token.token
 
   useEffect(() => {
     const abortCont = new AbortController()
-    fetch(url)
+    fetch(url, {
+      method: 'GET',
+      headers: { Authorization: 'Bearer ' + jwt },
+    })
       .then((res) => {
         if (!res.ok) {
-          throw Error('could not fetch the data for the resource')
+          if (res.status === 401) {
+            throw Error('Unauthorised')
+          } else {
+            throw Error('could not fetch the data for the resource')
+          }
         }
         return res.json()
       })
@@ -24,7 +33,7 @@ const useFetch = (url) => {
         setError(err.message)
       })
     return () => abortCont.abort()
-  }, [url])
+  }, [url, jwt])
 
   return { data, isPending, error }
 }

@@ -1,13 +1,13 @@
 import React from "react";
-// import { Link } from 'react-router-dom'
-import UserDropDownAction from "./UserDropDownAction";
+import BooksDropDownAction from './BooksDropDownAction'
 
-const UserList = ({ users }) => {
+const BooksList = ({ books }) => {
+    console.log(books)
   return (
     <div className='flex flex-col'>
       <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
         <div className='py-2 inline-block min-w-full sm:px-6 lg:px-8'>
-          <div className='overflow-hidden'>
+          <div className='overflow-y-auto overflow-x-hidden'>
             <table className='min-w-full mb-2'>
               <thead className='bg-white border-b'>
                 <tr>
@@ -15,38 +15,56 @@ const UserList = ({ users }) => {
                     scope='col'
                     className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
                   >
-                    {users.length}
+                    {/* {} */}
                     S/N
                   </th>
                   <th
                     scope='col'
                     className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
                   >
-                    Last Name
+                    Book Title
                   </th>
                   <th
                     scope='col'
                     className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
                   >
-                    First Name
+                    Sub Title
                   </th>
                   <th
                     scope='col'
                     className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
                   >
-                    Email
+                    Publisher
                   </th>
                   <th
                     scope='col'
                     className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
                   >
-                    Phone No
+                    ISBN_Number
                   </th>
                   <th
                     scope='col'
                     className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
                   >
-                    Role
+                    Price
+                  </th>
+                  <th
+                    scope='col'
+                    className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
+                  >
+                    YearOf_Publication
+                  </th>
+                  <th
+                    scope='col'
+                    className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
+                  >
+                    Added on
+                  </th>
+                  <th
+                    scope='col'
+                    className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
+                  >
+                    Author
                   </th>
                   <th
                     scope='col'
@@ -57,33 +75,43 @@ const UserList = ({ users }) => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
+                {books.map((book, index) => (
                   <tr
                     className='bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100'
-                    key={user.Id}
+                    key={book.Id}
                   >
                     <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
                       {index + 1}
                     </td>
                     <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                      {user.Firstname}
+                      {book.Title}
                     </td>
                     <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                      {user.Lastname}
+                      {book.Sub_Title}
                     </td>
                     <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                      {user.Email}
+                      {book.Publisher}
                     </td>
                     <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                      {user.Phone_no}
+                      {book.ISBN_Number}
                     </td>
                     <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                      {user.Role}
+                      {book.Price}
                     </td>
+                    <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
+                      {book.YearOf_Publication}
+                    </td>
+                    <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
+                      {book.Created_at}
+                    </td>
+                    <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
+                      {book.Author ? book.Author.Firstname+" "+book.Author.Lastname : "No Author"}
+                    </td>
+
                     <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
                       <div className='flex justify-center'>
                         <div className=' xl:w-36'>
-                          <UserDropDownAction userId={user.Id} />
+                          <BooksDropDownAction booksId={book.Id} />
                         </div>
                       </div>
                     </td>
@@ -98,4 +126,4 @@ const UserList = ({ users }) => {
   )
 }
 
-export default UserList
+export default BooksList

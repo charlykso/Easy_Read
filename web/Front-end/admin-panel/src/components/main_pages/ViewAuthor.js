@@ -8,15 +8,15 @@ import { UpdateAuthorSchema } from '../forms/Schemas'
 import CustomInput from '../forms/CustomInput'
 import CustomSelect from '../forms/CustomSelect'
 import { useUpdate } from '../../hooks/useUpdate'
-import { useRef } from 'react'
+import React, { useRef } from 'react'
 
 const ViewAuthor = () => {
   const location = useLocation()
   const fileRef = useRef()
   const { Id } = useParams()
-  const token = localStorage.getItem('token')
+  const token = JSON.parse(localStorage.getItem('token'))
   const jwt = token.token
-  const { data: author, isPending, error } = useGet(getAuthorUrl, Id, jwt)
+  const { data: author, isPending, error } = useGet(getAuthorUrl, Id)
   const { updateUser, isLoading, updateError } = useUpdate()
   const navigate = useNavigate()
 

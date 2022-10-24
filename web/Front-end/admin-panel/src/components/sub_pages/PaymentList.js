@@ -1,8 +1,8 @@
-import React from "react";
-// import { Link } from 'react-router-dom'
-import UserDropDownAction from "./UserDropDownAction";
+import DeletePaymentModal from './DeletePaymentModal'
+import Delete from '../../images/icons/recycle-bin.png'
+import { Link } from "react-router-dom";
 
-const UserList = ({ users }) => {
+const PaymentList = ({payments}) => {
   return (
     <div className='flex flex-col'>
       <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
@@ -15,38 +15,37 @@ const UserList = ({ users }) => {
                     scope='col'
                     className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
                   >
-                    {users.length}
                     S/N
                   </th>
                   <th
                     scope='col'
                     className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
                   >
-                    Last Name
+                    Name
                   </th>
                   <th
                     scope='col'
                     className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
                   >
-                    First Name
+                    Amount
                   </th>
                   <th
                     scope='col'
                     className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
                   >
-                    Email
+                    Book Title
                   </th>
                   <th
                     scope='col'
                     className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
                   >
-                    Phone No
+                    Status
                   </th>
                   <th
                     scope='col'
                     className='text-sm font-medium text-gray-900 px-6 py-4 text-left'
                   >
-                    Role
+                    Payed At
                   </th>
                   <th
                     scope='col'
@@ -57,35 +56,49 @@ const UserList = ({ users }) => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
+                {payments.map((payment, index) => (
                   <tr
                     className='bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100'
-                    key={user.Id}
+                    key={payment.Id}
                   >
                     <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
                       {index + 1}
                     </td>
                     <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                      {user.Firstname}
+                      {payment.User.Firstname} {payment.User.Lastname}
                     </td>
                     <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                      {user.Lastname}
+                      #{payment.Amount}
                     </td>
                     <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                      {user.Email}
+                      {payment.Book.Title}
                     </td>
                     <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                      {user.Phone_no}
+                      {payment.Payment_Status}
                     </td>
                     <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
-                      {user.Role}
+                      {payment.Payment_made_at}
                     </td>
                     <td className='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>
                       <div className='flex justify-center'>
-                        <div className=' xl:w-36'>
-                          <UserDropDownAction userId={user.Id} />
-                        </div>
+                        <Link
+                          className='btn btn-danger'
+                          tabIndex={payment.Id}
+                          data-bs-toggle='modal'
+                          data-bs-target={`#exampleModal${payment.Id}`}
+                          to='#'
+                        >
+                          <img
+                            src={Delete}
+                            alt='Delete'
+                            className='w-6 h-6 m-0'
+                          />
+                        </Link>
                       </div>
+                      <DeletePaymentModal
+                        exampleModal={`exampleModal${payment.Id}`}
+                        paymentId={payment.Id}
+                      />
                     </td>
                   </tr>
                 ))}
@@ -98,4 +111,4 @@ const UserList = ({ users }) => {
   )
 }
 
-export default UserList
+export default PaymentList

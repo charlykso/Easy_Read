@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 
 const Search = (props) => {
   const inputEl = useRef('')

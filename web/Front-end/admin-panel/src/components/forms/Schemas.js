@@ -151,3 +151,113 @@ export const UserSchema = yup.object().shape({
     .oneOf(['User', 'Admin'], 'Please select a valid option')
     .required('Required'),
 })
+
+export const createBookSchema = yup.object().shape({
+  Title: yup
+    .string()
+    .min(2, 'Title must be atleast 2 characters long')
+    .max(50, 'Title must be atmost 50 characters long')
+    .required('Required'),
+  Sub_Title: yup
+    .string()
+    .min(2, 'Sub_Title must be atleast 2 characters long')
+    .max(30, 'Sub_Title must be atmost 30 characters long')
+    .required('Required'),
+  Publisher: yup
+    .string()
+    .min(2, 'Publisher must be atleast 2 characters long')
+    .max(40, 'Publisher must be atmost 40 characters long')
+    .required('Required'),
+  YearOf_Publication: yup.date().required('Required'),
+  ISBN_Number: yup
+    .string()
+    .min(9, 'ISBN_Number must be atleast 9 numbers')
+    .required('Required')
+    .max(15, 'ISBN must not be more than 15'),
+  Body: yup.string(),
+  Price: yup.number().required('Required'),
+  AuthorId: yup.number().required('Required'),
+  Front_Cover_Img: yup
+    .mixed()
+    .nullable()
+    .required('Required')
+    .test(
+      'filesize',
+      'Uploaded file is too big.',
+      (value, context) => !value || (value && value.size <= FILE_SIZE)
+    )
+    .test(
+      'type',
+      'Uploaded file has unsupported format.',
+      (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))
+    ),
+  Back_Cover_Img: yup
+    .mixed()
+    .nullable()
+    .required('Required')
+    .test(
+      'filesize',
+      'Uploaded file is too big.',
+      (value, context) => !value || (value && value.size <= FILE_SIZE)
+    )
+    .test(
+      'type',
+      'Uploaded file has unsupported format.',
+      (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))
+    ),
+})
+
+export const UpdateBookSchema = yup.object().shape({
+  Title: yup
+    .string()
+    .min(2, 'Title must be atleast 2 characters long')
+    .max(50, 'Title must be atmost 50 characters long')
+    .required('Required'),
+  Sub_Title: yup
+    .string()
+    .min(2, 'Sub_Title must be atleast 2 characters long')
+    .max(30, 'Sub_Title must be atmost 30 characters long')
+    .required('Required'),
+  Publisher: yup
+    .string()
+    .min(2, 'Publisher must be atleast 2 characters long')
+    .max(40, 'Publisher must be atmost 40 characters long')
+    .required('Required'),
+  YearOf_Publication: yup.date().required('Required'),
+  ISBN_Number: yup
+    .string()
+    .min(9, 'ISBN_Number must be atleast 9 numbers')
+    .required('Required')
+    .max(15, 'ISBN must not be more than 15'),
+  Body: yup.string(),
+  Price: yup.number().required('Required'),
+  AuthorId: yup.number().required('Required'),
+  Front_Cover_Img: yup
+    .mixed()
+    .nullable()
+    .required('Required')
+    .test(
+      'filesize',
+      'Uploaded file is too big.',
+      (value, context) => !value || (value && value.size <= FILE_SIZE)
+    )
+    .test(
+      'type',
+      'Uploaded file has unsupported format.',
+      (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))
+    ),
+  Back_Cover_Img: yup
+    .mixed()
+    .nullable()
+    .required('Required')
+    .test(
+      'filesize',
+      'Uploaded file is too big.',
+      (value, context) => !value || (value && value.size <= FILE_SIZE)
+    )
+    .test(
+      'type',
+      'Uploaded file has unsupported format.',
+      (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))
+    ),
+})

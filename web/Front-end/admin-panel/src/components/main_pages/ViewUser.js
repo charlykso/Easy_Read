@@ -1,3 +1,4 @@
+import React from "react";
 import Breadcrumbs from '../sub_pages/Breadcrumbs'
 import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import useGet from '../../hooks/useGet'
@@ -13,9 +14,9 @@ const ViewUser = () => {
   const location = useLocation()
   const { Id } = useParams()
   const navigate = useNavigate()
-  const token = localStorage.getItem('token')
+  const token = JSON.parse(localStorage.getItem('token'))
   const jwt = token.token
-  const { data: user, isPending, error } = useGet(getUserUrl, Id, jwt)
+  const { data: user, isPending, error } = useGet(getUserUrl, Id)
   const { updateUser, isLoading, updateError } = useUpdate()
 
   return (
@@ -25,8 +26,8 @@ const ViewUser = () => {
       {error && <div className='text-red-600'>{error}</div>}
       {user && (
         <div className='flex flex-wrap mt-5 bg-red-200 w-full justify-between'>
-          <div className=' w-1/2 flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg'>
-            <div className='p-6 flex flex-col justify-start'>
+          <div className=' w-1/2 flex lg:flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg'>
+            <div className='p-6 justify-start'>
               <h5 className='text-gray-900 text-xl font-medium mb-2'>
                 First name: {user.Firstname}
                 <br />
@@ -45,17 +46,17 @@ const ViewUser = () => {
               <p className='text-gray-600 text-xs'>
                 <b>Updated At:</b> {user.Updated_at}
               </p>
-              <h4 className='px-2 py-2'>Books</h4>
               {/* {console.log(user)} */}
+              <caption><h4 className="mt-2">Books</h4></caption>
               {user.Book_User.length > 0 ? (
                 <div className='scroll-smooth scroll-m-8  md:scroll-auto'>
                   <ul className='bg-white rounded-lg border border-gray-200 text-gray-900'>
-                    {user.Books.map((book) => (
+                    {user.Book_User.map((book, index) => (
                       <li
                         className='px-2 py-2 border-b border-gray-200 w-auto rounded-t-lg'
-                        key={book.Id}
+                        key={index}
                       >
-                        {book.Title}
+                        {book.Book.Title}
                       </li>
                     ))}
                   </ul>

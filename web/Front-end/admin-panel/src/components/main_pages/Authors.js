@@ -28,8 +28,7 @@ function Authors() {
           .includes(searchTerm.toLowerCase())
       })
       setSearchResult(newAuthorList)
-    }
-    else{
+    } else {
       setSearchResult(authors)
     }
   }
@@ -42,7 +41,7 @@ function Authors() {
         />
       )}
       {isPending && <Loading />}
-      {error && <div className="text-red-600">{error}</div>}
+      {error && <div className='text-red-600'>{error}</div>}
       {authors && (
         <AuthorsList
           authors={searchTerm.length < 1 ? authors : searchResult}

@@ -1,23 +1,18 @@
-import { Field, ErrorMessage } from "formik";
-import TextError from "./TextError";
+import { useField } from 'formik'
+import React from 'react'
+// import TextError from "./TextError";
 
-const SelectComponent = (props) => {
-    const { label, options, name, ...rest} = props
-    return ( 
-        <div className="form-control">
-            <label htmlFor={name}>{label}</label>
-            <Field as="select" id={name} name={name} {...rest}>
-                {
-                    options.map((option) => {
-                        return (
-                            <option key={option.value} value={option.value}>{option.key}</option>
-                        )
-                    })
-                }
-            </Field>
-            <ErrorMessage name={name} component={TextError}/>
-        </div>
-     );
+const MySelect = ({ label, ...props }) => {
+  const [field, meta] = useField(props)
+  return (
+    <div>
+      <label htmlFor={props.id || props.name}>{label}</label>
+      <select {...field} {...props} />
+      {meta.touched && meta.error ? (
+        <div className='error'>{meta.error}</div>
+      ) : null}
+    </div>
+  )
 }
  
-export default SelectComponent;
+export default MySelect

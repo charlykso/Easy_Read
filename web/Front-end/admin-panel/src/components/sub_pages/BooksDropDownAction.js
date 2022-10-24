@@ -1,15 +1,15 @@
-import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Edit from '../../images/icons/edit.png'
 import Delete from '../../images/icons/recycle-bin.png'
-import DeleteUserModal from './DeleteUserModal'
+import DeleteBooksModal from './DeleteBooksModal'
+import React from "react";
 
-const UserDropDownAction = (props) => {
+const BooksDropDownAction = (props) => {
   const navigate = useNavigate()
 
   const handleEdit = (Id) => {
     console.log(Id)
-    navigate(`/User/UpdateUser/${Id}`)
+    navigate(`/Book/UpdateBook/${Id}`)
   }
 
   return (
@@ -100,7 +100,7 @@ const UserDropDownAction = (props) => {
               hover:bg-gray-100
             '
                 // to={`/Author/UpdateAuthor/${props.authorsId}`}
-                onClick={() => handleEdit(props.userId)}
+                onClick={() => handleEdit(props.booksId)}
               >
                 <img src={Edit} alt='Edit' className='w-6 h-6 m-0' />
               </button>
@@ -121,18 +121,18 @@ const UserDropDownAction = (props) => {
               hover:bg-gray-100
               ease-in-out
             '
-                tabIndex={props.userId}
+                tabIndex={props.booksId}
                 data-bs-toggle='modal'
-                data-bs-target={`#exampleModal${props.userId}`}
+                data-bs-target={`#exampleModal${props.booksId}`}
                 to='#'
               >
                 <img src={Delete} alt='Delete' className='w-6 h-6 m-0' />
               </Link>
             </li>
           </ul>
-          <DeleteUserModal
-            exampleModal={`exampleModal${props.userId}`}
-            usersId={props.userId}
+          <DeleteBooksModal
+            exampleModal={`exampleModal${props.booksId}`}
+            bookId={props.booksId}
           />
         </div>
       </div>
@@ -140,4 +140,4 @@ const UserDropDownAction = (props) => {
   )
 }
 
-export default UserDropDownAction
+export default BooksDropDownAction

@@ -1,3 +1,4 @@
+import React from "react";
 import Home from './components/main_pages/Home'
 import Users from './components/main_pages/Users'
 import Authors from './components/main_pages/Authors'
@@ -11,6 +12,8 @@ import CreateUser from './components/main_pages/CreateUser'
 import CreateAuthor from './components/main_pages/CreateAuthor'
 import ViewAuthor from "./components/main_pages/ViewAuthor";
 import ViewUser from './components/main_pages/ViewUser'
+import ViewBook from './components/main_pages/ViewBook'
+import CreateBook from './components/main_pages/CreateBook'
 import { useAuthContext } from './hooks/useAuthContext'
 
 function App() {
@@ -42,6 +45,11 @@ function App() {
             path='/User/UpdateUser/:Id'
             element={user ? <ViewUser /> : <Login />}
           />
+          <Route
+            path='/Book/UpdateBook/:Id'
+            element={user ? <ViewBook /> : <Login />}
+          />
+          <Route path='/book/add' element={user ? <CreateBook /> : <Login />} />
         </Routes>
       </div>
       <Footer />

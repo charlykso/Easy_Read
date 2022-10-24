@@ -1,15 +1,15 @@
-import { deleteUserUrl } from '../sub_pages/BaseUrl'
+import { deletePaymentUrl } from '../sub_pages/BaseUrl'
 import React, { useRef, useState } from 'react'
+// import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-const DeletUserModal = (props) => {
+const DeletPaymentModal = (props) => {
   // const navigate = useNavigate()
   const [errMsg, setErrMsg] = useState('')
   const [disable, setDisable] = useState(false)
-  // const [show, setShow] = useState(false);
   const errRef = useRef()
 
-  const handleDelete = async (userId) => {
+  const handleDelete = async (paymentId) => {
     setDisable(true)
     let token = JSON.parse(localStorage.getItem('token'))
     let jwt = token.token
@@ -18,7 +18,7 @@ const DeletUserModal = (props) => {
     }
 
     let reqOptions = {
-      url: deleteUserUrl + userId,
+      url: deletePaymentUrl + paymentId,
       method: 'DELETE',
       headers: headersList,
     }
@@ -26,8 +26,9 @@ const DeletUserModal = (props) => {
     try {
       let response = await axios.request(reqOptions)
       if (response.status === 200) {
+        // navigate('/payments')
         window.location.reload(false)
-        console.log(response.data)
+        // console.log(response.data)
       }
     } catch (error) {
       if (!error.response) {
@@ -41,8 +42,6 @@ const DeletUserModal = (props) => {
       }
       errRef.current.focus()
     }
-
-    // console.log(response)
   }
   return (
     // <!-- Modal -->
@@ -61,7 +60,7 @@ const DeletUserModal = (props) => {
               id='exampleModalLabel'
             >
               Delete
-              {props.usersId}
+              {props.paymentId}
               <p ref={errRef} className='text-red-600' aria-live='assertive'>
                 {errMsg}
               </p>
@@ -102,7 +101,7 @@ const DeletUserModal = (props) => {
             </svg>
             <h2 className='text-xl font-bold py-4 '>Are you sure?</h2>
             <p className='text-sm text-gray-500 text-center'>
-              Do you really want to delete this account? This process cannot be
+              Do you really want to delete this payment? This process cannot be
               undone
             </p>
           </div>
@@ -132,7 +131,7 @@ const DeletUserModal = (props) => {
             <button
               type='button'
               onClick={() => {
-                handleDelete(props.usersId)
+                handleDelete(props.paymentId)
               }}
               disabled={disable}
               class='px-6
@@ -162,4 +161,4 @@ const DeletUserModal = (props) => {
   )
 }
 
-export default DeletUserModal
+export default DeletPaymentModal

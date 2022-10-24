@@ -1,20 +1,26 @@
 import { useState, useEffect } from 'react'
 
-const useGet = (url, id, jwt) => {
+const useGet = (url, id) => {
   const [data, setData] = useState(null)
   const [isPending, setIsPending] = useState(true)
   const [error, setError] = useState(null)
+  const token = JSON.parse(localStorage.getItem('token'))
+  const jwt = token.token
 
   useEffect(() => {
     const abortCont = new AbortController()
-    
-    fetch(url+id, {
-      method: "GET",
-      headers: {'Authentication': 'Bearer '+jwt}
+  
+    fetch(url + id, {
+      method: 'GET',
+      headers: { Authorization: 'Bearer ' + jwt },
     })
       .then((res) => {
         if (!res.ok) {
-          throw Error('could not fetch the data for the resource')
+          if (res.status === 401) {
+            throw Error('Unauthorised')
+          } else {
+            throw Error('could not fetch the data for the resource')
+          }
         }
         return res.json()
       })

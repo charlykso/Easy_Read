@@ -1,15 +1,13 @@
-import { deleteUserUrl } from '../sub_pages/BaseUrl'
+import { deleteBookUrl } from '../sub_pages/BaseUrl'
 import React, { useRef, useState } from 'react'
 import axios from 'axios'
 
-const DeletUserModal = (props) => {
-  // const navigate = useNavigate()
+const DeleteBooksModal = (props) => {
   const [errMsg, setErrMsg] = useState('')
   const [disable, setDisable] = useState(false)
-  // const [show, setShow] = useState(false);
   const errRef = useRef()
 
-  const handleDelete = async (userId) => {
+  const handleDelete = async (bookId) => {
     setDisable(true)
     let token = JSON.parse(localStorage.getItem('token'))
     let jwt = token.token
@@ -18,7 +16,7 @@ const DeletUserModal = (props) => {
     }
 
     let reqOptions = {
-      url: deleteUserUrl + userId,
+      url: deleteBookUrl + bookId,
       method: 'DELETE',
       headers: headersList,
     }
@@ -61,7 +59,7 @@ const DeletUserModal = (props) => {
               id='exampleModalLabel'
             >
               Delete
-              {props.usersId}
+              {props.bookId}
               <p ref={errRef} className='text-red-600' aria-live='assertive'>
                 {errMsg}
               </p>
@@ -102,7 +100,7 @@ const DeletUserModal = (props) => {
             </svg>
             <h2 className='text-xl font-bold py-4 '>Are you sure?</h2>
             <p className='text-sm text-gray-500 text-center'>
-              Do you really want to delete this account? This process cannot be
+              Do you really want to delete this book? This process cannot be
               undone
             </p>
           </div>
@@ -132,7 +130,7 @@ const DeletUserModal = (props) => {
             <button
               type='button'
               onClick={() => {
-                handleDelete(props.usersId)
+                handleDelete(props.bookId)
               }}
               disabled={disable}
               class='px-6
@@ -162,4 +160,4 @@ const DeletUserModal = (props) => {
   )
 }
 
-export default DeletUserModal
+export default DeleteBooksModal

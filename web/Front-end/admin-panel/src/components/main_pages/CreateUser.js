@@ -1,3 +1,4 @@
+import React from "react";
 import Breadcrumbs from '../sub_pages/Breadcrumbs'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Form, Formik } from "formik";
@@ -50,7 +51,7 @@ const CreateUser = () => {
             formData.append('FirstName', values.Firstname)
             formData.append('LastName', values.Lastname)
             formData.append('Email', values.Email)
-            formData.append('Phone_no', values.Phone_No)
+            formData.append('Phone_no',phoneWithCode)
             formData.append('Role', values.Role)
             formData.append('Password', values.Password)
 
@@ -179,7 +180,7 @@ const CreateUser = () => {
                   control='input'
                   type='text'
                   name='Phone_No'
-                  placeholder='Phone number'
+                  placeholder='Phone number eg 07066116460'
                 />
               </div>
               <div className='form-group mb-6'>

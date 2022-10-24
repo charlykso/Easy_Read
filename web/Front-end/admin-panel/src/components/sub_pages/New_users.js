@@ -1,3 +1,5 @@
+import React from "react";
+
 const New_users = () => {
     return (
       <div className='right bg-gray-200 h-full pt-5 w-2/5 rounded-lg '>
