@@ -12,11 +12,11 @@ namespace API.Services
             _easyReaderDBContext = easyReaderDBContext;
         }
 
-        public string CheckEmail(string Email)
+        public async Task<string> CheckEmail(string Email)
         {
             try
             {
-                var checkUserEmail = _easyReaderDBContext!.Users.FirstOrDefault(e => 
+                var checkUserEmail = await _easyReaderDBContext!.Users.FirstOrDefaultAsync(e => 
                 e.Email!.ToLower() == Email.ToLower());
 
                 if (checkUserEmail is null)
@@ -33,11 +33,11 @@ namespace API.Services
             }
         }
 
-        public User GetUserByMail(string Email)
+        public async Task<User> GetUserByMail(string Email)
         {
             try
             {
-                var user = _easyReaderDBContext!.Users.FirstOrDefault(e => 
+                var user = await _easyReaderDBContext!.Users.FirstOrDefaultAsync(e => 
                 e.Email!.ToLower() == Email.ToLower());
                 if (user is null)
                 {
@@ -56,11 +56,11 @@ namespace API.Services
         }
         
 
-        public string CheckPhone(string Phone_no)
+        public async Task<string> CheckPhone(string Phone_no)
         {
             try
             {
-                var phone_noExist = _easyReaderDBContext!.Users.FirstOrDefault(p => 
+                var phone_noExist = await _easyReaderDBContext!.Users.FirstOrDefaultAsync(p => 
                 p.Phone_no == Phone_no);
 
                 if (phone_noExist is null)
@@ -77,11 +77,11 @@ namespace API.Services
             }
         }
 
-        public void CreateUser(User NewUser)
+        public async void CreateUser(User NewUser)
         {
             try
             {
-                var user = _easyReaderDBContext!.Users.Add(NewUser);
+                var user = await _easyReaderDBContext!.Users.AddAsync(NewUser);
                 _easyReaderDBContext.SaveChanges();
             }
             catch (System.Exception ex)
@@ -91,26 +91,26 @@ namespace API.Services
             }
         }
 
-        public void DeleteUser(int Id)
+        public async void DeleteUser(int Id)
         {
             try
             {
-                var user = _easyReaderDBContext!.Users.Find(Id);
+                var user = await _easyReaderDBContext!.Users.FindAsync(Id);
                 if (user != null)
                 {
                     _easyReaderDBContext.Remove(user);
                     _easyReaderDBContext.SaveChanges();
+                }else{
+                    Console.WriteLine($"No user found with the id {Id}");
                 }
-                Console.WriteLine($"No user found with the id {Id}");
             }
             catch (System.Exception ex)
             {
-                
                 Console.WriteLine(ex.Message);
             }
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsers()
         {
             try
             {
@@ -127,6 +127,7 @@ namespace API.Services
                     return null!;
                 }
                 var myUser = users!.ThenInclude(b => b.Book);
+                await Task.Delay(1000);
                 return myUser!;
             }
             catch (System.Exception ex)
@@ -136,20 +137,21 @@ namespace API.Services
             }
         }
 
-        public User GetUser(int Id)
+        public async Task<User> GetUser(int Id)
         {
             try
             {
-                var user = _easyReaderDBContext!.Users.Where(a => a.Id == Id)
-                                                        .Include(bu => bu.Book_User)
-                                                        .First();
+                var user =  _easyReaderDBContext!.Users.Where(a => a.Id == Id)
+                                                        .Include(bu => bu.Book_User);
+                                                        
                 if (user is null)
                 {
                     Console.WriteLine($"No user found with the id {Id}");
                     return null!;
                 }
-                // var myUser = user!.ThenInclude(b => b.Book);
-                return user;
+                var myUser = await user!.ThenInclude(b => b.Book).FirstOrDefaultAsync();
+                // await Task.Delay(2000);
+                return myUser!;
             }
             catch (System.Exception ex)
             {
@@ -158,11 +160,11 @@ namespace API.Services
             }
         }
 
-        public void UpdateUser(int Id, User EditUser)
+        public async void UpdateUser(int Id, User EditUser)
         {
             try
             {
-                var user = _easyReaderDBContext!.Users.Find(Id);
+                var user = await _easyReaderDBContext!.Users.FindAsync(Id);
                 if (user is null)
                 {
                     Console.WriteLine($"No user found with the id {Id}");
@@ -173,7 +175,6 @@ namespace API.Services
             }
             catch (System.Exception ex)
             {
-                
                 Console.WriteLine(ex.Message);
             }
         }

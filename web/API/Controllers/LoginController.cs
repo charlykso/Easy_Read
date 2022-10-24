@@ -35,8 +35,8 @@ namespace API.Controllers
                     {
                         token = token,
                         Id = logUser.Id,
-                        FirstName = logUser.Firstname,
-                        LastName = logUser.Lastname,
+                        Firstname = logUser.Firstname,
+                        Lastname = logUser.Lastname,
                         Role = logUser.Role,
                         Email = logUser.Email,
                         Phone = logUser.Phone_no

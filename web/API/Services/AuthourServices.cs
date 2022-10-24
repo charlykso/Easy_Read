@@ -11,11 +11,11 @@ namespace API.Services
         {
             _easyReaderDBContext = easyReaderDBContext;
         }
-        public void CreateAuthor(Author NewAuthor)
+        public async void CreateAuthor(Author NewAuthor)
         {
             try
             {
-                var author = _easyReaderDBContext!.Authors.Add(NewAuthor);
+                var author = await _easyReaderDBContext!.Authors.AddAsync(NewAuthor);
                 _easyReaderDBContext.SaveChanges();
             }
             catch (System.Exception ex)
@@ -25,11 +25,11 @@ namespace API.Services
             }
         }
 
-        public void DeleteAuthor(int Id)
+        public async void DeleteAuthor(int Id)
         {
             try
             {
-                var author = _easyReaderDBContext!.Authors.Find(Id);
+                var author = await _easyReaderDBContext!.Authors.FindAsync(Id);
                 if (author != null)
                 {
                     _easyReaderDBContext.Remove(author);
@@ -44,7 +44,7 @@ namespace API.Services
             }
         }
 
-        public IEnumerable<Author> GetAllAuthors()
+        public async Task<IEnumerable<Author>> GetAllAuthors()
         {
             try
             {
@@ -61,6 +61,7 @@ namespace API.Services
                     Console.WriteLine("Please fill in valid information");
                     return null!;
                 }
+                await Task.Delay(1000);
                 return authors;
             }
             catch (System.Exception ex)
@@ -70,13 +71,13 @@ namespace API.Services
             }
         }
 
-        public Author GetAuthor(int Id)
+        public async Task<Author> GetAuthor(int Id)
         {
             try
             {
-                var author = _easyReaderDBContext!.Authors.Where(a => a.Id == Id)
+                var author = await _easyReaderDBContext!.Authors.Where(a => a.Id == Id)
                                                             .Include(b => b.Books)
-                                                            .First();
+                                                            .FirstAsync();
                 if (author is null)
                 {
                     Console.WriteLine($"No author found with the id {Id}");
@@ -92,11 +93,11 @@ namespace API.Services
             }
         }
 
-        public void UpdateAuthor(int Id, Author EditAuthor)
+        public async void UpdateAuthor(int Id, Author EditAuthor)
         {
             try
             {
-                var author = _easyReaderDBContext!.Authors.Find(Id);
+                var author = await _easyReaderDBContext!.Authors.FindAsync(Id);
 
                 if (author is null)
                 {

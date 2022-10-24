@@ -11,7 +11,6 @@ namespace API.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  [Authorize]
   public class UserController : ControllerBase
   {
     private readonly IUser? _iUser;
@@ -25,14 +24,14 @@ namespace API.Controllers
       _ClientFactory = ClientFactory;
     }
 
-    //[Authorize(Roles = "Admin")]
+    [Authorize]
     //api/user/GetAllUsers
     [HttpGet("GetAllUsers")]
-    public ActionResult GetAllUsers()
+    public async Task<ActionResult> GetAllUsers()
     {
       try
       {
-        var users = _iUser!.GetAllUsers().ToList();
+        var users = await _iUser!.GetAllUsers();
 
         return Ok(users);
       }
@@ -42,14 +41,15 @@ namespace API.Controllers
       }
     }
 
-    //[Authorize(Roles = "Admin")]
+    [Authorize]
     //api/user/GetUser/Id
     [HttpGet("GetUser/{Id}")]
-    public ActionResult<UserModel> GetUser(int Id)
+    public async Task<ActionResult<User>> GetUser(int Id)
     {
       try
       {
-        var user = _iUser!.GetUser(Id);
+        var user = await _iUser!.GetUser(Id);
+        // var newUser = user!.inClude(b => b.Book);
         return Ok(user);
       }
       catch (System.Exception ex)
@@ -61,14 +61,14 @@ namespace API.Controllers
     [AllowAnonymous]
     //api/user/verifyUser
     [HttpPost("VerifyUser")]
-    public ActionResult VerifyUserPhone([FromForm] UserModel newUser)
+    public async Task<ActionResult> VerifyUserPhone([FromForm] UserModel newUser)
     {
       try
       {
         if (ModelState.IsValid)
         {
           //verify the users phone number to see if it's in DB and send verification code if it's not
-          var phoneExist = _iUser!.CheckPhone(newUser.Phone_no!);
+          var phoneExist = await _iUser!.CheckPhone(newUser.Phone_no!);
           if (phoneExist == "Not Exist")
           {
             var code = new VeriffyPhoneNo();
@@ -95,7 +95,7 @@ namespace API.Controllers
     [AllowAnonymous]
     //api/user/createuser
     [HttpPost("CreateUser")]
-    public ActionResult CreateUser([FromForm] UserModel newUser)
+    public async Task<ActionResult> CreateUser([FromForm] UserModel newUser)
     {//after verifying the user phone number we create the user and store the details in the DB
       try
       {
@@ -118,7 +118,7 @@ namespace API.Controllers
         //when the user is created generate JWT token for the user and return the token
         var newToken = new GenerateToken(_IConfig);
         var token = newToken.GenerateTokenForUser(user);
-
+        await Task.Delay(2000);
         return Created( "Succesful",new {
           token = token,
           Id = user.Id,
@@ -134,10 +134,10 @@ namespace API.Controllers
       }
     }
 
-    // [AllowAnonymous]
+    [Authorize]
     //api/user/UpdateUser
     [HttpPut("UpdateUser/{Id}")]
-    public ActionResult UpdateUser(int Id, [FromForm]UpdateUserModel editUser)
+    public async Task<ActionResult> UpdateUser(int Id, [FromForm]UpdateUserModel editUser)
     {
       try
       {
@@ -145,7 +145,7 @@ namespace API.Controllers
         {
           return NoContent();
         }
-        var user = _iUser!.GetUser(Id);
+        var user = await _iUser!.GetUser(Id);
         if (user is null)
         {
             return NotFound($"No user found with the id {Id}");
@@ -200,7 +200,7 @@ namespace API.Controllers
           var Guser = JsonConvert.DeserializeObject<GoogleAuth>(apiString);
           //Console.WriteLine(Guser!.email);
           //check if the email is in DB
-          var userEmail = _iUser!.CheckEmail(Guser!.email!);
+          var userEmail = await _iUser!.CheckEmail(Guser!.email!);
           if (userEmail == "NOT EXIST")
           {
             //if it's not in the DB we create a user
@@ -219,8 +219,9 @@ namespace API.Controllers
               return Created("Succesful", new
                     {
                         token = JwtToken,
-                        FirstName = user.Firstname,
-                        LastName = user.Lastname,
+                        Id = user.Id,
+                        Firstname = user.Firstname,
+                        Lastname = user.Lastname,
                         Role = user.Role,
                         Email = user.Email,
                     });
@@ -233,16 +234,18 @@ namespace API.Controllers
           else
           {
             //if the user email is already in the DB, get the user details and generate a signin token for the user
-            var newUser = _iUser.GetUserByMail(Guser.email!);
+            var newUser = await _iUser.GetUserByMail(Guser.email!);
             var newToken = new GenerateToken(_IConfig);
             var JwtToken = newToken.GenerateTokenForSocialUser(newUser);
             
              return Ok(new
                     {
                         token = JwtToken,
-                        FirstName = newUser.Firstname,
-                        LastName = newUser.Lastname,
+                        Id = newUser.Id,
+                        Firstname = newUser.Firstname,
+                        Lastname = newUser.Lastname,
                         Role = newUser.Role,
+                        Phone_no = newUser.Phone_no,
                         Email = newUser.Email,
 
                     });
@@ -283,7 +286,7 @@ namespace API.Controllers
           var Fuser = JsonConvert.DeserializeObject<FacebookAuth>(apiString);
           //Console.WriteLine(Fuser!.email);
           //check if the user email is in DB
-          var userEmail = _iUser!.CheckEmail(Fuser!.email!);
+          var userEmail = await _iUser!.CheckEmail(Fuser!.email!);
           if (userEmail == "NOT EXIST")
           {//split the full name into firstname and lastname
             string fullName = Fuser.name!;
@@ -304,8 +307,9 @@ namespace API.Controllers
               return Created("Succesful", new
                     {
                         token = JwtToken,
-                        FirstName = user.Firstname,
-                        LastName = user.Lastname,
+                        Id = user.Id,
+                        Firstname = user.Firstname,
+                        Lastname = user.Lastname,
                         Role = user.Role,
                         Email = user.Email,
 
@@ -322,18 +326,19 @@ namespace API.Controllers
           else
             {
               //if the user email is already in the DB get the user and generate login token
-              var newUser = _iUser.GetUserByMail(Fuser.email!);
+              var newUser = await _iUser.GetUserByMail(Fuser.email!);
               var newToken = new GenerateToken(_IConfig);
               var JwtToken = newToken.GenerateTokenForSocialUser(newUser);
              
               return Ok(new
                     {
                         token = JwtToken,
-                        FirstName = newUser.Firstname,
-                        LastName = newUser.Lastname,
+                        Id = newUser.Id,
+                        Firstname = newUser.Firstname,
+                        Lastname = newUser.Lastname,
                         Role = newUser.Role,
+                        Phone_no = newUser.Phone_no,
                         Email = newUser.Email,
-
                     });
             }
         }
@@ -341,21 +346,20 @@ namespace API.Controllers
       }
       catch (System.Exception ex)
       {
-        
         return BadRequest(ex.Message);
       }
 
     }
 
 
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     //api/user/DeleteUser/Id
     [HttpDelete("DeleteUser/{Id}")]
-    public ActionResult DeleteUser(int Id)
+    public async Task<ActionResult> DeleteUser(int Id)
     {
       try
       {
-        var user = _iUser!.GetUser(Id);
+        var user = await _iUser!.GetUser(Id);
 
 
         if (user is null)

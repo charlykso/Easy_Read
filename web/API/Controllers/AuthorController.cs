@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthorController : ControllerBase
@@ -20,14 +20,13 @@ namespace API.Controllers
             _eRDBContext = eRDBContext;
         }
 
-        // [Authorize]
         //api/Author/GetAllAuthors
         [HttpGet("GetAllAuthors")]
-        public ActionResult GetAllAuthors()
+        public async Task<ActionResult> GetAllAuthors()
         {
             try
             {
-                var author = _iAuthor!.GetAllAuthors().ToList();
+                var author = await _iAuthor!.GetAllAuthors();
                 if (author != null)
                 {
                     return Ok(author);
@@ -36,18 +35,17 @@ namespace API.Controllers
             }
             catch (System.Exception ex)
             {
-                
                 return BadRequest(ex.Message);
             }
         }
 
         //api/author/GetAuthor/Id
         [HttpGet("GetAuthor/{Id}")]
-        public ActionResult GetAuthor(int Id)
+        public async Task<ActionResult> GetAuthor(int Id)
         {
             try
             {
-                var author = _iAuthor!.GetAuthor(Id);
+                var author = await _iAuthor!.GetAuthor(Id);
                 if (author != null)
                 {
                     return Ok(author);
@@ -63,7 +61,7 @@ namespace API.Controllers
 
         //api/author/CreateAuthor
         [HttpPost("CreateAuthor")]
-        public ActionResult CraeteAuthor([FromForm] AuthorModel newAuthor)
+        public async Task<ActionResult> CraeteAuthor([FromForm] AuthorModel newAuthor)
         {
             try
             {
@@ -95,6 +93,7 @@ namespace API.Controllers
                             author.Created_at = DateTime.Now;
 
                             _iAuthor!.CreateAuthor(author);
+                            await Task.Delay(1000);
                             return Created("Success", new { success = "Author created successfuly!"});
                         }
                         else
@@ -117,7 +116,7 @@ namespace API.Controllers
 
         //api/author/UpdateAuthor/Id
         [HttpPut("UpdateAuthor/{Id}")]
-        public ActionResult UpdateAuthor(int Id, [FromForm] UpdateAuthorModel editAuthor)
+        public async Task<ActionResult> UpdateAuthor(int Id, [FromForm] UpdateAuthorModel editAuthor)
         {
             try
             {
@@ -125,7 +124,7 @@ namespace API.Controllers
                 {
                     return BadRequest("Invalid Id");
                 }
-                var author = _iAuthor!.GetAuthor(Id);
+                var author = await _iAuthor!.GetAuthor(Id);
                 if (author is null)
                 {
                     return NotFound($"No author found with the id {Id}");
@@ -159,11 +158,11 @@ namespace API.Controllers
 
         //api/author/DeleteAuthor/Id
         [HttpDelete("DeleteAuthor/{Id}")]
-        public ActionResult DeleteAuthor(int Id)
+        public async Task<ActionResult> DeleteAuthor(int Id)
         {
             try
             {
-                var author = _iAuthor!.GetAuthor(Id);
+                var author = await _iAuthor!.GetAuthor(Id);
                 if (author is null)
                 {
                     return NotFound($"No author found with the id {Id}");

@@ -7,10 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/[controller]")]
-    // [Authorize(Roles = "Admin")]
     public class BookController : ControllerBase
     {
         private IConfiguration _iConfig;
@@ -21,16 +20,17 @@ namespace API.Controllers
             _iConfig = iConfig;
         }
 
+        [Authorize]
         //api/book/GetBooks
         //api/book/GetAllBooks?sort=desc or asc&by=Title or price or pub_date&pageNumber=1&pageSize=5
         [HttpGet("GetAllBooks")]
-        public ActionResult GetAllBooks(string sort, string by, int? pageNumber, int? pageSize)
+        public async Task<ActionResult> GetAllBooks(string sort, string by, int? pageNumber, int? pageSize)
         {
             var currentPageNumber = pageNumber?? 1;
             var currentPageSize = pageSize?? 5; 
             try
             {
-                var book = _iBook!.GetAllBooks().ToList();
+                var book = await _iBook!.GetAllBooks();
 
 
                 if (by == "title")
@@ -87,15 +87,31 @@ namespace API.Controllers
 
         }
 
+        [Authorize]
         //api/book/GetBook/Id
         [HttpGet("GetBook/{Id}")]
-        public ActionResult GetBook(int Id)
+        public async Task<ActionResult> GetBook(int Id)
         {
             try
             {
-                var book = _iBook!.GetBook(Id);
+                var book = await _iBook!.GetBook(Id);
+                var key = _iConfig["Enc:key"];
+                var mainBody = StringEncryption.DecryptString(key, book.Body!);
 
-                return Ok(book);
+                return Ok(new
+                {
+                    Id = book.Id,
+                    Title = book.Title,
+                    Sub_Title = book.Sub_Title,
+                    ISBN_Numbe = book.ISBN_Number,
+                    Price = book.Price,
+                    Front_Cover_Img_url = book.Front_Cover_Img_url,
+                    Back_Cover_Img_url = book.Back_Cover_Img_url,
+                    AuthorId = book.AuthorId,
+                    Created_at = book.Created_at,
+                    YearOf_Publication = book.YearOf_Publication,
+                    Body = mainBody
+                });
             }
             catch (System.Exception ex)
             {
@@ -104,9 +120,10 @@ namespace API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         //api/book/CreateBook
         [HttpPost("CreateBook")]
-        public ActionResult CreateBook([FromForm] BookModel newBook)
+        public async Task<ActionResult> CreateBook([FromForm] BookModel newBook)
         {
             try
             {
@@ -136,6 +153,7 @@ namespace API.Controllers
                 book.YearOf_Publication = newBook.YearOf_Publication;
 
                 _iBook!.CreateBook(book);
+                await Task.Delay(1000);
                 return Ok("Book created successfuly!");
             }
             catch (System.Exception ex)
@@ -144,10 +162,10 @@ namespace API.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Admin")]
         //api/book/UpdateBook/Id
         [HttpPut("UpdateBook/{Id}")]
-        public ActionResult UpdateBook(int Id, [FromForm] UpdateBookModel editBook)
+        public async Task<ActionResult> UpdateBook(int Id, [FromForm] UpdateBookModel editBook)
         {
             try
             {
@@ -161,7 +179,7 @@ namespace API.Controllers
                 var second_filestream = new FileStream(second_filePath, FileMode.Create);
                 editBook.Back_Cover_Img!.CopyTo(second_filestream);
 
-                var book = new Book();
+                var book = await _iBook!.GetBook(Id);
                 book.Title = editBook.Title;
                 book.Sub_Title = editBook.Sub_Title;
                 book.Publisher = editBook.Publisher;
@@ -183,13 +201,14 @@ namespace API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         //api/book/DeleteBook/Id
         [HttpDelete("DeleteBook/{Id}")]
-        public ActionResult DeleteBook(int Id)
+        public async Task<ActionResult> DeleteBook(int Id)
         {
             try
             {
-                var book = _iBook!.GetBook(Id);
+                var book = await _iBook!.GetBook(Id);
                 if (book is null)
                 {
                     return NotFound($"No book found with the id {Id}");

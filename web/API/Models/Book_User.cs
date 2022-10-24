@@ -4,11 +4,11 @@ namespace API.Models
 {
     public class Book_User
     {
-        public int Id { get; set; } 
-
+        public int Id { get; set; }
+        public double Amount { get; set; }
+        public int Transaction_Id { get; set; }
         public int BookId { get; set; }
         public Book? Book { get; set; }
-
         public int UserId { get; set; }
         public User? User { get; set; }
 

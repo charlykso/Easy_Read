@@ -10,26 +10,28 @@ using Newtonsoft.Json;
 
 namespace API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/[controller]")]
     public class PaymentController: ControllerBase
     {
         private readonly IBook_User? _IBkUs;
         private readonly IHttpClientFactory _ClientFactory;
-        public PaymentController(IBook_User IBkUs, IHttpClientFactory clientFactory)
+        private readonly IConfiguration _IConfig;
+        public PaymentController(IBook_User IBkUs, IHttpClientFactory clientFactory, IConfiguration IConfig)
         {
             _IBkUs = IBkUs;
+            _IConfig = IConfig;
             _ClientFactory = clientFactory;
         }
 
-        [Authorize(Roles = "Admin")]
         //api/payment/getallpayments
         [HttpGet("getallpayments")]
-        public ActionResult GetAllPayments()
+        public async Task<ActionResult> GetAllPayments()
         {
             try
             {
-                var payments = _IBkUs!.GetAllPayments().ToList();
+                var payments = await _IBkUs!.GetAllPayments();
                 if (payments != null)
                 {
                     return Ok(payments);
@@ -43,14 +45,13 @@ namespace API.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
         //api/payment/getpayment/{id}
         [HttpGet("getpayment/{Id}")]
-        public ActionResult GetPayment(int Id)
+        public async Task<ActionResult> GetPayment(int Id)
         {
             try
             {
-                var payment = _IBkUs!.GetSinglePayment(Id);
+                var payment = await _IBkUs!.GetSinglePayment(Id);
                 if (payment != null)
                 {
                     return Ok(payment);
@@ -67,18 +68,18 @@ namespace API.Controllers
         [AllowAnonymous]
         //api/payment/makepayment
         [HttpPost("makePayment")]
-        public async Task<IActionResult> MakePayment([FromForm] Book_User newpayment, String paymentId)
+        public async Task<IActionResult> MakePayment([FromForm] Payment_Model newpayment)
         {
             try
             {
-                var token = "abc-xyz";
+                // var token = "FLWSECK_TEST-1e6ad0f6f2577a9db03c1deaabd86937-X";
                 //this is the uri
                 var request = new HttpRequestMessage(HttpMethod.Get, 
-                $"https://api.flutterwave.com/v3/transactions/{paymentId}/verify");
+                $"https://api.flutterwave.com/v3/transactions/{newpayment.Transaction_Id}/verify");
                 //create an an instance of IHttpclientFactory
                 var client = _ClientFactory.CreateClient();
                 //add the auth token to the header
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _IConfig["FW_Payment:Secret_key"]);
                 //send request and get the respond
                 HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
                 //check if the respond status is successful
@@ -90,12 +91,14 @@ namespace API.Controllers
                     var paymentRes = JsonConvert.DeserializeObject<PaymentDetails>(apiString);
                     
                     var payment = new Book_User();
-                    payment.UserId = newpayment.UserId;
-                    payment.BookId = newpayment.BookId;
-                    payment.Payment_made_at = DateTime.Now;
-                    payment.Payment_Status = paymentRes!.status;
+                    payment.UserId = newpayment.User_Id;
+                    payment.BookId = newpayment.Book_Id;
+                    payment.Transaction_Id = paymentRes!.data!.id;
+                    payment.Payment_made_at = paymentRes!.data!.created_at;
+                    payment.Amount = paymentRes!.data!.amount;
+                    payment.Payment_Status = paymentRes!.data!.processor_response;
 
-                    var res = _IBkUs!.CreatePayment(payment);
+                    var res = await _IBkUs!.CreatePayment(payment);
                     if (res == "success")
                     {
                         return Ok("Payment made successfully!");
@@ -112,22 +115,22 @@ namespace API.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
         //api/payment/updatepayment/{id}
         [HttpPut("UpdatePayment/{Id}")]
-        public ActionResult UpdatePayment(int Id, [FromForm] Book_UserModel editPayment)
+        public async Task<ActionResult> UpdatePayment(int Id, [FromForm] Book_UserModel editPayment)
         {
             try
             {
-                var payment = _IBkUs!.GetSinglePayment(Id);
+                var payment = await _IBkUs!.GetSinglePayment(Id);
                 if (payment != null)
                 {
-                    var oldPayment = new Book_User();
-                    oldPayment.UserId = editPayment.UserId;
-                    oldPayment.BookId = editPayment.BookId;
-                    oldPayment.Updated_at = DateTime.Now;
+                    payment.UserId = editPayment.UserId;
+                    payment.BookId = editPayment.BookId;
+                    payment.Transaction_Id = editPayment.Transaction_Id;
+                    payment.Payment_Status = editPayment.Payment_Status;
+                    payment.Updated_at = DateTime.Now;
 
-                    var res = _IBkUs!.UpdatePayment(Id, oldPayment);
+                    var res = await _IBkUs!.UpdatePayment(Id, payment);
                     if (res == "success")
                     {
                         return Ok("Payment updated successfuly!");
@@ -143,17 +146,17 @@ namespace API.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        
         //api/payment/deletepayment/{id}
         [HttpDelete("deletepayment/{Id}")]
-        public ActionResult DeletePayment(int Id)
+        public async Task<ActionResult> DeletePayment(int Id)
         {
             try
             {
-                var payment = _IBkUs!.GetSinglePayment(Id);
+                var payment = await _IBkUs!.GetSinglePayment(Id);
                 if (payment != null)
                 {
-                   var res = _IBkUs!.DeletePayment(Id);
+                   var res = await _IBkUs!.DeletePayment(Id);
                     if (res == "success")
                     {
                         return Ok("Payment deleted successfuly!");

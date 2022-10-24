@@ -12,11 +12,11 @@ namespace API.Services
         {
             _easyReaderDBContext = easyReaderDBContext;
         }
-        public void CreateBook(Book NewBook)
+        public async void CreateBook(Book NewBook)
         {
             try
             {
-                var book= _easyReaderDBContext!.Books.Add(NewBook);
+                var book= await _easyReaderDBContext!.Books.AddAsync(NewBook);
                 _easyReaderDBContext.SaveChanges();
             }
             catch (System.Exception ex)
@@ -26,11 +26,11 @@ namespace API.Services
             }
         }
 
-        public void DeleteBook(int Id)
+        public async void DeleteBook(int Id)
         {
             try
             {
-                var book = _easyReaderDBContext!.Books.Find(Id);
+                var book = await _easyReaderDBContext!.Books.FindAsync(Id);
                 if (book != null)
                 {
                     _easyReaderDBContext.Remove(book);
@@ -45,7 +45,7 @@ namespace API.Services
             }
         }
 
-        public IEnumerable<Book> GetAllBooks()
+        public async Task<IEnumerable<Book>> GetAllBooks()
         {
             
             try
@@ -62,6 +62,7 @@ namespace API.Services
                     Console.WriteLine("Please fill in valid information");
                     return null!;
                 }
+                await Task.Delay(1000);
                 return books;
             }
             catch (System.Exception ex)
@@ -72,13 +73,13 @@ namespace API.Services
             }
         }
 
-        public Book GetBook(int Id)
+        public async Task<Book> GetBook(int Id)
         {
             try
             {
-                var book = _easyReaderDBContext!.Books.Where(b => b.Id == Id)
+                var book = await _easyReaderDBContext!.Books.Where(b => b.Id == Id)
                                                         .Include(buk => buk.Author)
-                                                        .First();
+                                                        .FirstAsync();
                 if (book is null)
                 {
                     Console.WriteLine($"No book found with the id {Id}");
@@ -94,11 +95,11 @@ namespace API.Services
             }
         }
 
-        public void UpdateBook(int Id, Book EditBook)
+        public async void UpdateBook(int Id, Book EditBook)
         {
             try
             {
-                var book = _easyReaderDBContext!.Books.Find(Id);
+                var book = await _easyReaderDBContext!.Books.FindAsync(Id);
 
                 if (book is null)
                 {

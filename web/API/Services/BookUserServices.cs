@@ -12,11 +12,11 @@ namespace API.Services
         {
             _easyReaderDBContext = easyReaderDBContext;
         }
-        public string CreatePayment(Book_User newBookPayment)
+        public async Task<string> CreatePayment(Book_User newBookPayment)
         {
             try
             {
-                _easyReaderDBContext!.Book_Users.Add(newBookPayment);
+                await _easyReaderDBContext!.Book_Users.AddAsync(newBookPayment);
                 _easyReaderDBContext.SaveChanges();
                 return ("success");
             }
@@ -27,11 +27,11 @@ namespace API.Services
             }
         }
 
-        public string DeletePayment(int Id)
+        public async Task<string> DeletePayment(int Id)
         {
             try
             {
-                var payment = _easyReaderDBContext!.Book_Users.Find(Id);
+                var payment = await _easyReaderDBContext!.Book_Users.FindAsync(Id);
 
                 if (payment != null)
                 {
@@ -49,11 +49,12 @@ namespace API.Services
             }
         }
 
-        public IEnumerable<Book_User> GetAllPayments()
+        public async Task<IEnumerable<Book_User>> GetAllPayments()
         {
             var payments = _easyReaderDBContext!.Book_Users
                                                 .Include(buk => buk.Book)
                                                 .Include(usa => usa.User);
+            await Task.Delay(1000);
             if (payments is null)
             {
                 if (payments!.Count() == 0)
@@ -67,14 +68,14 @@ namespace API.Services
             return payments;
         }
 
-        public Book_User GetSinglePayment(int Id)
+        public async Task<Book_User> GetSinglePayment(int Id)
         {
             try
             {
-                var payment = _easyReaderDBContext!.Book_Users.Where(bu => bu.Id == Id)
+                var payment = await _easyReaderDBContext!.Book_Users.Where(bu => bu.Id == Id)
                                                                 .Include(usa => usa.User)
                                                                 .Include(buk => buk.Book)
-                                                                .First();
+                                                                .FirstAsync();
                 if (payment is null)
                 {
                     Console.WriteLine($"No payment found with the id {Id}");
@@ -89,11 +90,11 @@ namespace API.Services
             }
         }
 
-        public string UpdatePayment(int Id, Book_User editBookPayment)
+        public async Task<string> UpdatePayment(int Id, Book_User editBookPayment)
         {
             try
             {
-                var payment = _easyReaderDBContext!.Book_Users.Find(Id);
+                var payment = await _easyReaderDBContext!.Book_Users.FindAsync(Id);
 
                 if (payment is null)
                 {
