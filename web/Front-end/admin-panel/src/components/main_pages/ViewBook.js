@@ -29,6 +29,9 @@ const ViewBook = () => {
   const navigate = useNavigate()
   const { data: book, isPending, error } = useGet(getBookUrl, Id)
   const { updateUser, isLoading, updateError } = useUpdate()
+  // var body = null
+  // var bytes = null
+  // var decryptedData = null
   
 
   useEffect(() => {
@@ -56,9 +59,13 @@ const ViewBook = () => {
   }, [jwt])
 
   // var CryptoJS = require('crypto-js')
-  // var body = book.Body
-  // var bytes = CryptoJS.AES.decrypt(body, AES_pass)
-  // var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
+  // if (book != null) {
+  //   body = book.Body
+  //   bytes = CryptoJS.AES.decrypt(body, AES_pass)
+  //   decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+  //   console.log(decryptedData)
+  
+  // }
 
   return (
     <div className='container mx-auto md:px-8 '>
@@ -66,8 +73,8 @@ const ViewBook = () => {
       {isPending && <Loading />}
       {error && <div className='text-red-600'>{error}</div>}
       {book && (
-        <div className='flex flex-wrap mt-5 bg-red-200 w-full justify-between'>
-          <div className=' w-1/2 rounded-lg bg-white shadow-lg'>
+        <div className='grid grid-rows-2 gap-1 justify-items-stretch lg:grid-cols-2 md:grid-rows-1 mt-5  justify-between'>
+          <div className=' rounded-lg bg-gray-100 shadow-lg'>
             <div className='grid grid-cols-2 gap-4 mb-3'>
               <div className='max-h-50 max-w-50 m-3'>
                 <img
@@ -117,6 +124,7 @@ const ViewBook = () => {
                   : 'No Author'}
               </h4>
               <h4>The Book</h4>
+
               <textarea
                 className='mt-1 p-3 w-full h-56'
                 name='Body'
@@ -125,14 +133,14 @@ const ViewBook = () => {
               ></textarea>
             </div>
           </div>
-          <div className='w-1/2 bg-white rounded-lg'>
+          <div className='bg-gray-100 rounded-lg'>
             <h3 className='text-center'>Edit Book</h3>
             {updateError && (
               <div
                 className='bg-red-100 rounded-lg py-5 px-6 mb-3 mt-3 text-base text-red-700 inline-flex items-center w-full'
                 role='alert'
               >
-                <p>{updateError}</p>
+                <p>{book.Body}</p>
               </div>
             )}
             <div className='p-6 rounded-lg w-full shadow-lg '>
@@ -145,7 +153,7 @@ const ViewBook = () => {
                   Publisher: book.Publisher,
                   Body: book.Body,
                   Price: book.Price,
-                  AuthorId: book.Author.Id,
+                  AuthorId: book.AuthorId,
                   Front_Cover_Img: book.Front_Cover_Img,
                   Back_Cover_Img: book.Back_Cover_Img,
                 }}

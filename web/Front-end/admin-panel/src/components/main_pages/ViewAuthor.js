@@ -21,19 +21,22 @@ const ViewAuthor = () => {
   const navigate = useNavigate()
 
   return (
-    <div className='container mx-auto md:px-8 '>
+    <div className='mx-auto md:px-8 '>
       {!isPending && <Breadcrumbs location={location.pathname} />}
       {isPending && <Loading />}
       {error && <div className='text-red-600'>{error}</div>}
       {author && (
-        <div className='flex flex-wrap mt-5 bg-red-200 w-full justify-between'>
-          <div className=' w-1/2 flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg'>
-            <img
-              className=' w-full h-96 md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg'
-              src={require(`../../../../../API/${author.ImageURL}`)}
-              alt=''
-            />
-            <div className='p-6 flex flex-col justify-start'>
+        <div className='grid grid-rows-2 gap-1 md:grid-rows-1 md:w-full lg:grid-cols-2 mt-5 '>
+          <div className='grid sm:grid-cols-2  md:grid-cols-2 lg:grid-rows-2 rounded-lg bg-gray-100'>
+            <div className='img '>
+              <img
+                className=' w-full h-86 md:h-96 object-cover rounded-t-lg md:rounded-none md:rounded-l-lg'
+                src={require(`../../../../../API/${author.ImageURL}`)}
+                alt=''
+              />
+            </div>
+            <div className='pl-6 pt-2 pr-6'>
+              <h4 className='text-xl'>Details</h4>
               <h5 className='text-gray-900 text-xl font-medium mb-2'>
                 First name: {author.Firstname}
                 <br />
@@ -60,24 +63,25 @@ const ViewAuthor = () => {
               <h4 className='px-2 py-2'>Books</h4>
               {author.Books.length > 0 ? (
                 <div className='scroll-smooth scroll-m-8  md:scroll-auto'>
-                  <ul className='bg-white rounded-lg border border-gray-200 text-gray-900'>
+                  <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                    <option value=''> ------ </option>
                     {author.Books.map((book) => (
-                      <li
+                      <option
                         className='px-2 py-2 border-b border-gray-200 w-auto rounded-t-lg'
                         key={book.Id}
                       >
                         {book.Title}
-                      </li>
+                      </option>
                     ))}
-                  </ul>
+                  </select>
                 </div>
               ) : (
                 <h4>No Book</h4>
               )}
             </div>
           </div>
-          <div className='w-1/2 bg-white rounded-lg'>
-            <h3 className='text-center'>Edit Author</h3>
+          <div className='  rounded-lg bg-gray-100'>
+            <h3 className='text-center mt-3'>Edit Author</h3>
             {updateError && (
               <div
                 className='bg-red-100 rounded-lg py-5 px-6 mb-3 mt-3 text-base text-red-700 inline-flex items-center w-full'

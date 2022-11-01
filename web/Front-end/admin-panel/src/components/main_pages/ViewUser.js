@@ -25,48 +25,47 @@ const ViewUser = () => {
       {isPending && <Loading />}
       {error && <div className='text-red-600'>{error}</div>}
       {user && (
-        <div className='flex flex-wrap mt-5 bg-red-200 w-full justify-between'>
-          <div className=' w-1/2 flex lg:flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg'>
-            <div className='p-6 justify-start'>
-              <h5 className='text-gray-900 text-xl font-medium mb-2'>
-                First name: {user.Firstname}
-                <br />
-                Last name: {user.Lastname}
-              </h5>
-              <p className='text-gray-700 text-base mb-1'>
-                Email: {user.Email}
-              </p>
-              <p className='text-gray-700 text-base mb-1'>
-                Phone No: {user.Phone_no}
-              </p>
-              <p className='text-gray-700 text-base mb-1'>Role: {user.Role}</p>
-              <p className='text-gray-600 text-xs'>
-                <b>Reg Date:</b> {user.Created_at}
-              </p>
-              <p className='text-gray-600 text-xs'>
-                <b>Updated At:</b> {user.Updated_at}
-              </p>
-              {/* {console.log(user)} */}
-              <caption><h4 className="mt-2">Books</h4></caption>
-              {user.Book_User.length > 0 ? (
-                <div className='scroll-smooth scroll-m-8  md:scroll-auto'>
-                  <ul className='bg-white rounded-lg border border-gray-200 text-gray-900'>
-                    {user.Book_User.map((book, index) => (
-                      <li
-                        className='px-2 py-2 border-b border-gray-200 w-auto rounded-t-lg'
-                        key={index}
-                      >
-                        {book.Book.Title}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : (
-                <h4>No Book</h4>
-              )}
-            </div>
+        <div className='grid grid-rows-2 gap-1 justify-items-stretch lg:grid-cols-2 md:grid-rows-1 mt-5  justify-between'>
+          <div className='p-6 rounded-lg bg-gray-100 shadow-lg'>
+            <h5 className='text-gray-900 text-xl font-medium mb-2'>
+              First name: {user.Firstname}
+              <br />
+              Last name: {user.Lastname}
+            </h5>
+            <p className='text-gray-700 text-base mb-1'>Email: {user.Email}</p>
+            <p className='text-gray-700 text-base mb-1'>
+              Phone No: {user.Phone_no}
+            </p>
+            <p className='text-gray-700 text-base mb-1'>Role: {user.Role}</p>
+            <p className='text-gray-600 text-xs'>
+              <b>Reg Date:</b> {user.Created_at}
+            </p>
+            <p className='text-gray-600 text-xs'>
+              <b>Updated At:</b> {user.Updated_at}
+            </p>
+            {/* {console.log(user)} */}
+            <caption>
+              <h4 className='mt-2'>Books</h4>
+            </caption>
+            {user.Book_User.length > 0 ? (
+              <div className='scroll-smooth scroll-m-8  md:scroll-auto'>
+                <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                  <option value=''> ------ </option>
+                  {user.Book_User.map((book, index) => (
+                    <option
+                      className='px-2 py-2 border-b border-gray-200 w-auto rounded-t-lg'
+                      key={index}
+                    >
+                      {book.Book.Title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : (
+              <h4>No Book</h4>
+            )}
           </div>
-          <div className='w-1/2 bg-white rounded-lg'>
+          <div className='bg-gray-100 md:max-w-full rounded-lg'>
             <h3 className='text-center'>Edit User</h3>
             {updateError && (
               <div
