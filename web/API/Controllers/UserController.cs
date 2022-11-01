@@ -108,7 +108,7 @@ namespace API.Controllers
         user.Password = newUser_password;
         if(newUser.Role == null)
         {
-          user.Role = " User";
+          user.Role = "User";
         }else{
           user.Role = newUser.Role;
         }

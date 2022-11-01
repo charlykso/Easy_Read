@@ -6,15 +6,15 @@ namespace API.Controllers
 {
     public class StringEncryption
     {
-        public static string EncryptString(string key, string plainText)  
+        public static async Task<string> EncryptString(string key, string plainText)  
         {  
             byte[] iv = new byte[16];  /*32 bits key*/
-            byte[] array;  
+            byte[] array;
 
             using (Aes aes = Aes.Create())  
-            {  
+            { 
                 aes.Key = Encoding.UTF8.GetBytes(key);  
-                aes.IV = iv;  
+                aes.IV = iv;
 
                 ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);  
 
@@ -24,7 +24,7 @@ namespace API.Controllers
                     {  
                         using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))  
                         {  
-                            streamWriter.Write(plainText);  
+                           await streamWriter.WriteAsync(plainText);
                         }  
 
                         array = memoryStream.ToArray();
@@ -35,34 +35,42 @@ namespace API.Controllers
             return Convert.ToBase64String(array);
         }
 
-        public static string DecryptString(string key, string cipherText)
+        public static async Task<string> DecryptString(string key, string cipherText)
         {
-            byte[] iv = new byte[16];  /*32 bits key*/
-            byte[] array;
-            byte[] cipherBytes = Convert.FromBase64String(cipherText);
-
-            using (Aes aes = Aes.Create())
+            try
             {
-                aes.Key = Encoding.UTF8.GetBytes(key);
-                aes.IV = iv;
+                byte[] iv = new byte[16];  /*32 bits key*/
 
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+                byte[] cipherBytes = Convert.FromBase64String(cipherText);
+                string plaintext = null!;
 
-                using (MemoryStream memoryStream = new MemoryStream())
+                using (Aes aes = Aes.Create())
                 {
-                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Write))
-                    {
-                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
-                        {
-                            streamWriter.Write(cipherBytes);
-                        }
+                    aes.Key = Encoding.UTF8.GetBytes(key);
+                    aes.IV = iv;
 
-                        array = memoryStream.ToArray();
+                    ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                    using (MemoryStream memoryStream = new MemoryStream(cipherBytes))
+                    {
+                        using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
+                        {
+                            using (StreamReader streamReader = new StreamReader(cryptoStream))
+                            {
+                                plaintext = await streamReader.ReadToEndAsync();
+                            }
+                        }
                     }
                 }
-            }
 
-            return Convert.ToBase64String(array);
+                return plaintext;
+            }
+            catch (System.Exception ex)
+            {
+                
+                return (ex.Message);
+            }
+            
         }
-        }
+    }
 }

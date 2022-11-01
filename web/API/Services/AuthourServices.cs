@@ -61,7 +61,7 @@ namespace API.Services
                     Console.WriteLine("Please fill in valid information");
                     return null!;
                 }
-                await Task.Delay(1000);
+                await Task.Delay(2000);
                 return authors;
             }
             catch (System.Exception ex)
