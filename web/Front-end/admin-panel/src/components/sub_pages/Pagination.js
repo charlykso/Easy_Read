@@ -33,20 +33,22 @@ const Pagination = ({
   return (
     <div className='flex flex-row justify-center m-5'>
       <div className=''>
-        <button
-          className='px-3 py-1 m-5 bg-blue-600 text-white rounded-lg hover:bg-blue-40'
-          onClick={goPrevious}
-        >
-          Previous
-        </button>
+        {manyPages && (
+          <button
+            className='px-3 py-1 m-5 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-40'
+            onClick={goPrevious}
+          >
+            Previous
+          </button>
+        )}
         {manyPages
           ? pages.map((page, index) => {
               return (
                 <button
                   className={
                     page === currentPage
-                      ? 'px-3 py-1 m-5 bg-green-600 text-white rounded-lg hover:bg-blue-40'
-                      : 'px-3 py-1 m-5 bg-blue-600 text-white rounded-lg hover:bg-blue-40'
+                      ? 'px-3 py-1 m-5 bg-blue-600 text-white rounded-lg hover:bg-blue-40'
+                      : 'px-3 py-1 m-5 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-40'
                   }
                   key={index}
                   onClick={() => setcurrentPage(page)}
@@ -60,8 +62,8 @@ const Pagination = ({
                 <button
                   className={
                     page === currentPage
-                      ? 'px-3 py-1 m-5 bg-green-600 text-white rounded-lg hover:bg-blue-40'
-                      : 'px-3 py-1 m-5 bg-blue-600 text-white rounded-lg hover:bg-blue-40'
+                      ? 'px-3 py-1 m-5 bg-blue-600 text-white rounded-lg hover:bg-blue-40'
+                      : 'px-3 py-1 m-5 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-40'
                   }
                   key={index}
                   onClick={() => setcurrentPage(page)}
@@ -72,12 +74,14 @@ const Pagination = ({
             })}
 
         {/* <span className="text-white">...  ...</span> */}
-        <button
-          className='px-3 py-1 m-5 bg-blue-600 text-white rounded-lg hover:bg-blue-40'
-          onClick={goNext}
-        >
-          Next
-        </button>
+        {manyPages && (
+          <button
+            className='px-3 py-1 m-5 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-40'
+            onClick={goNext}
+          >
+            Next
+          </button>
+        )}
       </div>
     </div>
   )

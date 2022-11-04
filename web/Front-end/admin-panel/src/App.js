@@ -15,6 +15,7 @@ import ViewUser from './components/main_pages/ViewUser'
 import ViewBook from './components/main_pages/ViewBook'
 import CreateBook from './components/main_pages/CreateBook'
 import { useAuthContext } from './hooks/useAuthContext'
+// import NotFound from "./NotFound";
 
 function App() {
   const { user } = useAuthContext()
@@ -50,6 +51,9 @@ function App() {
             element={user ? <ViewBook /> : <Login />}
           />
           <Route path='/book/add' element={user ? <CreateBook /> : <Login />} />
+          {/* <Route path="*">
+            <NotFound />
+          </Route> */}
         </Routes>
       </div>
       <Footer />

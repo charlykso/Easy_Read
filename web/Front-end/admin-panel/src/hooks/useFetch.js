@@ -7,6 +7,7 @@ const useFetch = (url) => {
   const token = JSON.parse(localStorage.getItem('token'))
   const jwt = token.token
 
+
   useEffect(() => {
     const abortCont = new AbortController()
     fetch(url, {

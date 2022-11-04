@@ -1,4 +1,5 @@
-import Draw2 from '../../images/draw2.svg'
+// import Draw2 from '../../images/draw2.svg'
+import Reading from '../../images/reading_book_in_library.jpg'
 import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
@@ -82,7 +83,7 @@ const Login = () => {
       <div className='container px-6 py-12 h-full'>
         <div className='flex justify-center items-center flex-wrap h-full g-6 text-gray-800'>
           <div className='md:w-8/12 lg:w-6/12 mb-12 md:mb-0'>
-            <img src={Draw2} className='w-full' alt='Phone' />
+            <img src={Reading} className='w-full' alt='Phone' />
           </div>
           <div className='md:w-8/12 lg:w-5/12 lg:ml-20'>
             <p
