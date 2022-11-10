@@ -49,6 +49,8 @@ const Login = () => {
         headers: { 'Content-type': 'application/json' },
       })
       const json = await response.data
+      if(json.Role === "Admin")
+      {
       //save token and expiry date
       localStorage.setItem('token', json.token)
       //save to local storage
@@ -57,6 +59,10 @@ const Login = () => {
       setOnload(true)
       dispatch({ type: 'LOGIN', payload: json })
       navigate('/')
+      }else{
+        setErrMsg('Unauthorized page')
+        setOnload(false)
+      }
     } catch (error) {
       if (!error.response) {
         setErrMsg('No server response')

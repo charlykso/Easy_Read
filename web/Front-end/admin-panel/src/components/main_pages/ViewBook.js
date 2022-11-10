@@ -15,8 +15,8 @@ import { UpdateBookSchema } from '../forms/Schemas'
 import { useUpdate } from '../../hooks/useUpdate'
 import { useState, useEffect } from 'react'
 import MySelect from '../forms/Select'
-// import { AES_pass } from '../sub_pages/AES_pass'
-// var CryptoJS = require('crypto-js')
+import { AES_pass } from '../sub_pages/AES_pass'
+var CryptoJS = require('crypto-js')
 
 const ViewBook = () => {
   const location = useLocation()
@@ -29,9 +29,9 @@ const ViewBook = () => {
   const navigate = useNavigate()
   const { data: book, isPending, error } = useGet(getBookUrl, Id)
   const { updateUser, isLoading, updateError } = useUpdate()
-  // var body = null
-  // var bytes = null
-  // var decryptedData = null
+  var body = null
+  var bytes = null
+  var decryptedData = null
   
 
   useEffect(() => {
@@ -59,13 +59,13 @@ const ViewBook = () => {
   }, [jwt])
 
   // var CryptoJS = require('crypto-js')
-  // if (book != null) {
-  //   body = book.Body
-  //   bytes = CryptoJS.AES.decrypt(body, AES_pass)
-  //   decryptedData = bytes.toString(CryptoJS.enc.Utf8);
-  //   console.log(decryptedData)
+  if (book != null) {
+    body = book.Body
+    bytes = CryptoJS.AES.decrypt(body, AES_pass)
+    decryptedData = bytes.toString(CryptoJS.enc.Utf8)
+    console.log(decryptedData)
   
-  // }
+  }
 
   return (
     <div className='container mx-auto md:px-8 '>
