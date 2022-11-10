@@ -121,6 +121,42 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        //api/book/GetSingleBook/Id
+        [HttpGet("GetSingleBook/{Id}")]
+        public async Task<ActionResult> GetSingleBook(int Id)
+        {
+            try
+            {
+                var book = await _iBook!.GetBook(Id);
+                var key = _iConfig["Enc:key"];
+                var mainBody = await StringEncryption.DecryptString(key, book.Body!);
+                // Console.WriteLine(mainBody);
+
+                return Ok(new
+                {
+                    Title = book.Title,
+                    Sub_Title = book.Sub_Title,
+                    Publisher = book.Publisher,
+                    ISBN_Number = book.ISBN_Number,
+                    Price = book.Price,
+                    Front_Cover_Img_url = book.Front_Cover_Img_url,
+                    Back_Cover_Img_url = book.Back_Cover_Img_url,
+                    Body = mainBody,
+                    AuthorId = book.AuthorId,
+                    Created_at = book.Created_at,
+                    Author_name = book.Author!.Lastname + " " +book.Author!.Firstname,
+                    YearOf_Publication = book.YearOf_Publication
+                });
+            }
+            catch (System.Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+        
+
+        [Authorize(Roles = "Admin")]
         //api/book/CreateBook
         [HttpPost("CreateBook")]
         public async Task<ActionResult> CreateBook([FromForm] BookModel newBook)
