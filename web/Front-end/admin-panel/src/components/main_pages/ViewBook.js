@@ -5,7 +5,7 @@ import RichTextEditor from '../sub_pages/RichTextEditor'
 import useGet from '../../hooks/useGet'
 import React from 'react'
 import {
-  getBookUrl,
+  getSingleBookUrl,
   updateBookUrl,
   getAllAuthorUrl,
 } from '../sub_pages/BaseUrl'
@@ -15,8 +15,6 @@ import { UpdateBookSchema } from '../forms/Schemas'
 import { useUpdate } from '../../hooks/useUpdate'
 import { useState, useEffect } from 'react'
 import MySelect from '../forms/Select'
-import { AES_pass } from '../sub_pages/AES_pass'
-var CryptoJS = require('crypto-js')
 
 const ViewBook = () => {
   const location = useLocation()
@@ -27,11 +25,8 @@ const ViewBook = () => {
   const [AuthorError, setAuthorError] = useState()
   const [authorData, setAuthoData] = useState([])
   const navigate = useNavigate()
-  const { data: book, isPending, error } = useGet(getBookUrl, Id)
+  const { data: book, isPending, error } = useGet(getSingleBookUrl, Id)
   const { updateUser, isLoading, updateError } = useUpdate()
-  var body = null
-  var bytes = null
-  var decryptedData = null
   
 
   useEffect(() => {
@@ -57,15 +52,10 @@ const ViewBook = () => {
         setAuthorError(err.message)
       })
   }, [jwt])
-
-  // var CryptoJS = require('crypto-js')
-  if (book != null) {
-    body = book.Body
-    bytes = CryptoJS.AES.decrypt(body, AES_pass)
-    decryptedData = bytes.toString(CryptoJS.enc.Utf8)
-    console.log(decryptedData)
-  
+  if (book) {
+    console.log(book);
   }
+
 
   return (
     <div className='container mx-auto md:px-8 '>
@@ -119,8 +109,8 @@ const ViewBook = () => {
               </p>
               <h4 className='px-2 py-2'>
                 Author:{' '}
-                {book.Author
-                  ? book.Author.Firstname + ' ' + book.Author.Lastname
+                {book.AuthorId
+                  ? book.Author_name
                   : 'No Author'}
               </h4>
               <h4>The Book</h4>

@@ -112,9 +112,9 @@ const Footer = () => {
         </div>
 
         <div className=' text-center text-white p-4 bg-purple-800'>
-          © 2022 Copyright:
+          © 2022 Copyright 
           <Link className='text-white' to='https://listacc.com/'>
-            Listacc Limited 
+            | Listacc Limited 
           </Link>
         </div>
       </footer>

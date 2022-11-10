@@ -18,6 +18,7 @@ export const deleteUserUrl = 'https://localhost:7144/api/user/deleteuser/'
 export const getAllBooksUrl =
   'https://localhost:7144/api/Book/GetAllBooks?sort=desc&by=Title&pageNumber=1&pageSize='
 export const getBookUrl = 'https://localhost:7144/api/Book/GetBook/'
+export const getSingleBookUrl = 'https://localhost:7144/api/Book/GetSingleBook/'
 export const addBookUrl = 'https://localhost:7144/api/Book/CreateBook'
 export const updateBookUrl = 'https://localhost:7144/api/Book/UpdateBook/'
 export const deleteBookUrl = 'https://localhost:7144/api/Book/DeleteBook/'
