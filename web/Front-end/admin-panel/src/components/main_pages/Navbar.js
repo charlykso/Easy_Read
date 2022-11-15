@@ -12,11 +12,10 @@ const Navbar = () => {
   useWatch(() => {
     if (!window.localStorage.getItem('user')) {
       setLoggedIn(false)
-      console.log(loggedIn)
+      // console.log(loggedIn)
     } else {
-      // const {admin} = window.localStorage.getItem('user')
       setLoggedIn(true)
-      console.log(loggedIn)
+      // console.log(loggedIn)
     }
   
   }, [loggedIn])

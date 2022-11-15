@@ -13,15 +13,15 @@ const Users = () => {
   const [currentPage, setcurrentPage] = useState(1)
   const [postsPerPage] = useState(10)
   const location = useLocation()
+  // var history = useHistory()
   var lastPostIndex = null
   var firstPostIndex = null
   var currentPosts = null
-  // const token = localStorage.getItem('token')
-  // const jwt = token.token
 
   const { data: users, isPending, error } = useFetch(getAllUserUrl)
 
   if (users) {
+    // console.log(location)
     lastPostIndex = currentPage * postsPerPage
     firstPostIndex = lastPostIndex - postsPerPage
     currentPosts = users.slice(firstPostIndex, lastPostIndex)

@@ -94,7 +94,7 @@ const BooksDropDown = () => {
                 value={book.Id}
                 type='checkbox'
                 name='Books'
-                class='form-select appearance-none
+                className='form-select appearance-none
       block
       w-full
       px-3
@@ -112,7 +112,7 @@ const BooksDropDown = () => {
                 aria-label='Default select example'
               ></CustomCheckbox>
               <label
-                class='form-check-label inline-block text-gray-800'
+                className='form-check-label inline-block text-gray-800'
                 for='flexCheckDefault'
               >
                 {book.Title}

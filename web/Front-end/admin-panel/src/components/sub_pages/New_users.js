@@ -18,7 +18,7 @@ const New_users = () => {
       }
       no_Of_Users = no_Of_Users - 1
     }
-    console.log(newUsers)
+    // console.log(newUsers)
   }
     return (
       <div className='right bg-gray-200 h-full pt-5 w-full rounded-lg '>
@@ -33,7 +33,7 @@ const New_users = () => {
             </p>
           </div>
         ) : (
-          <div class='flex justify-start p-3'>
+          <div className='flex justify-start p-3'>
             <ul
               className='bg-white rounded-lg w-full text-gray-900'
               id='collapseWithScrollbar'

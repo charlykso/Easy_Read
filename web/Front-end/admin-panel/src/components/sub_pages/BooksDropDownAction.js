@@ -8,7 +8,7 @@ const BooksDropDownAction = (props) => {
   const navigate = useNavigate()
 
   const handleEdit = (Id) => {
-    console.log(Id)
+    // console.log(Id)
     navigate(`/Book/UpdateBook/${Id}`)
   }
 

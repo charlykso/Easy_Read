@@ -2,7 +2,7 @@ import React from "react";
 import BooksDropDownAction from './BooksDropDownAction'
 
 const BooksList = ({ books }) => {
-    console.log(books)
+    // console.log(books)
   return (
     <div className='flex flex-col'>
       <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
